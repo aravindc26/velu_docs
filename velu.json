@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/aravindc26/velu/main/schema/velu.schema.json",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Reference",
+        "pages": [
+          "api-reference/overview",
+          "api-reference/authentication"
+        ]
+      }
+    ],
+    "groups": [
+      {
+        "group": "Getting Started",
+        "pages": [
+          "quickstart",
+          "installation"
+        ]
+      },
+      {
+        "group": "Guides",
+        "pages": [
+          "guides/configuration",
+          "guides/deployment"
+        ]
+      }
+    ]
+  }
+}
