@@ -28,24 +28,6 @@
           "api-reference/authentication"
         ]
       }
-    ],
-    "groups": [
-      {
-        "group": "Getting Started",
-        "slug": "getting-started",
-        "pages": [
-          "quickstart",
-          "installation"
-        ]
-      },
-      {
-        "group": "Guides",
-        "slug": "guides",
-        "pages": [
-          "guides/configuration",
-          "guides/deployment"
-        ]
-      }
     ]
   }
 }
