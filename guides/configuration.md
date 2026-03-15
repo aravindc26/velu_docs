@@ -10,7 +10,7 @@ Velu uses a `velu.json` file to define your site's navigation.
 
 *   **Pages** — Individual markdown documents
 
-*   asdffads
+*   asdffads asdf
 
 
 ## Example
