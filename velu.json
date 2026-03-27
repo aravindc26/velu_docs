@@ -27,6 +27,13 @@
           "api-reference/overview",
           "api-reference/authentication"
         ]
+      },
+      {
+        "tab": "Changelog",
+        "slug": "changelog",
+        "pages": [
+          "changelog"
+        ]
       }
     ]
   }
