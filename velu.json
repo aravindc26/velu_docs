@@ -15,7 +15,8 @@
             "slug": "guides",
             "pages": [
               "guides/configuration",
-              "guides/deployment"
+              "guides/deployment",
+              "guides/workflows"
             ]
           }
         ]
