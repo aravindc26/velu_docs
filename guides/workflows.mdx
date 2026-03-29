@@ -1,0 +1,103 @@
+---
+title: "Workflows"
+description: "Automate documentation tasks with AI-powered workflows that run on PR merges or schedules."
+---
+
+Workflows automate documentation tasks by running an AI agent in response to events in your repositories. When a pull request merges or a schedule fires, the workflow clones your repos into an isolated sandbox, runs the agent with your instructions, and opens a pull request on your docs repo with the changes.
+
+## Create a workflow
+
+Go to **Workflows** in the sidebar. If you have no workflows yet, you see a template picker. Pick a template to pre-fill the configuration, or choose **Custom workflow** to start from scratch.
+
+Each workflow has these settings:
+
+| Setting | Description |
+|---|---|
+| **Name** | Display name. Must be unique across your workflows. |
+| **Trigger type** | When the workflow runs: on PR merge or on a schedule. |
+| **Trigger repo** | For PR-merge workflows, the GitHub repository to watch. |
+| **Schedule** | For scheduled workflows, when to run (daily, weekly, monthly, or a custom cron expression). |
+| **Prompt** | Natural language instructions that tell the AI agent what to do. |
+| **Context repos** | Additional repositories the agent can read during execution. |
+| **Auto-merge** | When enabled, the docs PR is automatically squash-merged after checks pass. |
+
+### Trigger types
+
+**On PR merge** runs the workflow every time a pull request is merged in the trigger repository. The agent receives the merge commit, PR title, and a diff of changes since the last run so it can focus on what's new.
+
+**On schedule** runs the workflow on a recurring basis. Choose a preset (daily, weekly, monthly) or enter a custom cron expression. Scheduled workflows skip a run if a previous run is still in progress.
+
+## Templates
+
+Templates pre-fill the name, trigger type, schedule, and prompt. You can edit any field after selecting a template.
+
+| Template | What it does | Default trigger |
+|---|---|---|
+| **Changelog** | Generate changelog entries from merged PRs and commit messages | Schedule (weekly) |
+| **API docs sync** | Update API reference when OpenAPI spec or source code changes | PR merge |
+| **Draft feature docs** | Draft documentation for new features when code ships | PR merge |
+| **Translations** | Translate documentation into other languages when content changes | PR merge |
+| **Enforce style guide** | Enforce consistent writing style and tone | Schedule (weekly) |
+| **Typo check** | Scan docs for spelling errors and broken formatting | Schedule (weekly) |
+| **Broken link detection** | Find and flag broken links across documentation | Schedule (weekly) |
+| **SEO & metadata audit** | Check and fix page titles, descriptions, and OG metadata | Schedule (monthly) |
+
+## Edit a workflow
+
+Open the **Workflows** page, select a workflow from the dropdown, and click the gear icon to edit its name, trigger, schedule, prompt, or connected repositories.
+
+## Workflow runs
+
+Every time a workflow executes, it creates a run. The runs list shows:
+
+- **Workflow name** and trigger context. PR-triggered runs link to the pull request on GitHub. Scheduled runs show the timestamp.
+- **Status** of the run.
+- **Time** since the run completed or started.
+
+Click a run row to expand it and view the agent log.
+
+### Run statuses
+
+| Status | Meaning |
+|---|---|
+| **Completed** | The agent finished and opened a PR on the docs repo (or determined no changes were needed). |
+| **Failed** | Something went wrong during execution. |
+| **Running** | The agent is currently executing. |
+| **Pending** | The run is queued and waiting to start. |
+
+### Filter runs by status
+
+Use the status filter buttons in the toolbar to narrow the runs list to a specific status. The filter options are **All**, **Completed**, **Failed**, **Running**, and **Pending**. Click any button to show only runs with that status, or click **All** to clear the filter.
+
+You can combine the status filter with the workflow dropdown to show, for example, only failed runs for a specific workflow.
+
+### Filter runs by workflow
+
+Use the workflow dropdown at the top of the page to show runs for a specific workflow. Select **All workflows** to see runs across every workflow.
+
+## How a workflow run executes
+
+When a workflow is triggered:
+
+1. A run record is created with status **Pending**.
+2. An isolated sandbox is provisioned and your repositories are cloned into it.
+3. The AI agent runs your prompt against the docs repository. It can read files, make edits, search code, and run commands -- but it can only modify files in the docs repo.
+4. When the agent finishes, any changes are extracted as a diff.
+5. If files were changed, a pull request is opened on the docs repository.
+6. If auto-merge is enabled, the PR is squash-merged after checks pass.
+7. The run status updates to **Completed** (or **Failed** if an error occurred).
+
+## Writing effective prompts
+
+The prompt is the most important part of a workflow. It tells the agent exactly what to do.
+
+<Tip>
+Start with a template prompt and customize it. Templates include detailed instructions that produce good results out of the box.
+</Tip>
+
+Tips for writing prompts:
+
+- Be specific about what the agent should look for and what output you expect.
+- Reference file paths or patterns the agent should focus on (e.g., "look at changes in `src/api/`").
+- Describe the format and style of the documentation you want produced.
+- Include constraints like "do not modify existing pages" or "only update the changelog."
