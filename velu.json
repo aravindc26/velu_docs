@@ -1,5 +1,12 @@
 {
   "$schema": "https://raw.githubusercontent.com/aravindc26/velu/main/schema/velu.schema.json",
+  "api": {
+    "baseUrl": "https://petstore.swagger.io/v2",
+    "playground": {
+      "display": "interactive",
+      "proxy": true
+    }
+  },
   "navigation": {
     "tabs": [
       {
@@ -24,10 +31,7 @@
       {
         "tab": "API Reference",
         "slug": "api-reference",
-        "pages": [
-          "api-reference/overview",
-          "api-reference/authentication"
-        ]
+        "openapi": "api-reference/openapi.json"
       },
       {
         "tab": "Changelog",
