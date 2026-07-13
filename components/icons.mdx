@@ -1,0 +1,142 @@
+---
+title: "Icons"
+description: "Render Lucide icons inline, use image files as icons, and add icons to Velu components."
+---
+
+Velu's `<Icon>` component renders [Lucide](https://lucide.dev/icons) icons by
+name. Browse the Lucide catalog and copy an id such as `rocket`, `book-open`,
+or `life-buoy`.
+
+## Use an icon
+
+Icons work on their own and inline with text.
+
+<Icon icon="flag" size={32} color="#f97316" aria-label="Flag" />
+
+Save your changes with the <Icon icon="save" /> icon before continuing.
+
+```mdx
+<Icon icon="flag" size={32} color="#f97316" aria-label="Flag" />
+
+Save your changes with the <Icon icon="save" /> icon before continuing.
+```
+
+`size` is measured in pixels when you pass a number. Icons inherit the current
+text color by default; use `color` to override it.
+
+## Use an image as an icon
+
+The `icon` prop also accepts an external image URL or a root-relative path to a
+file in your project's `public` directory.
+
+```mdx
+<Icon icon="/brand/mark.svg" size={24} aria-label="Acme" />
+
+<Icon
+  icon="https://example.com/status.svg"
+  size={20}
+  aria-label="Service status"
+/>
+```
+
+Image-backed icons keep their original colors, so the `color` prop does not
+recolor them. Use a Lucide icon when the icon needs to inherit or change color.
+
+<Callout type="note">
+  Paths beginning with `/` resolve from `public`. A path such as
+  `./mark.svg` is relative to the current browser URL, not to the MDX file.
+</Callout>
+
+## Icons on components
+
+Many components also accept an `icon` prop. Pass the Lucide id as a string.
+
+<CardGroup>
+  <Card title="Quickstart" icon="rocket" cta={{ label: "Start", href: "/quickstart" }}>
+    A card with a `rocket` icon.
+  </Card>
+  <Card title="Support" icon="life-buoy" cta={{ label: "Contact", href: "/" }}>
+    A card with a `life-buoy` icon.
+  </Card>
+</CardGroup>
+
+<Callout type="tip" icon="rocket">
+  A callout whose default icon is overridden with `icon="rocket"`.
+</Callout>
+
+```mdx
+<Card title="Quickstart" icon="rocket" cta={{ label: "Start", href: "/quickstart" }}>
+  A card with a `rocket` icon.
+</Card>
+
+<Callout type="tip" icon="rocket">
+  A callout whose default icon is overridden with `icon="rocket"`.
+</Callout>
+```
+
+The same prop works on [`<Folder>` and `<File>`](/components/tree):
+
+<Tree>
+  <Folder name="app" icon="folder" defaultOpen={true}>
+    <File name="index.mdx" icon="file-text" />
+  </Folder>
+</Tree>
+
+## Icons in velu.json
+
+Configuration uses the same Lucide ids wherever an icon is supported, including
+navbar links, navigation groups, anchors, and tabs.
+
+```json
+{
+  "navbar": {
+    "links": [
+      { "label": "Support", "href": "mailto:support@acme.com", "icon": "life-buoy" }
+    ]
+  },
+  "navigation": {
+    "anchors": [
+      { "anchor": "Changelog", "href": "/changelog", "icon": "megaphone" }
+    ],
+    "tabs": [
+      {
+        "tab": "Guides",
+        "icon": "book-open",
+        "groups": [
+          { "group": "Get started", "icon": "rocket", "pages": ["quickstart"] }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Properties
+
+<Field name="icon" type="string" required={true}>
+  A Lucide icon id, an external image URL, or a path to an image file. Unknown
+  Lucide ids render nothing.
+</Field>
+
+<Field name="size" type="number" default="16">
+  The icon's width and height in pixels.
+</Field>
+
+<Field name="color" type="string">
+  A CSS color applied to Lucide icons. Image-backed icons are not recolored.
+</Field>
+
+<Field name="className" type="string">
+  A CSS class applied directly to the rendered SVG or image.
+</Field>
+
+<Field name="aria-label" type="string">
+  An accessible name for an icon that conveys meaning. Without a label, the
+  icon is treated as decorative and hidden from assistive technology.
+</Field>
+
+<Field name="iconType" type="string">
+  Accepted for compatibility with migrated Mintlify content. This prop selects
+  Font Awesome variants in Mintlify and has no effect in Velu, which uses
+  Lucide.
+</Field>

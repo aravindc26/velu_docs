@@ -1,0 +1,44 @@
+---
+title: "Steps"
+description: "Lay out an ordered procedure with automatically numbered steps."
+---
+
+Use `<Steps>` for any procedure the reader follows in order. Each `<Step>` is
+numbered automatically, so you never manage the count by hand.
+
+<Steps>
+  <Step title="Create a project">
+    Run `npx @veluai/velu init my-docs` to scaffold a new site.
+  </Step>
+  <Step title="Start the preview">
+    Move into the folder and run `npx @veluai/velu dev`. Velu prints a local
+    URL you can open in the browser.
+  </Step>
+  <Step title="Make an edit">
+    Open a page, change the Markdown, and save. The preview reloads instantly.
+  </Step>
+</Steps>
+
+```mdx
+<Steps>
+  <Step title="Create a project">
+    Run `npx @veluai/velu init my-docs` to scaffold a new site.
+  </Step>
+  <Step title="Start the preview">
+    Move into the folder and run `npx @veluai/velu dev`.
+  </Step>
+  <Step title="Make an edit">
+    Open a page, change the Markdown, and save.
+  </Step>
+</Steps>
+```
+
+Each step's body is full Markdown, so you can include code blocks, callouts, or
+images inside a step.
+
+## Properties
+
+<Field name="title" type="string">
+  The step's heading, shown next to its number. Steps number themselves in
+  document order — the first `<Step>` is 1, the next is 2, and so on.
+</Field>

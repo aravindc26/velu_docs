@@ -1,0 +1,106 @@
+---
+title: "Markdown syntax"
+description: "Write pages with standard Markdown and GitHub-flavored extensions."
+---
+
+Velu pages are written in Markdown, with GitHub-flavored extensions and the
+option to drop in components. If you've written Markdown before, everything works
+the way you expect.
+
+## Headings
+
+Use `##` and `###` for sections and sub-sections. Velu renders the page title
+from frontmatter, so start your content at `##` rather than `#`. Headings from
+`##` down populate the on-page table of contents.
+
+```markdown
+## Install the SDK
+
+### macOS and Linux
+
+### Windows
+```
+
+## Text formatting
+
+```markdown
+Use **bold** for emphasis, *italic* for terms, and `inline code` for
+identifiers like `apiKey`.
+```
+
+Use **bold** for emphasis, *italic* for terms, and `inline code` for identifiers
+like `apiKey`.
+
+## Links
+
+Link to other pages with root-relative paths and no file extension. Use full
+URLs for external links.
+
+```markdown
+See [Pages](/writing/pages) to add a new page, or the
+[Node.js downloads](https://nodejs.org) for the runtime.
+```
+
+## Lists
+
+```markdown
+- Create an account
+- Verify your email
+- Sign in
+
+1. Install the CLI
+2. Run `velu init`
+3. Start the dev server
+```
+
+## Tables
+
+Velu supports GitHub-flavored Markdown tables. The header row and the divider
+row are required.
+
+```markdown
+| Command | What it does |
+| --- | --- |
+| `velu init` | Scaffold a new project. |
+| `velu dev` | Start the local preview server. |
+```
+
+| Command | What it does |
+| --- | --- |
+| `velu init` | Scaffold a new project. |
+| `velu dev` | Start the local preview server. |
+
+## Blockquotes
+
+```markdown
+> Keep page descriptions to a single sentence.
+```
+
+## Images
+
+Reference images with root-relative paths and always include alt text.
+
+```markdown
+![Dashboard overview](/images/dashboard.png)
+```
+
+For captions, browser chrome, or a device bezel, use the `<Image>` component
+instead. See [Images & embeds](/writing/images).
+
+## Dropping in a component
+
+Because pages are MDX, you can mix components into your Markdown. Write the
+component on its own lines, with blank lines around it.
+
+```mdx
+Follow these steps to connect the CLI:
+
+<Callout type="tip">
+  Install the CLI globally with `npm i -g @veluai/velu` to drop the `npx` prefix.
+</Callout>
+
+Then run `velu dev`.
+```
+
+See [Components](/components/overview) for the full set. For code samples, see
+[Code blocks](/writing/code).

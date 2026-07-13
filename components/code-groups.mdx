@@ -1,0 +1,107 @@
+---
+title: "Code groups"
+description: "Show tabbed code samples and richer single blocks with filenames and highlights."
+---
+
+Plain fenced code blocks already render with syntax highlighting, a language
+label, and a copy button. Reach for these components when you want tabbed
+alternatives or extra chrome like a filename and highlighted lines.
+
+## Code groups
+
+`<CodeGroup>` turns several fenced blocks into a tabbed set. The tab label is the
+title written after the language on the fence line.
+
+<CodeGroup>
+```bash npm
+npm i -g @veluai/velu
+```
+
+```bash pnpm
+pnpm add -g @veluai/velu
+```
+
+```bash yarn
+yarn global add @veluai/velu
+```
+</CodeGroup>
+
+````mdx
+<CodeGroup>
+```bash npm
+npm i -g @veluai/velu
+```
+
+```bash pnpm
+pnpm add -g @veluai/velu
+```
+
+```bash yarn
+yarn global add @veluai/velu
+```
+</CodeGroup>
+````
+
+Set `defaultIndex` to choose which tab opens first (tabs are zero-indexed).
+
+## Single code blocks
+
+Use `<CodeBlock>` when you want a filename, line numbers, or highlighted lines on
+a standalone block.
+
+<CodeBlock filename="velu.json" language="json" lineNumbers highlight="2">
+{`{
+  "name": "Acme Docs",
+  "colors": { "primary": "#dc143c" }
+}`}
+</CodeBlock>
+
+````mdx
+<CodeBlock filename="velu.json" language="json" lineNumbers highlight="2">
+{`{
+  "name": "Acme Docs",
+  "colors": { "primary": "#dc143c" }
+}`}
+</CodeBlock>
+````
+
+<Callout type="tip">
+  For most code, a plain fenced block is enough. Add a filename after the
+  language on the fence line to label it without reaching for `<CodeBlock>`.
+</Callout>
+
+## CodeBlock properties
+
+<Field name="filename" type="string">
+  A filename shown in the block's header, with a matching file-type icon.
+</Field>
+
+<Field name="title" type="string">
+  A label for the block's header when it isn't a filename.
+</Field>
+
+<Field name="language" type="string">
+  The language used for syntax highlighting, such as `json` or `bash`.
+</Field>
+
+<Field name="lineNumbers" type="boolean" default={false}>
+  Show a line-number gutter.
+</Field>
+
+<Field name="highlight" type="string">
+  A range of lines to emphasize, such as `"1-3,5"`.
+</Field>
+
+<Field name="icon" type="string">
+  A [Lucide](https://lucide.dev/icons) icon id for the block header.
+</Field>
+
+<Field name="withIcon" type="boolean" default={false}>
+  Show the file-type or language icon in the header.
+</Field>
+
+## CodeGroup properties
+
+<Field name="defaultIndex" type="number" default={0}>
+  The zero-based index of the tab shown first.
+</Field>

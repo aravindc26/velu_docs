@@ -1,0 +1,159 @@
+---
+title: "Global settings"
+description: "Configure your site's name, colors, logo, fonts, and chrome in velu.json."
+---
+
+`velu.json` at the root of your project defines your entire site: its identity,
+theme, navigation, and integrations. Only `name` is required — everything else
+has a sensible default.
+
+```json
+{
+  "$schema": "https://veludocs.com/velu.schema.json",
+  "name": "Acme Docs",
+  "colors": { "primary": "#dc143c" },
+  "favicon": "/favicon.svg",
+  "font": { "family": "Inter" }
+}
+```
+
+<Callout type="note">
+  `velu.json` rejects unknown keys. If validation reports an unexpected property,
+  check for a typo against the fields below.
+</Callout>
+
+## Identity
+
+### name
+
+The site's name. It's used as the wordmark in the header and as the default
+title in search results and social cards.
+
+```json
+{ "name": "Acme Docs" }
+```
+
+### logo
+
+Replaces the name wordmark in the header with an image. Pass a single string to
+use the same logo in both themes, or an object with separate `light` and `dark`
+images. The optional `href` sets where the logo links to (default `/`).
+
+<CodeGroup>
+```json Single image
+{ "logo": "/logo.svg" }
+```
+
+```json Per theme
+{
+  "logo": {
+    "light": "/logo-light.svg",
+    "dark": "/logo-dark.svg",
+    "href": "https://acme.com"
+  }
+}
+```
+</CodeGroup>
+
+### favicon
+
+A path, relative to your project root, to the icon shown in the browser tab.
+
+```json
+{ "favicon": "/favicon.svg" }
+```
+
+Velu accepts `.svg`, `.ico`, `.png`, `.jpg`, `.gif`, `.webp`, and `.avif`.
+
+## Theme
+
+### colors
+
+`colors.primary` is the accent used across the interface — links, active
+navigation, and buttons. Add `light` and `dark` to override the accent per theme;
+both fall back to `primary`.
+
+```json
+{
+  "colors": {
+    "primary": "#dc143c",
+    "light": "#f26b83",
+    "dark": "#b3102f"
+  }
+}
+```
+
+### font
+
+`font.family` is any [Google Font](https://fonts.google.com) family name. Velu
+loads it automatically and applies it as the body font.
+
+```json
+{ "font": { "family": "Inter" } }
+```
+
+See [Themes](/configuration/themes) for the full theming reference, including
+dark mode behavior.
+
+## Header and footer
+
+### navbar
+
+The `navbar` sets the links and call-to-action button in the top-right of the
+header.
+
+```json
+{
+  "navbar": {
+    "links": [
+      { "label": "Support", "href": "mailto:support@acme.com", "icon": "life-buoy" }
+    ],
+    "primary": { "type": "button", "label": "Dashboard", "href": "https://app.acme.com" }
+  }
+}
+```
+
+- `links[]` — secondary links, each with an `href` and optional `label` and
+  `icon` (a [Lucide](https://lucide.dev/icons) icon name).
+- `primary` — the highlighted button. Use `{ "type": "button", "label", "href" }`
+  for a labeled button, or `{ "type": "github", "href" }` to render a GitHub
+  button (label defaults to "GitHub").
+
+### footer
+
+The `footer` holds social icons and up to four columns of links.
+
+```json
+{
+  "footer": {
+    "socials": { "github": "https://github.com/acme", "x": "https://x.com/acme" },
+    "links": [
+      {
+        "header": "Product",
+        "items": [{ "label": "Pricing", "href": "https://acme.com/pricing" }]
+      }
+    ]
+  }
+}
+```
+
+- `socials` — a map of platform to URL. Recognized icons: `github`, `x` (aliases
+  `twitter`, `x-twitter`), `youtube`, and `linkedin`.
+- `links[]` — up to four columns, each with a `header` and a list of `items`.
+
+## Configuration reference
+
+| Key | Type | Purpose |
+| --- | --- | --- |
+| `name` | string (required) | Site name and default title. |
+| `colors` | object | Accent colors, with optional per-theme overrides. |
+| `logo` | string or object | Header logo. |
+| `favicon` | string | Browser-tab icon. |
+| `font` | object | Body font family. |
+| `navbar` | object | Header links and call-to-action button. |
+| `footer` | object | Social icons and footer link columns. |
+| `navigation` | object | The sidebar and tab structure. See [Navigation](/configuration/navigation). |
+| `seo` | object | Meta tags and indexing. See [SEO](/configuration/seo). |
+| `contextual` | object | The per-page "Copy page" menu. See [Contextual menu](/ai/contextual-menu). |
+| `assistant` | object | The Ask AI assistant. See [Ask AI](/ai/ask-ai). |
+| `thumbnails` | object | Background for auto-generated social images. |

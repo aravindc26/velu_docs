@@ -1,0 +1,102 @@
+---
+title: "Model Context Protocol"
+description: "Connect coding agents and other MCP clients directly to your published documentation."
+---
+
+Every published Velu site has a remote [Model Context Protocol](https://modelcontextprotocol.io)
+server. Coding agents, IDEs, and other MCP clients can search your current docs
+without scraping HTML or loading the whole site into one prompt.
+
+Your server uses the documentation site's public URL with `/mcp` appended:
+
+```text
+https://docs.acme.com/mcp
+```
+
+The same path works on a Velu subdomain or a configured custom domain.
+
+## What the server exposes
+
+The server currently exposes one tool:
+
+<Field name="SearchVelu" type="tool">
+  Searches the published site's indexed documentation and returns relevant
+  passages with their page title, source link, language, and content.
+</Field>
+
+`SearchVelu` accepts these arguments:
+
+| Argument | Type | Required | Description |
+| --- | --- | --- | --- |
+| `query` | string | Yes | The question or phrase to search for. |
+| `language` | string | No | A language code such as `en` or `es`. Defaults to `en`. |
+
+For example, an agent can ask the tool to search for `configure a webhook` and
+use the returned source URLs to open the relevant pages.
+
+<Callout type="note">
+  The current MCP server provides documentation search only. It does not expose
+  endpoints from your OpenAPI specification as callable tools.
+</Callout>
+
+## Connect an MCP client
+
+Clients that support remote HTTP MCP servers can use the URL directly:
+
+```text
+https://docs.acme.com/mcp
+```
+
+For clients that expect a local stdio command, bridge the remote server with
+`mcp-remote`:
+
+```bash
+npx mcp-remote https://docs.acme.com/mcp
+```
+
+A typical stdio-style client configuration looks like this:
+
+```json
+{
+  "mcpServers": {
+    "acme-docs": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://docs.acme.com/mcp"]
+    }
+  }
+}
+```
+
+The exact configuration filename and shape depends on the client.
+
+## Add connection shortcuts
+
+Surface the MCP server from every docs page by adding MCP actions to the
+[`contextual.options`](/ai/contextual-menu) list:
+
+```json
+{
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "mcp",
+      "cursor",
+      "vscode",
+      "devin-mcp"
+    ]
+  }
+}
+```
+
+The `mcp` option copies the `mcp-remote` command. Cursor and VS Code open their
+MCP installation links, while `devin-mcp` copies a Devin CLI command.
+
+## Availability and access
+
+The MCP endpoint is generated for published documentation and does not require
+an API key. Anyone who can reach the published site can query its documentation,
+so do not publish content that should remain private.
+
+Search results come from Velu's indexed copy of the published docs. Publish
+again after changing content so agents can search the latest version.

@@ -1,0 +1,65 @@
+---
+title: "Installation"
+description: "Install the Velu CLI and learn the commands you'll use day to day."
+---
+
+The Velu CLI scaffolds a new project and runs a local preview server. It's
+published on npm as `@veluai/velu`.
+
+## Install
+
+<Steps>
+  <Step title="Check Node.js">
+    Velu needs Node.js 18 or newer. Check your version:
+
+    ```bash
+    node --version
+    ```
+
+    If you don't have it, install it from [nodejs.org](https://nodejs.org).
+  </Step>
+  <Step title="Install the CLI">
+    Install globally to use the `velu` command anywhere:
+
+    ```bash
+    npm i -g @veluai/velu
+    ```
+
+    Or skip the install and run any command on demand with `npx @veluai/velu`.
+  </Step>
+  <Step title="Verify">
+    ```bash
+    velu --version
+    ```
+  </Step>
+</Steps>
+
+## Commands
+
+The CLI has two commands: one to create a project and one to preview it.
+
+| Command | What it does |
+| --- | --- |
+| `velu init <name>` | Scaffold a new project into `./<name>` with a starter theme and example pages. |
+| `velu dev [dir]` | Start the local preview server with live reload. Defaults to the current folder. |
+
+<Callout type="note">
+  Building and hosting your production site is handled by Velu's platform, not
+  the local CLI. Use `velu dev` to preview locally, then publish through the
+  [dashboard](/deploy/publishing).
+</Callout>
+
+## Keep the CLI current
+
+Running with `npx @veluai/velu` always fetches the latest published version. If
+you installed globally, update with npm:
+
+```bash
+npm i -g @veluai/velu@latest
+```
+
+## Next step
+
+<Card title="Local development" icon="play" cta={{ label: "Preview locally", href: "/development" }}>
+  Start the dev server and preview your site with live reload as you write.
+</Card>

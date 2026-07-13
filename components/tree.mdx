@@ -1,0 +1,63 @@
+---
+title: "File trees"
+description: "Show a project's directory layout with the Tree, Folder, and File components."
+---
+
+A `<Tree>` renders a file-and-folder layout. Nest `<Folder>` and `<File>` inside
+it to mirror a project's structure — useful for showing where files live after
+you scaffold a site.
+
+<Tree>
+  <Folder name="my-docs" icon="folder" defaultOpen={true}>
+    <File name="velu.json" icon="settings" />
+    <File name="index.mdx" icon="file-text" />
+    <Folder name="guides" icon="folder">
+      <File name="hello.mdx" icon="file-text" />
+    </Folder>
+    <Folder name="images" icon="folder">
+      <File name="logo.svg" icon="image" />
+    </Folder>
+  </Folder>
+</Tree>
+
+```mdx
+<Tree>
+  <Folder name="my-docs" icon="folder" defaultOpen={true}>
+    <File name="velu.json" icon="settings" />
+    <File name="index.mdx" icon="file-text" />
+    <Folder name="guides" icon="folder">
+      <File name="hello.mdx" icon="file-text" />
+    </Folder>
+    <Folder name="images" icon="folder">
+      <File name="logo.svg" icon="image" />
+    </Folder>
+  </Folder>
+</Tree>
+```
+
+Folders are open by default. Set `defaultOpen={false}` on a `<Folder>` to start
+it collapsed.
+
+## Folder properties
+
+<Field name="name" type="string">
+  The folder's label.
+</Field>
+
+<Field name="icon" type="string">
+  A [Lucide](https://lucide.dev/icons) icon id for the folder.
+</Field>
+
+<Field name="defaultOpen" type="boolean" default={true}>
+  Whether the folder starts expanded.
+</Field>
+
+## File properties
+
+<Field name="name" type="string">
+  The file's label.
+</Field>
+
+<Field name="icon" type="string">
+  A [Lucide](https://lucide.dev/icons) icon id for the file.
+</Field>

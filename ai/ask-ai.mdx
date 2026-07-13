@@ -1,0 +1,47 @@
+---
+title: "Ask AI"
+description: "Add a chat assistant that answers from your published docs with citations."
+---
+
+Ask AI is a chat widget on your published site. It answers reader questions using
+RAG over your published content and cites the pages it drew from, so readers can
+jump straight to the source. The assistant only knows what you've published — it
+doesn't make up features.
+
+## Starter questions
+
+Set the suggested questions readers see before they type anything with
+`assistant.suggestions` in `velu.json`. You can list up to six:
+
+```json
+{
+  "assistant": {
+    "suggestions": [
+      "How do I add a page?",
+      "What themes are available?",
+      "How do I connect a custom domain?",
+      "How do I document an API?"
+    ]
+  }
+}
+```
+
+The backend `apiBase` is wired automatically when you publish on Velu — there's
+no endpoint or key to configure.
+
+<Callout type="tip">
+  You can also set starter questions in the [web editor](https://docs.getvelu.com/editor)
+  under Config → Advanced, alongside the other Ask-AI settings.
+</Callout>
+
+## Plans and cost
+
+Ask AI requires a paid plan — Begin or Value. Each reply costs 1 credit, drawn from
+your plan's monthly allowance. Manage plan details and credit top-ups in the
+[Velu dashboard](https://docs.getvelu.com).
+
+## Local preview
+
+In `velu dev` the widget returns a fixed demo answer so you can see the layout and
+placement. Live answers over your content are only available once the site is
+published on a paid plan.

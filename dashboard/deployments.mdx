@@ -1,0 +1,48 @@
+---
+title: "Deployments"
+description: "Track what triggers a build and follow its status in the dashboard."
+---
+
+A deployment is a build of your site. Velu builds your content, deploys it, and
+serves it from your domain. The **Activity** table on the
+[dashboard Overview](/dashboard/overview) page lists your deployments and their
+status.
+
+<Image src="/images/dashboard/overview.png" alt="The dashboard Activity table listing deployments with their status and changes" />
+
+## What triggers a build
+
+A new deployment starts when:
+
+- You push to the default branch `main` (docs-as-code mode).
+- You click **Rebuild** on the [dashboard Overview](/dashboard/overview) page.
+- You **Publish** from the [web editor](/dashboard/editor).
+- Your site is first set up during onboarding.
+- You add or change a [custom domain](/deploy/custom-domains).
+
+## Build status
+
+Each row in the Activity table shows one of these statuses:
+
+| Status | Meaning |
+| --- | --- |
+| **Queued** | The build is waiting to start. |
+| **Building** | The build is running. |
+| **Successful** | The build finished and the site is live. |
+| **Failed** | The build didn't finish. |
+
+The dashboard polls for status while a build runs, so the Overview page and
+Activity table update on their own — you don't need to refresh. A build
+typically takes about a minute.
+
+## Failed builds
+
+When a build fails, the row shows a **View build error** link with the build
+log so you can find the cause. Velu also emails the site owner so a failure
+doesn't go unnoticed.
+
+<Callout type="tip">
+  Preview your changes with `velu dev` before you publish. The dev server shows
+  compile errors, unknown components, and bad props inline, so you can fix them
+  before they reach a build.
+</Callout>

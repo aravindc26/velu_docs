@@ -1,0 +1,111 @@
+---
+title: "Callouts"
+description: "Highlight asides, tips, warnings, and hazards with the Callout component."
+---
+
+A `<Callout>` sets a short block of text apart from the surrounding prose. Choose
+a `type` to signal how the reader should treat it — each type has its own color
+and icon.
+
+<Callout type="tip">
+  Install the CLI globally with `npm i -g @veluai/velu` to drop the `npx` prefix.
+</Callout>
+
+```mdx
+<Callout type="tip">
+  Install the CLI globally with `npm i -g @veluai/velu` to drop the `npx` prefix.
+</Callout>
+```
+
+## Types
+
+The `type` prop is a case-sensitive enum. Use the one whose intent matches your
+message.
+
+<Callout type="note">
+  A safe-to-skip aside — extra context that isn't required to continue.
+</Callout>
+
+<Callout type="info">
+  Background or permissions the reader needs to understand the step.
+</Callout>
+
+<Callout type="tip">
+  A recommendation or shortcut that makes the task easier.
+</Callout>
+
+<Callout type="warning">
+  A potentially destructive action — proceed carefully.
+</Callout>
+
+<Callout type="check">
+  A success state, confirming something worked as expected.
+</Callout>
+
+<Callout type="danger">
+  A serious hazard with lasting consequences, such as data loss.
+</Callout>
+
+<Callout type="callout">
+  A neutral, general-purpose highlight with no specific severity.
+</Callout>
+
+```mdx
+<Callout type="note">A safe-to-skip aside.</Callout>
+<Callout type="info">Background or permissions.</Callout>
+<Callout type="tip">A recommendation or shortcut.</Callout>
+<Callout type="warning">A potentially destructive action.</Callout>
+<Callout type="check">A success state.</Callout>
+<Callout type="danger">A serious hazard.</Callout>
+<Callout type="callout">A neutral, general-purpose highlight.</Callout>
+```
+
+Callout bodies accept Markdown, so you can include **bold**, `code`, and
+[links](/components/overview).
+
+## Custom appearance
+
+Override the default icon with any [Lucide](https://lucide.dev/icons) icon id, or
+set your own colors with `stroke` (border and icon) and `bg` (background).
+
+<Callout
+  type="note"
+  icon="sparkles"
+  stroke="#7c3aed"
+  bg="color-mix(in srgb, #7c3aed 12%, var(--page-bg))"
+>
+  A custom callout with a purple accent and a `sparkles` icon.
+</Callout>
+
+```mdx
+<Callout
+  type="note"
+  icon="sparkles"
+  stroke="#7c3aed"
+  bg="color-mix(in srgb, #7c3aed 12%, var(--page-bg))"
+>
+  A custom callout with a purple accent and a `sparkles` icon.
+</Callout>
+```
+
+## Properties
+
+<Field name="type" type="string" default="note">
+  One of `note`, `info`, `tip`, `warning`, `check`, `danger`, or `callout`.
+  Case-sensitive. Sets the color and default icon.
+</Field>
+
+<Field name="icon" type="string">
+  A [Lucide](https://lucide.dev/icons) icon id to override the type's default
+  icon. Defaults per type: note `pencil`, info `info`, tip `lightbulb`, warning
+  `triangle-alert`, check `circle-check`, danger `shield-alert`, callout
+  `message-circle`.
+</Field>
+
+<Field name="stroke" type="string">
+  A CSS color for the border and icon. Use with `bg` for a fully custom callout.
+</Field>
+
+<Field name="bg" type="string">
+  A CSS color for the callout background.
+</Field>

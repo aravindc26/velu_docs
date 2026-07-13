@@ -1,31 +1,70 @@
 ---
-title: Introduction
-description: Welcome to your Velu documentation site.
+title: "Introduction"
+description: "Velu is an AI-native documentation platform: write your docs, publish them, and let AI workflows keep them up to date."
 ---
 
-This is your new documentation site, rendered by **Velu** from plain
-Markdown and a `velu.json` config. The sidebar, tabs, and page order
-all come from the `navigation` block — edit it and the site updates on
-save.
+Velu is a documentation platform built for both the people who read your docs and
+the AI agents that query them. You write pages in Markdown, describe your site in
+one `velu.json` file, and Velu renders a fast, themeable site with search, a
+table of contents, dark mode, and a built-in AI assistant.
 
-<Callout type="tip">
-  Page paths in `navigation` are relative to the project root with no
-  extension: `"essentials/markdown"` renders `essentials/markdown.mdx`.
-</Callout>
+Then it does something a static site generator can't: it helps keep those docs
+current. Connect a GitHub repository and Velu's AI **workflows** draft updates,
+generate changelogs, and open pull requests for you to review — so your
+documentation stays in sync with your product instead of drifting out of date.
 
-## Get going
+<CardGroup>
+  <Card title="Docs as code" icon="git-branch">
+    Keep your docs in a Git repository. Edit Markdown locally, preview with the
+    `velu dev` server, and publish on every push to your main branch.
+  </Card>
+  <Card title="Web editor" icon="pencil">
+    Write and publish from the [dashboard](https://docs.getvelu.com). No
+    repository and no local setup required — Velu hosts the content for you.
+  </Card>
+</CardGroup>
+
+## Start here
 
 <CardGroup>
   <Card title="Quickstart" icon="rocket" cta={{ label: "Get started", href: "/quickstart" }}>
-    Run the dev server and make your first edit.
+    Create a project and see it running locally in a minute.
   </Card>
-  <Card title="Customize" icon="sliders-horizontal" cta={{ label: "Customize", href: "/essentials/settings" }}>
-    Set your colors, font, and favicon.
+  <Card title="Configure your site" icon="sliders-horizontal" cta={{ label: "Configure", href: "/configuration/settings" }}>
+    Set your name, colors, logo, and navigation in `velu.json`.
   </Card>
-  <Card title="Write content" icon="pen-line" cta={{ label: "Write content", href: "/essentials/markdown" }}>
-    Markdown plus a library of components.
+  <Card title="Write with components" icon="component" cta={{ label: "Browse components", href: "/components/overview" }}>
+    Callouts, cards, steps, and grouped code samples.
   </Card>
-  <Card title="API reference" icon="terminal" cta={{ label: "View reference", href: "/api-reference/introduction" }}>
-    Document your endpoints.
+  <Card title="Automate your docs" icon="workflow" cta={{ label: "Open dashboard", href: "https://docs.getvelu.com" }}>
+    Let AI workflows keep your docs current.
   </Card>
 </CardGroup>
+
+## How a Velu site is built
+
+Every site is a folder with a `velu.json` config at its root and a set of `.mdx`
+content files:
+
+```text
+my-docs/
+├── velu.json          # Site config: name, theme, navigation
+├── index.mdx          # Your home page
+├── quickstart.mdx
+└── guides/
+    └── example.mdx
+```
+
+`velu.json` defines the theme and the navigation tree. Each entry in the
+navigation points to an `.mdx` file by its path, without the extension. When you
+run the dev server or publish, Velu compiles every page and wires up the sidebar,
+tabs, search index, and table of contents for you.
+
+## Built for AI agents, too
+
+Every Velu site publishes its content in formats AI tools can consume: a Markdown
+twin of each page, an `llms.txt` index, an auto-generated `skill.md` that keeps
+AI coding agents aligned with your docs, and a Model Context Protocol endpoint so
+assistants can query your docs directly. Readers get a built-in **Ask AI**
+assistant that answers in natural language with citations to the exact page. See
+[AI & optimization](/ai/markdown-export).

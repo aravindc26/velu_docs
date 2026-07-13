@@ -1,0 +1,69 @@
+---
+title: "Columns"
+description: "Arrange any content into responsive columns that stack on narrow screens."
+---
+
+`<Columns>` lays out its children in a responsive grid. Unlike
+[`<CardGroup>`](/components/cards), it isn't tied to cards — put paragraphs,
+images, lists, or components in any column.
+
+<Columns cols={2}>
+  <div>
+    **Install**
+
+    Add the CLI once, then reuse it across projects.
+  </div>
+  <div>
+    **Preview**
+
+    Run the dev server to see changes live as you type.
+  </div>
+</Columns>
+
+```mdx
+<Columns cols={2}>
+  <div>
+    **Install**
+
+    Add the CLI once, then reuse it across projects.
+  </div>
+  <div>
+    **Preview**
+
+    Run the dev server to see changes live as you type.
+  </div>
+</Columns>
+```
+
+## Three columns
+
+Increase `cols` to fit more items per row. Columns stack vertically once an item
+would fall below the minimum width, so three columns become one on a phone.
+
+<Columns cols={3}>
+  <Card title="Note" icon="pencil">Safe-to-skip aside.</Card>
+  <Card title="Tip" icon="lightbulb">A helpful recommendation.</Card>
+  <Card title="Warning" icon="triangle-alert">Proceed carefully.</Card>
+</Columns>
+
+```mdx
+<Columns cols={3}>
+  <Card title="Note" icon="pencil">Safe-to-skip aside.</Card>
+  <Card title="Tip" icon="lightbulb">A helpful recommendation.</Card>
+  <Card title="Warning" icon="triangle-alert">Proceed carefully.</Card>
+</Columns>
+```
+
+## Properties
+
+<Field name="cols" type="number" default={2}>
+  The maximum number of columns per row.
+</Field>
+
+<Field name="space" type="string">
+  The gap between columns, as a CSS length.
+</Field>
+
+<Field name="min" type="string">
+  The minimum width an item may shrink to before the grid wraps to fewer columns.
+</Field>

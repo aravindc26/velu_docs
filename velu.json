@@ -1,101 +1,122 @@
 {
   "$schema": "https://veludocs.com/velu.schema.json",
-  "name": "velu-starter",
-  "url": "https://veludocs.com",
+  "name": "Velu",
   "colors": {
     "primary": "#dc143c"
   },
   "favicon": "/favicon.svg",
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "mcp",
-      "cursor",
-      "vscode"
+  "font": {
+    "family": "Google Sans Flex"
+  },
+  "navbar": {
+    "links": [
+      { "label": "Dashboard", "href": "https://docs.getvelu.com", "icon": "layout-dashboard" }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Get started",
+      "href": "https://docs.getvelu.com/signup"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/aravindc26/velu",
+      "x": "https://x.com/getvelu"
+    },
+    "links": [
+      {
+        "header": "Product",
+        "items": [
+          { "label": "Dashboard", "href": "https://docs.getvelu.com" },
+          { "label": "Quickstart", "href": "/quickstart" }
+        ]
+      },
+      {
+        "header": "Resources",
+        "items": [
+          { "label": "Components", "href": "/components/overview" },
+          { "label": "Deploy", "href": "/deploy/publishing" }
+        ]
+      }
     ]
   },
   "navigation": {
-    "anchors": [
-      {
-        "anchor": "Documentation",
-        "icon": "book-open",
-        "href": "https://veludocs.com"
-      },
-      {
-        "anchor": "Community",
-        "icon": "users",
-        "href": "https://veludocs.com/community"
-      }
-    ],
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
+        "icon": "book-open",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Get started",
             "icon": "rocket",
             "pages": [
               "index",
               "quickstart",
+              "installation",
               "development"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Configuration",
             "icon": "sliders-horizontal",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "configuration/settings",
+              "configuration/navigation",
+              "configuration/themes",
+              "configuration/seo"
             ]
           },
           {
-            "group": "Writing Content",
+            "group": "Writing content",
             "icon": "pen-line",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images"
+              "writing/pages",
+              "writing/writing-with-ai",
+              "writing/markdown",
+              "writing/code",
+              "writing/images"
             ]
           },
           {
-            "group": "AI Tools",
+            "group": "Components",
+            "icon": "component",
+            "pages": [
+              "components/overview",
+              "components/callouts",
+              "components/cards",
+              "components/columns",
+              "components/accordions",
+              "components/steps",
+              "components/code-groups",
+              "components/tree",
+              "components/fields",
+              "components/prompts",
+              "components/icons",
+              "components/changelog"
+            ]
+          },
+          {
+            "group": "AI & optimization",
             "icon": "sparkles",
             "pages": [
-              "ai-tools/claude-code",
-              "ai-tools/cursor"
+              "ai/markdown-export",
+              "ai/skill-md",
+              "ai/model-context-protocol",
+              "ai/ask-ai",
+              "ai/contextual-menu",
+              "ai/search"
             ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "icon": "terminal",
-        "openapi": "/openapi.json",
-        "groups": [
+          },
           {
-            "group": "API Documentation",
+            "group": "Deploy",
+            "icon": "cloud-upload",
             "pages": [
-              "api-reference/introduction"
+              "deploy/publishing",
+              "deploy/custom-domains"
             ]
           }
         ]
       }
     ]
-  },
-  "api": {
-    "playground": {
-      "proxy": true
-    },
-    "examples": {
-      "languages": [
-        "curl",
-        "javascript",
-        "python",
-        "ruby"
-      ]
-    }
   }
 }

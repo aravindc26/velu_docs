@@ -1,0 +1,77 @@
+---
+title: "Dashboard overview"
+description: "Sign in to docs.getvelu.com to create, publish, and manage your docs site."
+---
+
+The dashboard at [docs.getvelu.com](https://docs.getvelu.com) is where you create
+a docs site, publish it, and manage its domain, team, and billing. It works
+whether you write in the browser or keep your docs in GitHub.
+
+<Image src="/images/dashboard/overview.png" alt="The Velu dashboard overview page: a site preview, the Live status, Rebuild and Visit site buttons, the domain, and the Activity table" />
+
+## Sign up and create your first site
+
+<Steps>
+  <Step title="Create an account">
+    Sign up with your email and a password. Passwords need at least 8
+    characters, one special character, and both upper- and lower-case letters.
+    There's no social login.
+  </Step>
+  <Step title="Verify your email">
+    Velu sends a verification link to your address. Open it to activate your
+    account — the link is valid for 24 hours. You have to verify before you can
+    sign in.
+  </Step>
+  <Step title="Choose how you'll write">
+    On first sign-in, pick one of two modes:
+
+    - **Editor-only (managed)** — Velu hosts your content and you write entirely
+      in the web editor. No GitHub, no local setup. Velu seeds a starter site
+      and builds it right away.
+    - **Docs-as-code + editor** — install the Velu GitHub App. Velu creates a
+      repository from the docs template and builds it. You can still use the web
+      editor alongside your local workflow.
+  </Step>
+  <Step title="Get your site">
+    Every site gets a free subdomain like `bright-panda.getvelu.com`. Your first
+    build starts automatically, and the Overview page shows its progress.
+  </Step>
+</Steps>
+
+<Callout type="info">
+  You can switch to a custom domain later under **Settings › Domain setup**. See
+  [Custom domains](/deploy/custom-domains) for DNS setup.
+</Callout>
+
+## The Overview page
+
+The home page of the dashboard shows a live preview of your site with its
+current status:
+
+- **Live** — the site is deployed and serving.
+- **Building** — a deployment is in progress. The status updates on its own as
+  the build runs.
+
+From here you can:
+
+- **Rebuild** — trigger a fresh deployment.
+- **Visit site** — open the published site in a new tab.
+
+Below the buttons you'll see your site's domain, and — in docs-as-code mode —
+the connected repository and branch. The **Activity** table lists recent
+deployments with their status and time. See [Deployments](/dashboard/deployments)
+for what each status means.
+
+## Navigation
+
+The left sidebar holds everything you manage:
+
+| Item | What it's for |
+| --- | --- |
+| **Dashboard** | The Overview page: site preview, status, and deployment activity. |
+| **Editor** | The [web editor](/dashboard/editor) for pages and config. |
+| **Feedback** | Reader "Was this helpful?" results and Ask AI answers. |
+| **Agents › Workflows** | AI automations that open pull requests. See [Workflows](/dashboard/workflows). |
+| **Settings › Domain setup** | Add and verify a [custom domain](/deploy/custom-domains). |
+| **Settings › Members** | Invite and manage your [team](/dashboard/members). |
+| **Settings › Billing** | Manage your [plan and credits](/dashboard/billing). |

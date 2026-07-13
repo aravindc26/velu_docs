@@ -1,0 +1,109 @@
+---
+title: "SEO & metadata"
+description: "Control indexing, meta tags, and per-page social cards for your docs."
+---
+
+Velu generates the metadata search engines and social platforms expect, and lets
+you override any of it. Set site-wide defaults with the `seo` block in
+`velu.json`, then tune individual pages with frontmatter.
+
+## Site-wide SEO
+
+The `seo` block sets meta tags that apply to every page and controls which pages
+are indexed.
+
+```json
+{
+  "seo": {
+    "metatags": { "og:image": "/og.png" },
+    "indexing": "navigable"
+  }
+}
+```
+
+### metatags
+
+A map of meta-tag name to value, injected on every page. Any tag a page doesn't
+override in its own frontmatter comes from here.
+
+```json
+{
+  "seo": {
+    "metatags": {
+      "og:image": "/og.png",
+      "twitter:site": "@acme"
+    }
+  }
+}
+```
+
+### indexing
+
+Controls which pages are open to search-engine crawlers.
+
+| Value | Behavior |
+| --- | --- |
+| `navigable` | Default. Only pages reachable through your navigation are indexed. |
+| `all` | Every built page is indexed, including hidden pages. |
+
+## Per-page metadata
+
+Add SEO fields to a page's frontmatter to override the site defaults for that
+page. Open Graph and Twitter tags are written with their real names as quoted
+keys.
+
+```mdx
+---
+title: "Rate limits"
+description: "How request quotas work and how to raise them."
+keywords: ["rate limit", "quota", "429"]
+canonical: "https://docs.acme.com/api/rate-limits"
+og:image: "/images/og/rate-limits.png"
+og:title: "Rate limits — Acme Docs"
+twitter:card: "summary_large_image"
+---
+```
+
+The supported fields are:
+
+| Field | Purpose |
+| --- | --- |
+| `description` | Meta description and social card summary. |
+| `keywords` | A string or array of keyword terms. |
+| `canonical` | The canonical URL for this page. |
+| `noindex` | When `true`, asks crawlers not to index the page. |
+| `robots` | A raw `robots` directive, e.g. `"noindex, nofollow"`. |
+| `og:*` | Open Graph overrides, such as `og:image` and `og:title`. |
+| `twitter:*` | Twitter card overrides, such as `twitter:card`. |
+
+## Hidden pages
+
+A page with `hidden: true` in its frontmatter is built and reachable by URL but
+left out of the sidebar. Hidden pages are excluded from indexing unless
+`seo.indexing` is set to `all`.
+
+```mdx
+---
+title: "Beta feature"
+hidden: true
+---
+```
+
+<Callout type="note">
+  `hidden` keeps a page out of navigation but not off the public internet — the
+  page still builds and anyone with the URL can open it. Use `noindex` as well
+  if you want crawlers to skip it.
+</Callout>
+
+## What Velu generates for you
+
+You don't maintain these by hand — Velu builds them from your content and config
+at deploy time:
+
+- `sitemap.xml`, listing your indexable pages.
+- `robots.txt`, reflecting your `indexing` setting.
+- JSON-LD structured data on each page.
+- Social and Open Graph images for pages that don't supply their own.
+
+To point social cards at your own artwork, set `og:image` per page or a default
+`og:image` under `seo.metatags`.

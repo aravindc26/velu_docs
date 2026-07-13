@@ -1,0 +1,78 @@
+---
+title: "Markdown export & llms.txt"
+description: "Serve AI-readable Markdown twins, llms.txt, and discovery headers automatically."
+---
+
+Every Velu site publishes an AI-readable copy of its content alongside the HTML.
+AI tools and agents can fetch the raw Markdown of any page, a site index, or the
+entire site as plain text — so they index and quote your docs accurately instead
+of scraping rendered HTML. Nothing to configure; it's generated for you.
+
+## Markdown twins
+
+Append `.md` to any page URL to get its raw Markdown:
+
+```text
+https://docs.acme.com/quickstart      → rendered HTML
+https://docs.acme.com/quickstart.md   → raw Markdown
+```
+
+The same Markdown is returned when a request sends an `Accept: text/markdown`
+header, so a tool can ask for the Markdown version of the canonical URL without
+rewriting the path:
+
+```bash
+curl -H "Accept: text/markdown" https://docs.acme.com/quickstart
+```
+
+## Site index: llms.txt
+
+`/llms.txt` is an index of your site written for LLMs — the site name and a list
+of every page with its title, URL, and description:
+
+```text
+https://docs.acme.com/llms.txt
+```
+
+An agent reads this first to discover what pages exist and which ones are
+relevant, then fetches the individual Markdown twins it needs.
+
+## Full content: llms-full.txt
+
+`/llms-full.txt` is every page's Markdown concatenated into a single document —
+the whole site in one request:
+
+```text
+https://docs.acme.com/llms-full.txt
+```
+
+This suits tools that want to load your complete docs into a context window at
+once, rather than crawling page by page.
+
+## Discovery headers
+
+Responses advertise the index so tools can find it without guessing the path.
+Every page includes a `Link` header with `rel="llms-txt"` and an `X-Llms-Txt`
+header, both pointing at `/llms.txt`:
+
+```text
+Link: <https://docs.acme.com/llms.txt>; rel="llms-txt"
+X-Llms-Txt: https://docs.acme.com/llms.txt
+```
+
+## Works in local preview
+
+All of these are available in `velu dev` too, so you can check them before
+publishing:
+
+```text
+http://localhost:8358/quickstart.md
+http://localhost:8358/llms.txt
+http://localhost:8358/llms-full.txt
+```
+
+<Callout type="info">
+  These outputs are always on. The [contextual menu](/ai/contextual-menu) surfaces
+  the same Markdown to readers through a per-page "Copy page" button. Hosted
+  publishes also use `llms-full.txt` to generate your [agent skill](/ai/skill-md).
+</Callout>

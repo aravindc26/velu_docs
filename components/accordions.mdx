@@ -1,0 +1,68 @@
+---
+title: "Accordions"
+description: "Collapse optional detail and FAQs into expandable sections."
+---
+
+An `<Accordion>` hides a section behind a title the reader can expand. Use it for
+optional detail, long examples, or FAQ answers that would otherwise clutter the
+page.
+
+<Accordion title="Why isn't my page in the sidebar?" defaultOpen={true}>
+  A page appears in the sidebar only after its path is listed in a group's
+  `pages` array in `velu.json`. Check for a typo, and remember paths have no
+  file extension.
+</Accordion>
+
+```mdx
+<Accordion title="Why isn't my page in the sidebar?" defaultOpen={true}>
+  A page appears in the sidebar only after its path is listed in a group's
+  `pages` array in `velu.json`.
+</Accordion>
+```
+
+Set `defaultOpen` to expand an accordion on load. Without it, the accordion
+starts collapsed.
+
+## Accordion groups
+
+Wrap several accordions in an `<AccordionGroup>` to join them into one bordered
+box. This reads as a single unit — ideal for a list of FAQs.
+
+<AccordionGroup>
+  <Accordion title="Which Node version do I need?">
+    Node.js 18 or newer.
+  </Accordion>
+  <Accordion title="Can I change the preview port?">
+    Yes. Set the `PORT` environment variable before running `velu dev`. The
+    default is 8358.
+  </Accordion>
+  <Accordion title="Do I need an account to preview locally?">
+    No. `velu dev` runs entirely on your machine. You only need an account to
+    publish.
+  </Accordion>
+</AccordionGroup>
+
+```mdx
+<AccordionGroup>
+  <Accordion title="Which Node version do I need?">
+    Node.js 18 or newer.
+  </Accordion>
+  <Accordion title="Can I change the preview port?">
+    Yes. Set the `PORT` environment variable before running `velu dev`. The
+    default is 8358.
+  </Accordion>
+  <Accordion title="Do I need an account to preview locally?">
+    No. `velu dev` runs entirely on your machine.
+  </Accordion>
+</AccordionGroup>
+```
+
+## Properties
+
+<Field name="title" type="string" required>
+  The clickable heading for the accordion.
+</Field>
+
+<Field name="defaultOpen" type="boolean" default={false}>
+  Expand the accordion when the page loads.
+</Field>

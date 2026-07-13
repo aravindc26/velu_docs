@@ -1,0 +1,48 @@
+---
+title: "Workflows"
+description: "Run AI automations that open pull requests against your docs repo."
+---
+
+Workflows are AI automations that keep your docs current by opening pull
+requests. They live under **Agents › Workflows** at `/workflows`. Because they
+open pull requests, they require docs-as-code mode with a connected GitHub repo,
+and they're available on the Value plan.
+
+<Image src="/images/dashboard/workflows.png" alt="The Workflows page, showing the Value-plan upgrade prompt for docs automations" />
+
+<Callout type="info">
+  Workflows need the **Value** plan and a connected GitHub repository. In
+  editor-only mode there's no repo to open pull requests against. See
+  [Billing](/dashboard/billing).
+</Callout>
+
+## How workflows work
+
+A workflow runs on a trigger, inspects your docs, and — when it has a change to
+propose — opens a pull request. You review the pull request in GitHub and merge
+it like any other, so nothing changes without your approval.
+
+## Templates
+
+Velu ships templates for common docs upkeep:
+
+- **Changelog generation** — draft changelog entries from merged changes.
+- **API-doc sync** — update reference docs when your API changes.
+- **Translations** — keep translated pages in sync with the source.
+- **Style-guide enforcement** — flag and fix wording that breaks your style
+  guide.
+- **Typo check** — catch spelling and grammar mistakes.
+- **Broken-link detection** — find links that no longer resolve.
+- **SEO audit** — check pages for missing titles, descriptions, and metadata.
+
+## Triggers
+
+Each workflow runs either:
+
+- **On pull-request merge** — after a pull request lands on your default branch.
+- **On a schedule** — at a recurring time you set.
+
+## Cost
+
+Each workflow run costs 14 credits, drawn from your plan's monthly allotment or
+purchased balance. See [Billing](/dashboard/billing) for credits and top-ups.

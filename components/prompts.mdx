@@ -1,0 +1,34 @@
+---
+title: "Prompts"
+description: "Share copyable AI prompts with the Prompt component."
+---
+
+A `<Prompt>` shows an AI prompt with a copy button, so readers can paste it into
+their assistant. Set `openInCursor` to add an "Open in Cursor" action.
+
+<Prompt title="Draft a changelog entry" openInCursor={true}>
+Summarize the merged pull requests since the last release into a Velu Update
+block. Group changes under ### Added, ### Fixed, and ### Changed subheads, and
+write a one-line description for the release version.
+</Prompt>
+
+```mdx
+<Prompt title="Draft a changelog entry" openInCursor={true}>
+Summarize the merged pull requests since the last release into a Velu Update
+block. Group changes under ### Added, ### Fixed, and ### Changed subheads.
+</Prompt>
+```
+
+## Prompt properties
+
+<Field name="title" type="string">
+  A heading shown above the prompt.
+</Field>
+
+<Field name="lines" type="number" default={3}>
+  The number of preview lines shown before the prompt is truncated.
+</Field>
+
+<Field name="openInCursor" type="boolean" default={false}>
+  Add an "Open in Cursor" action alongside the copy button.
+</Field>

@@ -1,0 +1,79 @@
+---
+title: "Changelog"
+description: "Publish dated product updates with the Update component and an optional RSS feed."
+rss: true
+---
+
+An `<Update>` is one dated entry in a changelog. A changelog page is simply a
+page of `<Update>` blocks, ordered newest first. Set `rss: true` in the page
+frontmatter to publish a feed at `/rss.xml`.
+
+```mdx
+---
+title: "Changelog"
+description: "What's new in Acme Docs."
+rss: true
+---
+```
+
+## Update entries
+
+Each entry takes a `label` (the date or version shown as the heading), a short
+`description`, and optional `tags`. The body is Markdown — use `###` subheads to
+group changes.
+
+<Update label="March 2026" description="v1.4.0" tags={["Added", "Fixed"]}>
+  ### Added
+  - Per-page "Copy as Markdown" menu for pasting docs into an assistant.
+  - `defaultIndex` on code groups to choose the first tab.
+
+  ### Fixed
+  - Sidebar no longer collapses when a page title contains a slash.
+</Update>
+
+<Update label="February 2026" description="v1.3.0" tags="Added">
+  ### Added
+  - Dark mode now follows the operating-system preference on first visit.
+  - Google Fonts load automatically from `font.family`.
+</Update>
+
+````mdx
+<Update label="March 2026" description="v1.4.0" tags={["Added", "Fixed"]}>
+  ### Added
+  - Per-page "Copy as Markdown" menu for pasting docs into an assistant.
+  - `defaultIndex` on code groups to choose the first tab.
+
+  ### Fixed
+  - Sidebar no longer collapses when a page title contains a slash.
+</Update>
+
+<Update label="February 2026" description="v1.3.0" tags="Added">
+  ### Added
+  - Dark mode now follows the operating-system preference on first visit.
+  - Google Fonts load automatically from `font.family`.
+</Update>
+````
+
+<Callout type="tip">
+  Keep entries newest first. The `label` becomes the entry's anchor, so readers
+  can link to a specific release.
+</Callout>
+
+## Properties
+
+<Field name="label" type="string">
+  The entry heading — typically a date or release name.
+</Field>
+
+<Field name="description" type="string">
+  A short subtitle, often the version number.
+</Field>
+
+<Field name="tags" type="string or array">
+  One tag or a list of tags shown as pills on the entry.
+</Field>
+
+<Field name="rss" type="boolean">
+  Marks the entry for the RSS feed. Set `rss: true` in the page frontmatter to
+  publish the feed at `/rss.xml`.
+</Field>

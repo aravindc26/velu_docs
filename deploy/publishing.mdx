@@ -1,0 +1,65 @@
+---
+title: "Publishing"
+description: "Put your docs online with a managed editor or a connected GitHub repo."
+---
+
+Publishing takes your project from a local preview to a live site on Velu. You
+can write entirely in the [web editor](https://docs.getvelu.com/editor), or connect a GitHub
+repository and let every push build the site. Either way, each site gets a free
+subdomain to start.
+
+## Get online
+
+<Steps>
+  <Step title="Sign in">
+    Sign in at [docs.getvelu.com](https://docs.getvelu.com) with your email and
+    password.
+  </Step>
+  <Step title="Choose how you'll write">
+    Pick one of two modes during onboarding:
+
+    - **Editor-only (managed)** — Velu hosts your content and you write in the web
+      editor. No GitHub, no local setup. Velu seeds a starter site and builds it
+      immediately.
+    - **Docs-as-code** — install the Velu GitHub App. Velu creates a repository
+      from the docs template, builds it, and keeps the web editor available too.
+  </Step>
+  <Step title="Get your subdomain">
+    Every site is published at a free `<name>.getvelu.com` subdomain, so it's live
+    as soon as the first build finishes.
+  </Step>
+</Steps>
+
+{/* SCREENSHOT: images/dashboard/onboarding-mode.png — onboarding step choosing Editor-only vs Docs-as-code */}
+
+## What triggers a build
+
+Velu calls a build a *deployment*. A new deployment runs when:
+
+- you push to the `main` branch (Docs-as-code mode);
+- you click **Rebuild** in the dashboard; or
+- you click **Publish** in the web editor.
+
+## Build history
+
+The dashboard shows each deployment's status — queued, building, successful, or
+failed. A failed build shows an error log and emails the site owner so you can fix
+it and rebuild.
+
+{/* SCREENSHOT: images/dashboard/build-history.png — deployment list with per-build status */}
+
+<Callout type="info">
+  Publishing on a paid plan unlocks [Ask AI](/ai/ask-ai). Manage account and
+  site settings in the [Velu dashboard](https://docs.getvelu.com).
+</Callout>
+
+## Next steps
+
+<CardGroup>
+  <Card title="Custom domains" icon="globe" cta={{ label: "Set up a domain", href: "/deploy/custom-domains" }}>
+    Serve your docs from your own domain with managed TLS.
+  </Card>
+  <Card title="Velu dashboard" icon="layout-dashboard" cta={{ label: "Open dashboard", href: "https://docs.getvelu.com" }}>
+    Sites, builds, members, and billing.
+  </Card>
+</CardGroup>

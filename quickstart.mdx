@@ -1,31 +1,129 @@
 ---
-title: Quickstart
-description: Get your documentation site running in a minute.
+title: "Quickstart"
+description: "Sign up, get a private docs repo, and publish your first Velu site — from the web editor or from GitHub."
 ---
 
-## Start the dev server
+This guide takes you from signing up to a live documentation site. You'll create
+an account, connect GitHub so Velu can host your docs in a private repository,
+then make your first change — either in the [web editor](#edit-in-the-web-editor)
+or [as docs-as-code](#edit-with-github-docs-as-code) by pushing to the repo.
 
-From your project folder, run:
-
-```bash
-velu dev
-```
-
-Then open the printed URL. The server live-reloads as you edit content
-or `velu.json`.
-
-## Add a page
+## Create your account
 
 <Steps>
-  <Step title="Create the file">
-    Add a new `.mdx` file anywhere in the project, e.g.
-    `guides/hello.mdx`, with a `title` in its frontmatter.
+  <Step title="Sign up">
+    Go to [docs.getvelu.com/signup](https://docs.getvelu.com/signup) and enter
+    your company name, full name, email, and password, then select
+    **Create Account**.
   </Step>
-  <Step title="List it in navigation">
-    Add its path (without `.mdx`) to a group's `pages` array in
-    `velu.json`.
+  <Step title="Verify your email">
+    Velu sends a verification link that's valid for 24 hours. Open it to confirm
+    your address — signup doesn't sign you in until you've verified.
   </Step>
-  <Step title="Save">
-    The sidebar updates and your page is live.
+  <Step title="Connect GitHub">
+    During onboarding, connect your GitHub account and install the Velu GitHub
+    App. Velu creates a **private `velu_docs` repository** in your account from
+    the starter template and kicks off the first build automatically — so you get
+    a live site without pushing anything.
+  </Step>
+  <Step title="Finish onboarding">
+    Pick a plan (the Free plan is enough to get started). Velu takes you to the
+    [dashboard](https://docs.getvelu.com), where your site is already building.
   </Step>
 </Steps>
+
+<Callout type="note">
+  Prefer to skip GitHub for now? Choose **Editor-only** during onboarding and
+  Velu hosts your content for you. You can connect GitHub later from the
+  [dashboard](https://docs.getvelu.com).
+</Callout>
+
+Your site is live at a `your-site.getvelu.com` address. From here, edit it in the
+browser or from your new repository.
+
+## Edit in the web editor
+
+Make changes without leaving the browser, preview them live, and publish when
+you're ready.
+
+<Steps>
+  <Step title="Open a page">
+    Open the [web editor](https://docs.getvelu.com/editor). The left panel has
+    three tabs — **Navigation**, **Files**, and **Config**. Select a page to open
+    it, and edit in the visual editor or switch to the source view.
+
+    <Image src="/images/dashboard/editor.png" alt="The Velu web editor: the Navigation tab with the page tree on the left, the formatting toolbar with the plus Component menu, and a page open in visual view" />
+  </Step>
+  <Step title="Preview your changes">
+    Select **Instant preview** (the play icon) to open a live preview in a new
+    tab. It updates as you type.
+  </Step>
+  <Step title="Publish">
+    Select **Publish**. The popover lists every file you changed — marked
+    **Added**, **Modified**, or **Deleted** — and publishing rebuilds your site.
+  </Step>
+  <Step title="See it live">
+    On the [dashboard](https://docs.getvelu.com), the Overview shows your site
+    status (**Live** or **Building**), your `getvelu.com` address, and
+    **Rebuild** and **Visit site** buttons. When the build finishes, select
+    **Visit site**.
+
+    <Image src="/images/dashboard/overview.png" alt="The Velu dashboard overview page showing the site preview, Live status, Rebuild and Visit site buttons, the domain, and the Activity table" />
+  </Step>
+</Steps>
+
+## Edit with GitHub (docs-as-code)
+
+Your docs live in the private `velu_docs` repository Velu created. Edit it like
+any other repo — every push to the `main` branch rebuilds your site.
+
+<Steps>
+  <Step title="Clone the repository">
+    Clone `velu_docs` from your GitHub account. The
+    [dashboard](https://docs.getvelu.com) shows the exact URL.
+
+    ```bash
+    git clone https://github.com/your-org/velu_docs.git
+    cd velu_docs
+    ```
+  </Step>
+  <Step title="Make a change">
+    Edit any `.mdx` page or `velu.json`. To preview locally before you push, run
+    the dev server — see [Local development](/development):
+
+    ```bash
+    npx @veluai/velu dev
+    ```
+  </Step>
+  <Step title="Commit and push">
+    Push your change to the `main` branch:
+
+    ```bash
+    git add . && git commit -m "Update docs" && git push
+    ```
+  </Step>
+  <Step title="See changes live">
+    Every push to `main` triggers a build. Watch it on the
+    [dashboard](https://docs.getvelu.com) — the Activity table moves the
+    deployment from **Building** to **Successful** — then your site updates at
+    your `getvelu.com` address. See [Publishing](/deploy/publishing) for
+    more on builds.
+  </Step>
+</Steps>
+
+## Next steps
+
+<CardGroup>
+  <Card title="Configure your site" icon="sliders-horizontal" cta={{ label: "Settings", href: "/configuration/settings" }}>
+    Name, colors, logo, and fonts.
+  </Card>
+  <Card title="Write with components" icon="component" cta={{ label: "Components", href: "/components/overview" }}>
+    Callouts, cards, steps, and grouped code samples.
+  </Card>
+  <Card title="Automate your docs" icon="workflow" cta={{ label: "Open dashboard", href: "https://docs.getvelu.com" }}>
+    Let AI workflows keep your docs current.
+  </Card>
+  <Card title="Add a custom domain" icon="globe" cta={{ label: "Custom domains", href: "/deploy/custom-domains" }}>
+    Serve your docs from your own domain.
+  </Card>
+</CardGroup>

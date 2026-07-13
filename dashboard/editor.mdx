@@ -1,0 +1,91 @@
+---
+title: "Web editor"
+description: "Edit pages and configuration in the browser, then publish with one click."
+---
+
+The web editor at `/editor` lets you write pages and change your site's
+configuration without leaving the browser. It works in both editor-only and
+docs-as-code modes; in docs-as-code mode it reads and writes your GitHub repo.
+
+<Image src="/images/dashboard/editor.png" alt="The Velu web editor: the Navigation tab with the page tree on the left, the formatting toolbar with the plus Component menu, and a page open in visual view" />
+
+## The left panel
+
+The editor's left panel has three tabs:
+
+- **Navigation** — your site's tab, group, and page structure, mirroring the
+  sidebar readers see. Click a page to open it.
+- **Files** — the raw file tree of your project, including images and
+  `velu.json`.
+- **Config** — panels that edit `velu.json` through a form instead of raw JSON.
+
+## Writing a page
+
+Each page opens in a **visual (WYSIWYG)** view where you edit formatted content
+directly, or a **source** view where you edit the Markdown. Switch between them
+at any time.
+
+In docs-as-code mode, a **branch selector** lets you choose which branch you're
+editing.
+
+Changes autosave as you type — you'll see **All changes saved** once your work
+is stored. **Instant preview** renders the page as you edit so you can see the
+result without leaving the editor.
+
+### Page settings
+
+Open the **Page settings** panel to edit a page's frontmatter without touching
+the source:
+
+- **Title** — the page heading and sidebar label.
+- **Description** — the page's summary, used for SEO and social cards.
+- **Icon** — an optional sidebar icon.
+- **Hidden** — exclude the page from the sidebar.
+- **OpenAPI** — link the page to an operation from your API spec.
+
+## Edit and publish a page
+
+<Steps>
+  <Step title="Open the page">
+    In the **Navigation** or **Files** tab, click the page you want to change.
+  </Step>
+  <Step title="Make your edits">
+    Edit in visual or source view. Your changes autosave, and Instant preview
+    updates as you go.
+  </Step>
+  <Step title="Review the changes">
+    Click **Publish**. The editor shows every file you've touched, marked
+    **Added**, **Modified**, or **Deleted**.
+  </Step>
+  <Step title="Publish">
+    Confirm to commit your changes and start a build. In docs-as-code mode this
+    commits to your branch; in editor-only mode it saves to your managed site.
+    Either way, a new deployment runs.
+  </Step>
+</Steps>
+
+{/* SCREENSHOT: images/dashboard/editor-publish.png — the Publish dialog listing per-file Added/Modified/Deleted changes */}
+
+<Callout type="note">
+  Autosave stores your draft, but readers don't see changes until you publish.
+  Publishing is what triggers a build. See [Deployments](/dashboard/deployments).
+</Callout>
+
+## Configuration panels
+
+The **Config** tab edits `velu.json` through forms. Each panel maps to a part of
+the file:
+
+| Panel | What it sets |
+| --- | --- |
+| **Overview** | Site name, site URL, and favicon. |
+| **Visual Branding** | Colors and logo. |
+| **Typography** | Body font. |
+| **Header & Navbar** | Header links and the call-to-action button. |
+| **Footer** | Social icons and footer link columns. |
+| **Context Menu** | The per-page "Copy page" menu. |
+| **API Documentation** | OpenAPI playground and code-sample options. |
+| **Advanced** | SEO meta tags and Ask AI prompts. |
+
+Anything you can set in these panels you can also edit as raw JSON — see
+[Global settings](/configuration/settings) for every field.

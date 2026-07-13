@@ -1,0 +1,60 @@
+---
+title: "Fields"
+description: "Document parameters and configuration options with the Field component."
+---
+
+A `<Field>` documents one parameter — its name, type, whether it's required, and
+a default. The children are the description. Adjacent fields are separated by
+dividers, so a run of them reads as a parameter list.
+
+<Field name="name" type="string" required>
+  The site's name, shown as the header wordmark and the default page title.
+</Field>
+
+<Field name="colors.primary" type="string" default="#dc143c">
+  The accent color used for links, active navigation, and buttons.
+</Field>
+
+<Field name="font.family" type="string" pre="velu.json" post="Google Fonts">
+  Any Google Font family name. Velu loads it and applies it as the body font.
+</Field>
+
+```mdx
+<Field name="name" type="string" required>
+  The site's name, shown as the header wordmark and the default page title.
+</Field>
+
+<Field name="colors.primary" type="string" default="#dc143c">
+  The accent color used for links, active navigation, and buttons.
+</Field>
+
+<Field name="font.family" type="string" pre="velu.json" post="Google Fonts">
+  Any Google Font family name.
+</Field>
+```
+
+## Field properties
+
+<Field name="name" type="string" required>
+  The parameter or option name.
+</Field>
+
+<Field name="type" type="string">
+  A type chip shown after the name, such as `string` or `number`.
+</Field>
+
+<Field name="required" type="boolean" default={false}>
+  Show a "required" pill.
+</Field>
+
+<Field name="default" type="any">
+  A default value, rendered as "default: value".
+</Field>
+
+<Field name="pre" type="string">
+  A chip shown before the name.
+</Field>
+
+<Field name="post" type="string">
+  A trailing chip shown after the type.
+</Field>

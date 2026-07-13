@@ -1,0 +1,145 @@
+---
+title: "Navigation"
+description: "Structure your sidebar and top navigation with tabs, groups, and pages."
+---
+
+The `navigation` object in `velu.json` defines your site's structure. At its
+simplest it's an ordered list of pages; as your docs grow, you organize those
+pages into groups, and groups into tabs.
+
+Page paths are relative to your project root, without the `.mdx` extension.
+`"guides/setup"` points to `guides/setup.mdx`. Each page's sidebar label comes
+from its frontmatter `title`.
+
+## Pages
+
+The smallest navigation is a `pages` array — a flat, ordered list:
+
+```json
+{
+  "navigation": {
+    "pages": ["index", "quickstart", "guides/setup"]
+  }
+}
+```
+
+## Groups
+
+Groups add labeled sections to the sidebar. Each group has a `group` heading and
+its own `pages`, and can show a [Lucide](https://lucide.dev/icons) `icon`.
+
+```json
+{
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "icon": "rocket",
+        "pages": ["index", "quickstart"]
+      },
+      {
+        "group": "Guides",
+        "icon": "book-open",
+        "pages": ["guides/setup", "guides/deploy"]
+      }
+    ]
+  }
+}
+```
+
+### Group options
+
+| Field | Type | Purpose |
+| --- | --- | --- |
+| `group` | string (required) | The sidebar heading. |
+| `icon` | string | A Lucide icon name shown next to the heading. |
+| `pages` | array | Page paths and nested groups, in order. |
+| `expanded` | boolean | Expand a nested group by default. |
+| `root` | string | A landing page for the group. |
+
+### Nested groups
+
+Nest a group inside another group's `pages` to create a sub-section. Keep the
+hierarchy shallow — one or two levels is usually enough.
+
+```json
+{
+  "group": "Guides",
+  "pages": [
+    "guides/setup",
+    {
+      "group": "Advanced",
+      "expanded": false,
+      "pages": ["guides/scaling", "guides/security"]
+    }
+  ]
+}
+```
+
+## Tabs
+
+Tabs split your site into top-level sections, each with its own sidebar. Use them
+to separate audiences or content types — for example, product guides and
+platform documentation.
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "icon": "book-open",
+        "groups": [
+          { "group": "Get started", "pages": ["index", "quickstart"] }
+        ]
+      },
+      {
+        "tab": "API reference",
+        "icon": "braces",
+        "groups": [
+          { "group": "Endpoints", "pages": ["api/introduction"] }
+        ]
+      }
+    ]
+  }
+}
+```
+
+A tab can also link straight to an external site with `href` instead of holding
+content.
+
+## Anchors
+
+Anchors are pinned links that sit above the groups in the sidebar. They're handy
+for linking to resources outside your docs.
+
+```json
+{
+  "navigation": {
+    "anchors": [
+      { "anchor": "Community", "icon": "users", "href": "https://community.acme.com" }
+    ],
+    "groups": [
+      { "group": "Get started", "pages": ["index"] }
+    ]
+  }
+}
+```
+
+## How the layers nest
+
+Velu supports several organizing layers. From outermost to innermost:
+
+**products → versions → languages → tabs → groups → pages**
+
+Every layer is optional, and you start at whichever layer you need. Most sites
+use groups, or tabs containing groups. The switchable layers — products,
+versions, and languages — add a selector to the interface and prefix the URL
+(for example `/v2/…` or `/fr/…`); the entry marked `"default": true` stays
+unprefixed.
+
+<Callout type="tip">
+  Pages left out of `navigation` are still built and reachable by URL, but they
+  don't appear in the sidebar. This is useful for landing pages or content you
+  link to directly.
+</Callout>

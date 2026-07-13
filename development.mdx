@@ -1,19 +1,72 @@
 ---
-title: Development
-description: Preview your docs locally as you write.
+title: "Local development"
+description: "Preview your site locally with live reload as you write."
 ---
 
-`velu dev` serves your project with server-side rendering and live
-reload, so what you see locally matches production.
+The `velu dev` server renders your site exactly as it will appear when published,
+and reloads on every change. Use it to preview your work before you publish.
 
-<Callout type="note">
-  The dev server reads `velu.json` from the folder you point it at.
-  Run it from your project root, or pass the path: `velu dev ./docs`.
-</Callout>
+## Run the dev server
+
+From your project folder:
+
+```bash
+velu dev
+```
+
+Velu serves the site at `http://localhost:8358` and watches your files. Editing a
+page or `velu.json` updates the browser without a manual refresh.
+
+### Change the port
+
+Set the `PORT` environment variable to use a different port:
+
+<CodeGroup>
+```bash macOS / Linux
+PORT=4000 velu dev
+```
+
+```powershell Windows (PowerShell)
+$env:PORT=4000; velu dev
+```
+</CodeGroup>
+
+### Preview a different folder
+
+Pass a path to preview a project that isn't the current directory:
+
+```bash
+velu dev ./my-docs
+```
 
 ## What reloads automatically
 
 - Editing any `.mdx` page reloads that page.
-- Editing `velu.json` (colors, font, favicon, navigation) re-renders
-  the whole site.
+- Editing `velu.json` — colors, font, favicon, or navigation — re-renders the
+  whole site.
 - Adding or removing a page file updates the route map.
+
+## Catch errors as you write
+
+The dev server surfaces problems inline as you edit — a page that fails to
+compile, an unknown component, or a bad component prop shows an error in the
+browser instead of the rendered page. Fix it and save, and the page reloads.
+
+<Callout type="tip">
+  When you publish, Velu runs a full build. If it fails, the deployment is
+  marked failed and the error log appears in the dashboard. See
+  [Publishing](/deploy/publishing) for how deployments work.
+</Callout>
+
+## What isn't available locally
+
+A couple of features only run on published sites, because they're generated at
+build time on Velu's platform:
+
+- **Full-text search** — the dev preview shows a search box, but the index is
+  built when your site deploys. See [Search](/ai/search).
+- **The Ask AI assistant** answers with a canned response locally. It connects to
+  your live content once published. See [Ask AI](/ai/ask-ai).
+
+Everything else — theming, navigation, components, the API playground, and the
+`llms.txt` and Markdown export endpoints — works in local preview.

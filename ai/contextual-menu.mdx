@@ -1,0 +1,78 @@
+---
+title: "Contextual menu"
+description: "Add a per-page menu that copies the page as Markdown or opens it in an AI tool."
+---
+
+The contextual menu is a per-page "Copy page" control that lets readers grab a
+page as Markdown or send it to an AI tool. Configure it with the `contextual`
+block in `velu.json`.
+
+```json
+{
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude"],
+    "display": "header"
+  }
+}
+```
+
+If you don't set `contextual`, the default options are `copy`, `view`, `chatgpt`,
+and `claude`.
+
+## Options
+
+`options` is an ordered list of actions. The common ones:
+
+| Option | What it does |
+| --- | --- |
+| `copy` | Copy the page as Markdown to the clipboard. |
+| `view` | Open the page's raw Markdown ([the `.md` twin](/ai/markdown-export)). |
+| `assistant` | Open the page's question in [Ask AI](/ai/ask-ai). |
+| `chatgpt` | Open the page in ChatGPT. |
+| `claude` | Open the page in Claude. |
+| `perplexity` | Open the page in Perplexity. |
+| `grok` | Open the page in Grok. |
+| `aistudio` | Open the page in Google AI Studio. |
+| `devin` | Open the page in Devin. |
+| `windsurf` | Open the page in Windsurf. |
+| `cursor` | Open the Cursor installer for the [docs MCP server](/ai/model-context-protocol). |
+| `vscode` | Open the VS Code installer for the docs MCP server. |
+| `mcp` | Copy an `mcp-remote` command for the docs MCP server. |
+| `add-mcp` | Copy the same client-neutral MCP command. |
+| `devin-mcp` | Copy a Devin CLI command for the docs MCP server. |
+| `download-spec` | Download the OpenAPI spec (on API reference pages). |
+
+You can also add a custom entry as an object with `title`, `href`, `description`,
+and `icon`:
+
+```json
+{
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      {
+        "title": "Ask in Slack",
+        "href": "https://acme.com/slack",
+        "description": "Get help from the community.",
+        "icon": "slack"
+      }
+    ]
+  }
+}
+```
+
+Icons are [Lucide](https://lucide.dev/icons) icon ids.
+
+## Display
+
+`display` controls where the menu appears:
+
+- `header` (default) — next to the page title.
+- `toc` — in the table of contents on the right.
+
+```json
+{ "contextual": { "display": "toc" } }
+```

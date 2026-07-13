@@ -1,0 +1,76 @@
+---
+title: "Writing with AI"
+description: "Use Claude Code or Codex with the Velu Docs skill to write and publish documentation from your repository."
+---
+
+AI coding agents can work directly in your documentation repository. Give the
+agent the Velu Docs skill so it understands the project structure, supported
+components, and writing conventions, then describe the documentation you want.
+
+## Before you start
+
+This workflow requires the private `velu_docs` repository created when you
+connect GitHub during Velu onboarding. If you have not connected GitHub yet,
+follow the [Quickstart](/quickstart#create-your-account) first.
+
+<Steps>
+  <Step title="Clone your documentation repository">
+    Find the repository URL in your GitHub account or on the
+    [Velu dashboard](https://docs.getvelu.com), then clone it and enter the
+    project directory:
+
+    ```bash
+    git clone https://github.com/your-org/velu_docs.git
+    cd velu_docs
+    ```
+  </Step>
+  <Step title="Open the repository in your coding agent">
+    Start Claude Code or Codex from the `velu_docs` directory. This gives the
+    agent access to your existing pages, navigation, configuration, and Git
+    history.
+  </Step>
+  <Step title="Add the Velu Docs skill">
+    Install the skill from the Velu documentation URL:
+
+    ```bash
+    npx skills add https://veludocs.com/docs
+    ```
+
+    When the installer asks where to add the skill, select **Claude Code** or
+    **Codex**, depending on the agent you use. You only need to install it once
+    for that agent.
+  </Step>
+</Steps>
+
+## Ask the agent to write your docs
+
+Tell the agent what changed, who the documentation is for, and where the new
+content belongs. Ask it to inspect the existing repository and use the Velu
+Docs skill before editing.
+
+<Prompt title="Write and publish documentation" lines={8}>
+Use the Velu Docs skill and inspect this repository's existing documentation.
+Write documentation for [feature or change] for [target audience]. Add or
+update the appropriate MDX pages and navigation, match the existing voice and
+structure, and validate the site. Then commit the changes with a clear commit
+message and push them to the repository.
+</Prompt>
+
+Include release notes, source files, screenshots, or acceptance criteria when
+they help the agent understand the feature. The more concrete the input, the
+less the agent has to infer.
+
+<Callout type="tip">
+  Review the agent's changes and local validation results before allowing it to
+  commit and push, especially when it changes navigation or removes content.
+</Callout>
+
+## Publish the changes
+
+After the agent commits and pushes the documentation, a push to `main` triggers
+a Velu build. Follow the deployment on the
+[dashboard](https://docs.getvelu.com); when the build succeeds, the updated
+content appears on your documentation site.
+
+For local preview commands and the complete docs-as-code workflow, see
+[Quickstart: Edit with GitHub](/quickstart#edit-with-github-docs-as-code).

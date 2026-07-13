@@ -1,0 +1,72 @@
+---
+title: "Themes"
+description: "Set your accent colors and font, and control light and dark mode."
+---
+
+Velu ships with a light and a dark theme. You control the look with two fields in
+`velu.json` — `colors` and `font` — and readers switch between light and dark
+with the sun/moon toggle in the header.
+
+## Light and dark mode
+
+Every site supports both themes. On a reader's first visit, Velu follows their
+operating system preference.
+
+Dark mode is on by default and always available — there is no config to turn it
+off or to lock the site to a single theme.
+
+<Callout type="note">
+  Because the theme persists per browser, the toggle you see while previewing
+  may differ from a first-time visitor's. Clear the `velu-theme` key or open a
+  private window to see the OS-driven default.
+</Callout>
+
+## Colors
+
+`colors.primary` is the accent used across the interface — links, active
+navigation items, and buttons. It defaults to `#dc143c`.
+
+```json
+{ "colors": { "primary": "#dc143c" } }
+```
+
+### Per-theme accents
+
+A single accent can look too dark on a dark background or too light on a light
+one. Add `light` and `dark` to set the accent for each theme; either one falls
+back to `primary` when omitted.
+
+```json
+{
+  "colors": {
+    "primary": "#dc143c",
+    "light": "#f26b83",
+    "dark": "#b3102f"
+  }
+}
+```
+
+Here `light` is used when the reader is in light mode and `dark` when they're in
+dark mode.
+
+## Font
+
+`font.family` is any [Google Font](https://fonts.google.com) family name. Velu
+loads the font automatically and applies it as the body font — you don't add a
+stylesheet or a script.
+
+```json
+{ "font": { "family": "Inter" } }
+```
+
+Use the exact family name as it appears on Google Fonts, for example `"Roboto
+Mono"` or `"IBM Plex Sans"`.
+
+## No custom CSS or JavaScript
+
+Theming is limited to the `colors` and `font` fields. Velu does not support
+injecting custom CSS or custom JavaScript, so the two themes stay consistent and
+the site keeps working across releases.
+
+See [Global settings](/configuration/settings) for the full `velu.json`
+reference, including the logo and favicon that sit alongside these theme fields.

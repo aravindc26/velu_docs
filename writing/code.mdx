@@ -1,0 +1,89 @@
+---
+title: "Code blocks"
+description: "Show code with syntax highlighting, filenames, tabs, and line highlighting."
+---
+
+A fenced code block in Velu renders as a rich code block: syntax highlighting, a
+language label, and a copy button. Tag every block with its language so the
+label and highlighting are correct.
+
+## Fenced code blocks
+
+Open a block with three backticks and the language, and close it with three
+backticks.
+
+````markdown
+```js
+const client = new Acme({ apiKey: process.env.ACME_KEY });
+```
+````
+
+Renders as:
+
+```js
+const client = new Acme({ apiKey: process.env.ACME_KEY });
+```
+
+<Callout type="warning">
+  Always tag the language. An untagged block loses syntax highlighting and its
+  language label.
+</Callout>
+
+A plain fenced block carries only its language. To add a filename header, line
+numbers, or highlighted lines, use the `<CodeBlock>` component described in
+[CodeBlock with explicit props](#codeblock-with-explicit-props).
+
+## Tabbed examples with CodeGroup
+
+Wrap several `<CodeBlock>` blocks in `<CodeGroup>` to show them as tabs — one
+common use is the same task in different languages or package managers. Each
+block's `title` becomes its tab label.
+
+````mdx
+<CodeGroup>
+  <CodeBlock title="npm" language="bash">{`npm i -g @veluai/velu`}</CodeBlock>
+  <CodeBlock title="pnpm" language="bash">{`pnpm add -g @veluai/velu`}</CodeBlock>
+  <CodeBlock title="yarn" language="bash">{`yarn global add @veluai/velu`}</CodeBlock>
+</CodeGroup>
+````
+
+<CodeGroup>
+  <CodeBlock title="npm" language="bash">{`npm i -g @veluai/velu`}</CodeBlock>
+  <CodeBlock title="pnpm" language="bash">{`pnpm add -g @veluai/velu`}</CodeBlock>
+  <CodeBlock title="yarn" language="bash">{`yarn global add @veluai/velu`}</CodeBlock>
+</CodeGroup>
+
+## CodeBlock with explicit props
+
+Plain fences cover most cases. When you need line numbers or highlighting, use
+`<CodeBlock>` and set its props directly.
+
+| Prop | Type | Purpose |
+| --- | --- | --- |
+| `filename` | string | Filename shown in the header. |
+| `title` | string | Header label when there's no filename. |
+| `language` | string | Language for highlighting and the label. |
+| `lineNumbers` | boolean | Show a line-number gutter. |
+| `highlight` | string | Lines to emphasize, e.g. `"1-3,5"`. |
+| `icon` | string | A Lucide icon id for the header. |
+| `withIcon` | boolean | Show the language's icon. |
+
+Pass the code as a template-literal child so its contents aren't parsed as MDX:
+
+````mdx
+<CodeBlock filename="server.py" language="python" lineNumbers highlight="2-3">
+{`import os
+from acme import Acme
+
+client = Acme(api_key=os.environ["ACME_KEY"])`}
+</CodeBlock>
+````
+
+<CodeBlock filename="server.py" language="python" lineNumbers highlight="2-3">
+{`import os
+from acme import Acme
+
+client = Acme(api_key=os.environ["ACME_KEY"])`}
+</CodeBlock>
+
+For more on grouping samples, see [Code groups](/components/code-groups).
