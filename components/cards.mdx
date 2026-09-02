@@ -22,7 +22,7 @@ A card body is not a link. Setting `href` on a `<Card>` does nothing. To make a
 card navigate, pass `cta={{ label, href }}` — it renders a single "label ›" link
 below the body.
 
-<Card title="Quickstart" icon="rocket" cta={{ label: "Read the guide", href: "/quickstart" }}>
+<Card title="Quickstart" icon="rocket" cta={{ label: "Read the guide", href: "/docs/quickstart" }}>
   Create a project and preview it locally in under a minute.
 </Card>
 
@@ -37,7 +37,7 @@ below the body.
 Set `horizontal` to place the icon beside the text instead of above it. This
 works well for denser lists.
 
-<Card title="Command-line interface" icon="terminal" horizontal cta={{ label: "CLI reference", href: "/development" }}>
+<Card title="Command-line interface" icon="terminal" horizontal cta={{ label: "CLI reference", href: "/docs/development" }}>
   Scaffold, preview, and validate your docs from the terminal.
 </Card>
 
@@ -51,7 +51,7 @@ works well for denser lists.
 
 Pass `img` to show an image at the top of the card. Use `imgAlt` to describe it.
 
-<Card title="Publishing" img="/images/dashboard/overview.png" imgAlt="Velu dashboard showing deployment status" cta={{ label: "Publishing guide", href: "/deploy/publishing" }}>
+<Card title="Publishing" img="/docs/images/dashboard/overview.png" imgAlt="Velu dashboard showing deployment status" cta={{ label: "Publishing guide", href: "/docs/deploy/publishing" }}>
   Check deployment status, project activity, and domain settings at a glance.
 </Card>
 
@@ -67,13 +67,13 @@ Pass `img` to show an image at the top of the card. Use `imgAlt` to describe it.
 and stacks them vertically when a card would fall below its minimum width.
 
 <CardGroup>
-  <Card title="Callouts" icon="message-circle" cta={{ label: "Callouts", href: "/components/callouts" }}>
+  <Card title="Callouts" icon="message-circle" cta={{ label: "Callouts", href: "/docs/components/callouts" }}>
     Highlighted asides and warnings.
   </Card>
-  <Card title="Steps" icon="list-ordered" cta={{ label: "Steps", href: "/components/steps" }}>
+  <Card title="Steps" icon="list-ordered" cta={{ label: "Steps", href: "/docs/components/steps" }}>
     Numbered procedures.
   </Card>
-  <Card title="Columns" icon="columns-3" cta={{ label: "Columns", href: "/components/columns" }}>
+  <Card title="Columns" icon="columns-3" cta={{ label: "Columns", href: "/docs/components/columns" }}>
     Responsive columns for any children.
   </Card>
 </CardGroup>

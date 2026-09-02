@@ -20,22 +20,21 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/aravindc26/velu",
-      "x": "https://x.com/getvelu"
+      "github": "https://github.com/aravindc26/velu_docs"
     },
     "links": [
       {
         "header": "Product",
         "items": [
           { "label": "Dashboard", "href": "https://docs.getvelu.com" },
-          { "label": "Quickstart", "href": "/quickstart" }
+          { "label": "Quickstart", "href": "/docs/quickstart" }
         ]
       },
       {
         "header": "Resources",
         "items": [
-          { "label": "Components", "href": "/components/overview" },
-          { "label": "Deploy", "href": "/deploy/publishing" }
+          { "label": "Components", "href": "/docs/components/overview" },
+          { "label": "Deploy", "href": "/docs/deploy/publishing" }
         ]
       }
     ]
