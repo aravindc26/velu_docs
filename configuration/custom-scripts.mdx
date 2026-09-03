@@ -68,6 +68,11 @@ and use it in any page:
   described on this page.
 </div>
 
+The callouts on this page have a dashed accent border for the same reason — the
+site's `style.css` targets them with the `callout` element selector, scoped to
+this page with `html[data-current-path="/configuration/custom-scripts"]`.
+Both hooks are documented below.
+
 You can also restyle the layout itself. For example, the header and footer:
 
 ```css
@@ -82,75 +87,343 @@ You can also restyle the layout itself. For example, the header and footer:
 ```
 
 <Callout type="warning">
-  The internal `velu-` class names (`.velu-callout`, `.velu-card`, …) can change
-  between releases. Use the stable ID selectors and data attributes below for
-  the layout, and treat component classes as a last resort.
+  The internal `velu-` class names (`.velu-card`, `.velu-sidebar__item`, …) can
+  change between releases. Use the ID selectors, element selectors, and data
+  attributes below — they are the stable, supported hooks.
 </Callout>
+
+Velu exposes the same two types of CSS targeting hooks as Mintlify, with the
+same names:
+
+- **ID selectors**: unique page-level elements targeted with `#value { }` in CSS
+- **Element selectors**: component and layout elements targeted with `value { }` in CSS (no `#` or `.` prefix)
+
+Use inspect element to find references to elements you're looking to customize.
 
 ### ID selectors
 
-Each ID appears once per page. Use them as `#value` in CSS, for example
-`#navbar { background: red; }`. The names match Mintlify's ID selectors, so
-stylesheets written for Mintlify keep working.
+Each ID appears once per page. Use these as `#value` in CSS. For example,
+`#navbar { background: red; }`. The lists below follow Mintlify's, category by
+category; IDs Mintlify has that Velu does not are called out with the closest
+equivalent.
 
-**Page layout**
+<AccordionGroup>
+  <Accordion title="Page layout">
+    - `#body-content`: Outermost wrapper for the page body.
+    - `#content-area`: Primary content area (the `<main>`), excluding the sidebar and table of contents.
+    - `#content`: Inner content element within the content area: title, description, prose, feedback, pagination.
+    - `#footer`: Page footer. Rendered when `footer.links` is set in `velu.json`. Also targetable as an element selector: `footer`.
+    - `#pagination`: Bottom pagination bar with previous and next page links.
 
-| Selector | Element |
-| --- | --- |
-| `#content-area` | The primary `<main>` column, excluding the sidebar and table of contents. |
-| `#content` | The article inside the content area: title, description, prose, feedback, pagination. |
-| `#footer` | The site footer. Rendered only when `footer.links` is set in `velu.json`. |
-| `#pagination` | The previous / next page links at the bottom of a page. |
+    Not in Velu: `#header` (use `#navbar`), `#banner` (no announcement banner),
+    `#page-title` (the `<h1>` carries the heading's anchor id — use `#content h1`),
+    `#panel`, `#background-color`.
+  </Accordion>
 
-**Navigation**
+  <Accordion title="Navigation">
+    - `#navbar`: Top navigation bar: brand, search, actions, and the tabs row.
+    - `#topbar-cta-button`: Call-to-action button in the topbar — the first `kind: "primary"` action.
 
-| Selector | Element |
-| --- | --- |
-| `#navbar` | The top header: brand, search, actions, and the tabs row. |
-| `#search-bar-entry` | The search button in the header. |
-| `#assistant-entry` | The Ask AI button in the header (published sites only). |
+    Not in Velu: `#mobile-nav` and `#mobile-nav-content`. On small screens the
+    sidebar itself becomes the drawer, so use
+    `#body-content[data-drawer-open="true"] #sidebar` and `#sidebar-content`.
+  </Accordion>
 
-**Sidebar**
+  <Accordion title="Sidebar">
+    - `#sidebar`: The sidebar navigation panel. On small screens this is also the drawer.
+    - `#sidebar-content`: Scrollable content area within the sidebar.
+  </Accordion>
 
-| Selector | Element |
-| --- | --- |
-| `#sidebar` | The left navigation panel. On small screens this is also the drawer. |
-| `#sidebar-content` | The scrollable page list inside the sidebar. |
+  <Accordion title="Table of contents">
+    - `#table-of-contents`: Table of contents panel on the right side of the page.
+    - `#table-of-contents-content`: The heading list within the table of contents (also the `toc` element).
 
-**Table of contents**
+    Not in Velu: `#table-of-contents-layout` (use `#table-of-contents`).
+  </Accordion>
 
-| Selector | Element |
-| --- | --- |
-| `#table-of-contents` | The right-hand table of contents panel. |
+  <Accordion title="Search">
+    - `#search-bar-entry`: Search bar trigger in the topbar.
+    - `#search-input`: Text input field within the search modal.
 
-Use your browser's inspector to find anything else. Mintlify IDs with no Velu
-equivalent — `#banner`, `#page-title`, `#topbar-cta-button`, `#mobile-nav`,
-the `#feedback-*`, `#chat-assistant-*`, `#api-playground-*`, and code-block
-IDs — are listed in the [comparison](#coming-from-mintlify) below.
+    Not in Velu: `#search-bar-entry-mobile` — one trigger serves every width, so `#search-bar-entry` applies on mobile too.
+  </Accordion>
+
+  <Accordion title="AI assistant">
+    - `#assistant-entry`: AI assistant button in the topbar (published sites with Ask AI enabled).
+    - `#chat-assistant-sheet`: AI assistant chat panel.
+    - `#chat-assistant-textarea`: Text input within the AI assistant panel.
+
+    Not in Velu: `#assistant-entry-mobile` (`#assistant-entry` applies on mobile too).
+  </Accordion>
+
+  <Accordion title="API reference">
+    - `#request-example`: Request example panel in the API playground.
+    - `#response-example`: Response example panel in the API playground.
+    - `#api-playground-input`: Input section of the API playground.
+    - `#endpoints-menu-trigger`: Button that opens the endpoint selector dropdown.
+  </Accordion>
+
+  <Accordion title="Code blocks">
+    Not in Velu: `#ask-assistant-code-block-button`, `#code-snippet-feedback-button`,
+    `#code-snippet-feedback-textarea` — Velu code blocks have no Ask Assistant
+    button or per-snippet feedback. The copy button is `[data-component="code-block-copy-button"]`.
+  </Accordion>
+
+  <Accordion title="Feedback">
+    - `#feedback-thumbs-up`: Thumbs-up feedback button at the bottom of a page.
+    - `#feedback-thumbs-down`: Thumbs-down feedback button at the bottom of a page.
+    - `#feedback-form`: Feedback form shown after a thumbs-down response.
+    - `#feedback-form-input`: Text input within the feedback form.
+    - `#feedback-form-cancel`: Cancel button within the feedback form.
+    - `#feedback-form-submit`: Submit button within the feedback form.
+  </Accordion>
+
+  <Accordion title="Page context menu">
+    - `#page-context-menu`: Contextual options menu for the current page (Copy page, Markdown, Ask AI).
+    - `#page-context-menu-button`: Button that triggers the page context menu.
+  </Accordion>
+
+  <Accordion title="Localization">
+    - `#localization-select-trigger`: Button that opens the language selector.
+    - `#localization-select-content`: Dropdown content of the language selector.
+    - `#localization-select-item`: The first language option. To style every option use `#localization-select-content [data-component="nav-dropdown-item"]`.
+  </Accordion>
+
+  <Accordion title="Changelog">
+    - `#changelog-filters`: Filter controls on a changelog page.
+    - `#changelog-filters-content`: Content area within the changelog filter panel.
+  </Accordion>
+
+  <Accordion title="Multi-view">
+    Not in Velu: `#multi-view-dropdown`. Velu has no multi-view switcher; products, versions and languages use the topbar dropdowns.
+  </Accordion>
+
+  <Accordion title="Text selection">
+    Not in Velu: `#text-selection-tooltip`, `#text-selection-tooltip-button`. Velu has no text-selection tooltip.
+  </Accordion>
+</AccordionGroup>
 
 ### Element selectors
 
-Velu does not render components as custom elements, so Mintlify-style element
-selectors such as `accordion { }` or `card { }` have no effect. Components
-render as regular HTML with `velu-` prefixed classes:
+Multiple instances of these elements can appear on a page. Use these as `value`
+in CSS. For example, `card { border: 1px solid red; }`.
+
+Velu renders components as the same custom tags Mintlify uses, so the selectors
+below work verbatim. The one difference: where a component's root must stay a
+real HTML element for accessibility or behavior — a link, a button, a
+`<details>` disclosure, a list, a text field, a heading — Velu keeps that tag
+and marks it with `data-component="<name>"` instead. Those are listed as
+`[data-component="…"]` below; everything else is a plain element selector.
 
 ```css
-/* Mintlify: card { border: 1px solid red; } */
-.velu-card {
-  border: 1px solid red;
-}
+/* Same as Mintlify */
+card { border-radius: 0; }
+callout { border-left-width: 4px; }
+
+/* Root is a native <details>, so it's an attribute selector in Velu */
+[data-component="accordion"] { border: 1px solid red; }
 ```
 
-These classes are internal and may change; check the inspector after upgrading
-Velu.
+<AccordionGroup>
+  <Accordion title="Content components">
+    - `[data-component="accordion"]`: Collapsible accordion item (a `<details>`).
+    - `accordion-group`: Wrapper grouping multiple accordions.
+    - `callout`: Callout block (Note, Warning, Tip, etc.). The variant is exposed as `callout[data-type="warning"]`.
+    - `card`: Individual card element.
+    - `card-group`: Wrapper grouping multiple cards.
+    - `columns`: Multi-column layout wrapper.
+    - `code-block`: Code block element.
+    - `code-block-icon`: Icon displayed in a code block header or tab.
+    - `[data-component="code-block-copy-button"]`: Copy button shown on a code block. Hide it with `[data-component="code-block-copy-button"] { display: none; }`.
+    - `code-group`: Tabbed group of code blocks.
+    - `[data-component="frame"]`: `<Image chrome="frame">` wrapper.
+    - `step`: Individual step within a steps sequence.
+    - `steps`: Numbered steps container.
+    - `update`: Changelog update entry.
+
+    Not in Velu: `code-block-fade-overlay` (code blocks don't collapse),
+    `expandable`, `icon` (use `.velu-icon`), `mermaid`, `tab-icon` and `tabs`
+    (Velu has no Tabs component; code-group tab icons are `code-block-icon`),
+    `tile`, `tooltip`.
+  </Accordion>
+
+  <Accordion title="Page layout">
+    - `mdx-content`: Rendered MDX content area.
+    - `eyebrow`: Small label displayed above a page title.
+    - `[data-component="breadcrumb-list"]`: Breadcrumb navigation (mobile header; a `<button>` that opens the drawer).
+    - `breadcrumb-item`: Individual breadcrumb item.
+
+    Not in Velu: `panel`, `link` (use `mdx-content a`).
+  </Accordion>
+
+  <Accordion title="Topbar navigation">
+    - `[data-component="nav-logo"]`: Logo link in the navigation bar. To resize the image target `[data-component="nav-logo"] img`.
+    - `[data-component="navbar-link"]`: Link or button within the navigation bar's actions.
+    - `[data-component="nav-anchors"]`: Container for anchor links (rendered in the sidebar's context zone).
+    - `[data-component="nav-anchor"]`: Individual anchor link.
+    - `nav-tabs`: Tab bar in the top navigation.
+    - `[data-component="nav-tabs-item"]`: Individual tab item in the top navigation tab bar.
+    - `[data-component="mobile-nav-tabs-item"]`: Tab item in the mobile navigation drawer.
+    - `topbar-right-container`: Right section of the topbar.
+
+    Not in Velu: `nav-tag-pill`, `nav-tag-pill-text`.
+  </Accordion>
+
+  <Accordion title="Topbar dropdown">
+    Products, versions and languages share one dropdown component.
+
+    - `[data-component="nav-dropdown-trigger"]`: Button that opens a navigation dropdown.
+    - `[data-component="nav-dropdown-content"]`: Content container for a navigation dropdown.
+    - `[data-component="nav-dropdown-item"]`: Individual item within a navigation dropdown.
+    - `nav-dropdown-item-title`: Title text within a dropdown item.
+    - `nav-dropdown-item-icon`: Icon within a dropdown item.
+
+    Not in Velu: `nav-dropdown-item-text-container`, `nav-dropdown-item-description` (items have no description).
+  </Accordion>
+
+  <Accordion title="Products selector">
+    - `[data-component="nav-dropdown-products-selector-trigger"]`: Button that opens the products selector dropdown.
+    - `[data-component="nav-dropdown-products-selector-content"]`: Content container for the products selector.
+    - `[data-component="nav-dropdown-products-selector-item"]`: Individual product in the selector.
+    - `[data-component="nav-dropdown-products-selector-item"] nav-dropdown-item-title`: Title of a product selector item.
+    - `[data-component="nav-dropdown-products-selector-item"] nav-dropdown-item-icon`: Icon of a product selector item.
+
+    Not in Velu: `nav-dropdown-products-selector-item-description`.
+  </Accordion>
+
+  <Accordion title="Sidebar">
+    - `sidebar-group`: Group of related sidebar links (one per navigation group).
+    - `sidebar-group-icon`: Icon for a sidebar group or link.
+    - `[data-component="sidebar-group-header"]`: Header of a collapsible nested group (a `<summary>`).
+    - `[data-component="sidebar-title"]`: Title heading of a sidebar group.
+    - `sidebar-nav-group-divider`: Divider between the anchors and the page list (rendered when `anchors` are configured).
+  </Accordion>
+
+  <Accordion title="Table of contents">
+    - `toc`: Table of contents container.
+    - `toc-item`: Individual heading entry in the table of contents.
+  </Accordion>
+
+  <Accordion title="Footer">
+    - `footer`: Standard page footer. Also targetable as an ID selector: `#footer`.
+    - `advanced-footer`: Wrapper around the footer with its link columns.
+  </Accordion>
+
+  <Accordion title="Pagination">
+    - `[data-component="pagination-prev"]`: Previous page link in the pagination bar.
+    - `[data-component="pagination-next"]`: Next page link in the pagination bar.
+    - `pagination-title`: Page title shown in the pagination bar.
+  </Accordion>
+
+  <Accordion title="API reference">
+    - `api-section`: Section of an API endpoint page (Authorizations, Parameters, Body, Response).
+    - `[data-component="api-section-heading"]`: Heading of an API endpoint section.
+    - `field`: Parameter or property field in the API reference.
+    - `option-dropdown`: Dropdown for selecting between API operations in the playground.
+    - `[data-component="tryit-button"]`: "Try it" / "Send" button of the API playground.
+    - `method-pill`: HTTP method badge (GET, POST, etc.) on an endpoint. In the sidebar: `#sidebar method-pill` (Mintlify's `method-nav-pill`).
+    - `prompt`: Prompt component.
+
+    Not in Velu: `api-section-heading-title`, `api-section-heading-subtitle`.
+  </Accordion>
+
+  <Accordion title="AI assistant">
+    - `[data-component="chat-assistant-sheet"]`: AI assistant panel container (also `#chat-assistant-sheet`).
+    - `chat-assistant-sheet-header`: Header of the AI assistant panel.
+    - `chat-assistant-sheet-content`: Content area of the AI assistant panel.
+    - `[data-component="chat-assistant-input"]`: Text input within the AI assistant panel.
+    - `chat-assistant-floating-input`: Floating "Ask a question" input at the bottom of a page.
+    - `[data-component="chat-assistant-send-button"]`: Send button in the panel and the floating input.
+    - `chat-assistant-disclaimer-text`: Hint text displayed below the assistant input.
+    - `starter-question-text`: Suggested starter question shown in an empty assistant panel.
+
+    Not in Velu: `chat-assistant-payload-item`.
+  </Accordion>
+
+  <Accordion title="Feedback">
+    - `feedback-toolbar`: Toolbar containing page feedback controls.
+    - `contextual-feedback-container`: Container for the page feedback widget.
+    - `contextual-feedback-form`: Feedback form shown after a thumbs-down.
+    - `[data-component="contextual-feedback-form-title"]`: Title of the feedback form.
+    - `[data-component="contextual-feedback-input"]`: Text input within the feedback form.
+    - `[data-component="contextual-feedback-button"]`: Thumbs-up / thumbs-down buttons.
+    - `[data-component="contextual-feedback-form-submit-button"]`: Submit button for the feedback form.
+  </Accordion>
+
+  <Accordion title="Code snippet feedback">
+    Not in Velu: `code-snippet-feedback-popover-content`, `code-snippet-feedback-form`,
+    `code-snippet-feedback-textarea`, `code-snippet-feedback-form-title`,
+    `code-snippet-feedback-form-description`, `code-snippet-feedback-form-submit-button`.
+  </Accordion>
+
+  <Accordion title="Authentication">
+    - `[data-component="logout-link"]`: Log out button shown on private documentation.
+
+    Not in Velu: `login-link` — private docs show a login page instead of a link.
+  </Accordion>
+
+  <Accordion title="Multi-view">
+    Not in Velu: `multi-view-item`, `multi-view-dropdown`, `multi-view-dropdown-trigger`,
+    `multi-view-dropdown-content`, `multi-view-dropdown-item`.
+  </Accordion>
+
+  <Accordion title="Directory">
+    Not in Velu: `directory`, `directory-group`, `directory-page`, `directory-card`.
+  </Accordion>
+
+  <Accordion title="404 page">
+    - `not-found-container`: Root container of the 404 page.
+    - `not-found-status-code`: Status code display on the 404 page.
+    - `[data-component="not-found-title"]`: Title heading on the 404 page.
+    - `[data-component="not-found-description"]`: Description text on the 404 page.
+    - `[data-component="not-found-recommended-page-link"]`: The "Back to Home" link.
+
+    Not in Velu: `not-found-recommended-pages-list`.
+  </Accordion>
+
+  <Accordion title="Color">
+    Not in Velu: `color`, `color-row`, `color-item`.
+  </Accordion>
+
+  <Accordion title="Tree">
+    - `tree`: File tree container.
+    - `[data-component="tree-folder"]`: Folder entry within a file tree (a `<details>`).
+    - `tree-file`: File entry within a file tree.
+  </Accordion>
+</AccordionGroup>
 
 ### Data attributes
 
-Some elements expose attributes you can use as CSS selectors.
+Some elements expose data attributes you can use as CSS selectors.
+
+**Active state** (`data-active`):
+
+- `[data-component="nav-dropdown-item"][data-active]`: Active item in a nav dropdown.
+- `[data-component="mobile-nav-tabs-item"][data-active]`: Active tab in the mobile nav drawer.
+- `sidebar-group[data-active]`: Sidebar group containing the current page.
+- `#sidebar-content li[data-active]`: Active sidebar link (the link itself also carries `aria-current="page"`).
+- `[data-component="nav-tabs-item"][data-active]`: Active top nav tab.
+- `toc-item[data-active]`: Active table of contents item.
+- `toc-item[data-active-deepest]`: Velu highlights one heading at a time, so this marks the same item as `data-active`.
+
+**Component name** (`data-component-name`):
+
+- `[data-component-name="theme-toggle"]`: The light/dark theme toggle.
+
+Not in Velu: `mermaid-container`, `mermaid-controls-wrapper`, `primary-header-button` (use `#topbar-cta-button`).
+
+**Component part** (`data-component-part`) — card parts:
+
+- `[data-component-part="card-content-container"]`: Inner wrapper around a card's content.
+- `[data-component-part="card-icon"]`: Icon within a card.
+- `[data-component-part="card-title"]`: Title text within a card.
+- `[data-component-part="card-content"]`: Description content within a card.
+- `[data-component-part="card-image"]`: Image displayed at the top of a card.
+- `[data-component-part="card-cta"]`: Call-to-action label within a card.
 
 **Current path** (`data-current-path`) — the `<html>` element carries the
-current route, and it is kept in sync on client-side navigation. Use it to
-scope rules to one page or a whole section:
+current route, kept in sync on client-side navigation. Use it to scope rules to
+one page or a whole section:
 
 ```css
 /* The root page */
@@ -173,22 +446,13 @@ html[data-current-path^="/api-reference/"] #sidebar {
 `data-theme="dark"`. Add dark-mode variants of your rules with it:
 
 ```css
-.my-callout {
+callout {
   background: #f0f9ff;
 }
-html[data-theme="dark"] .my-callout {
+html[data-theme="dark"] callout {
   background: #0c1a2b;
 }
 ```
-
-**Active state** — the current page and section are marked with standard
-attributes rather than Mintlify's `data-active`:
-
-| Selector | Meaning |
-| --- | --- |
-| `#sidebar-content a[aria-current="page"]` | The active sidebar link. |
-| `#navbar a[aria-current="page"]` | The active top-level tab. |
-| `#table-of-contents [data-toc-active]` | The active heading in the table of contents. |
 
 ## Custom JavaScript
 
@@ -274,12 +538,14 @@ per-visitor profile, so there is no user data for scripts to read.
 | `.css` files in the content directory are included on every page | Same. |
 | `.js` files in the content directory run on every page | Same — after hydration, once per page load, in path order. |
 | Tailwind CSS classes in MDX | Not supported. Use the `style` prop or a class from a custom CSS file. |
-| ID selectors: `#navbar`, `#sidebar`, `#sidebar-content`, `#content-area`, `#content`, `#table-of-contents`, `#pagination`, `#footer`, `#search-bar-entry`, `#assistant-entry` | Same names. |
-| Other ID selectors (`#banner`, `#page-title`, `#topbar-cta-button`, `#mobile-nav`, `#feedback-*`, `#chat-assistant-*`, `#api-playground-input`, code-block and changelog IDs) | Not available. Use the inspector and `velu-` classes. |
-| Element selectors (`accordion`, `card`, `callout`, …) | Not available. Use `.velu-accordion`, `.velu-card`, `.velu-callout`, … (internal, may change). |
+| ID selectors | Same names for every feature Velu has: layout, navigation, sidebar, TOC, search, AI assistant, API reference, feedback, page context menu, localization, changelog. Missing: `#banner`, `#page-title`, `#panel`, `#background-color`, `#mobile-nav(-content)`, `#search-bar-entry-mobile`, `#assistant-entry-mobile`, code-block, multi-view and text-selection IDs — see [ID selectors](#id-selectors). |
+| Element selectors (`card`, `callout`, `code-block`, `steps`, `toc-item`, `sidebar-group`, …) | Same tags. Roots that stay native HTML (`accordion`, `nav-tabs-item`, `pagination-prev`, `tryit-button`, …) are `[data-component="name"]` instead — see [Element selectors](#element-selectors). |
+| Element selectors for features Velu lacks (`tabs`, `tooltip`, `tile`, `mermaid`, `expandable`, `panel`, `directory-*`, `color-*`, `multi-view-*`, `code-snippet-feedback-*`, `nav-tag-pill`) | Not available. |
 | `html[data-current-path]` | Same. |
-| `data-active` on sidebar, tabs, and TOC items | Use `a[aria-current="page"]` for sidebar links and tabs, `[data-toc-active]` for TOC items. |
-| `data-component-name`, `data-component-part`, `[data-badge]` | Not available. |
+| `data-active` on sidebar, tabs, TOC and dropdown items; `data-active-deepest` | Same (`aria-current="page"` and `data-toc-active` are set as well). |
+| `data-component-part` card parts | Same. |
+| `data-component-name` | `theme-toggle` only. |
+| `[data-badge]` | Not available. |
 | `window.mintlify.api.playground.setServerVariables()` | Not available. |
 | `window.mintlify.user` and the `mintlify:user` event | Not available. |
 

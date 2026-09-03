@@ -13,3 +13,11 @@ html[data-theme="dark"] .custom-scripts-preview {
   border-color: #0369a1;
   color: #e0f2fe;
 }
+
+/* Element-selector demo, scoped to the custom-scripts page with the
+   html[data-current-path] hook: the callouts on that page get a dashed
+   accent border. Same selectors as Mintlify (callout, card, code-block, ...). */
+html[data-current-path="/configuration/custom-scripts"] callout {
+  border-style: dashed;
+  border-color: var(--accent-color);
+}
