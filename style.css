@@ -1,0 +1,24 @@
+/* Live demo for /docs/configuration/custom-scripts.
+   Any .css file in the project is included on every page. */
+.custom-scripts-preview {
+  border-radius: 1rem;
+  background: #f0f9ff;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid #bae6fd;
+}
+
+html[data-theme="dark"] .custom-scripts-preview {
+  background: #0c4a6e;
+  border-color: #0369a1;
+  color: #e0f2fe;
+}
+
+/* Element-selector demo, scoped to the custom-scripts page with the
+   html[data-current-path] hook: the callouts on that page get a dashed
+   accent border. */
+/* stylelint-disable-next-line selector-type-no-unknown -- Velu custom element */
+html[data-current-path="/configuration/custom-scripts"] callout {
+  border-style: dashed;
+  border-color: var(--accent-color);
+}
