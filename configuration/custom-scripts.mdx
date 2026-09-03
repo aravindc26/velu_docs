@@ -80,16 +80,6 @@ and use it in any page:
 <div className="my-callout">This box is styled by style.css.</div>
 ```
 
-<div className="custom-scripts-preview">
-  This box is styled by this site's own `style.css`: the same auto-include
-  described on this page.
-</div>
-
-The callouts on this page have a dashed accent border for the same reason: the
-site's `style.css` targets them with the `callout` element selector, scoped to
-this page with `html[data-current-path="/configuration/custom-scripts"]`.
-Both hooks are documented below.
-
 You can also restyle the layout itself. For example, the header and footer:
 
 ```css
@@ -449,11 +439,6 @@ gtag('js', new Date());
 
 gtag('config', 'TAG_ID');
 ```
-
-<div id="custom-scripts-js-status">
-  If custom JavaScript is included on this site, this sentence is replaced after
-  the page loads.
-</div>
 
 Files are plain classic scripts, not ES modules: top-level `function` and `var`
 declarations become globals, so snippets like the one above work unchanged.
