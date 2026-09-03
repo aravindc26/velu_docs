@@ -122,7 +122,7 @@ equivalent.
 
   <Accordion title="Navigation">
     - `#navbar`: Top navigation bar: brand, search, actions, and the tabs row.
-    - `#topbar-cta-button`: Call-to-action button in the topbar — the first `kind: "primary"` action.
+    - `#topbar-cta-button`: Call-to-action button in the topbar — the `navbar.primary` button from `velu.json` (not rendered for the GitHub variant, which is an outlined link).
 
     Not in Velu: `#mobile-nav` and `#mobile-nav-content`. On small screens the
     sidebar itself becomes the drawer, so use
@@ -179,7 +179,7 @@ equivalent.
   </Accordion>
 
   <Accordion title="Page context menu">
-    - `#page-context-menu`: Contextual options menu for the current page (Copy page, Markdown, Ask AI).
+    - `#page-context-menu`: Contextual options menu for the current page (the Copy page button and its dropdown).
     - `#page-context-menu-button`: Button that triggers the page context menu.
   </Accordion>
 
@@ -209,7 +209,9 @@ Multiple instances of these elements can appear on a page. Use these as `value`
 in CSS. For example, `card { border: 1px solid red; }`.
 
 Velu renders components as the same custom tags Mintlify uses, so the selectors
-below work verbatim. The one difference: where a component's root must stay a
+below work verbatim. Velu's own stylesheet lives in a CSS cascade layer and
+your custom CSS does not, so a plain `card { }` (low specificity) still
+overrides Velu's `.velu-card` rules without `!important`. The one difference: where a component's root must stay a
 real HTML element for accessibility or behavior — a link, a button, a
 `<details>` disclosure, a list, a text field, a heading — Velu keeps that tag
 and marks it with `data-component="<name>"` instead. Those are listed as
@@ -223,6 +225,15 @@ callout { border-left-width: 4px; }
 /* Root is a native <details>, so it's an attribute selector in Velu */
 [data-component="accordion"] { border: 1px solid red; }
 ```
+
+<Callout type="note">
+  Wrapper elements rendered by Velu's layout primitives — `sidebar-group`,
+  `nav-tabs`, `topbar-right-container`, `card-group`, `columns`,
+  `feedback-toolbar`, `contextual-feedback-container`, `chat-assistant-sheet-header`
+  — set `display` and `gap` inline. Add `!important` to override those two
+  properties; everything else on them, and all properties on the other
+  elements, override normally.
+</Callout>
 
 <AccordionGroup>
   <Accordion title="Content components">
@@ -302,6 +313,10 @@ callout { border-left-width: 4px; }
   <Accordion title="Table of contents">
     - `toc`: Table of contents container.
     - `toc-item`: Individual heading entry in the table of contents.
+
+    The table of contents positions its rows and rail with inline styles, so
+    `display`, `padding`, `color` and `font-weight` on `toc-item` need
+    `!important` to override; other properties override normally.
   </Accordion>
 
   <Accordion title="Footer">
