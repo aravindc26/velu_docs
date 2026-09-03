@@ -8,14 +8,16 @@ Use custom CSS and JavaScript to fully customize the look and behavior of your
 documentation. Every `.css` and `.js` file inside your project (the folder that holds `velu.json`, at any depth) is included on **every page**. You don't
 import the files or list them in `velu.json`.
 
-```
-my-docs/
-  velu.json
-  style.css            # linked on every page
-  scripts/
-    analytics.js       # runs on every page after it loads
-  quickstart.mdx
-```
+<Tree>
+  <Folder name="my-docs" icon="folder" defaultOpen={true}>
+    <File name="velu.json" icon="settings" />
+    <File name="style.css" icon="palette" />
+    <Folder name="scripts" icon="folder" defaultOpen={true}>
+      <File name="analytics.js" icon="file-code" />
+    </Folder>
+    <File name="quickstart.mdx" icon="file-text" />
+  </Folder>
+</Tree>
 
 ## Style with Tailwind CSS
 
