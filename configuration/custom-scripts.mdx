@@ -457,29 +457,12 @@ gtag('config', 'TAG_ID');
 
 Files are plain classic scripts, not ES modules: top-level `function` and `var`
 declarations become globals, so snippets like the one above work unchanged.
-Only `.js` files are included: keep Node-side helpers as `.mjs` or `.cjs` if
-they live in the project.
 
 <Callout type="warning">
   Custom scripts run with full access to the page. Only include code you trust,
   and never put API keys, tokens, or other secrets in them: every visitor can
   read them.
 </Callout>
-
-### Which files are included
-
-Velu scans the folder containing `velu.json`, at any depth, and skips:
-
-- folders starting with a dot (`.git`, `.velu`, …)
-- `node_modules/`
-- `public/`: those files are copied to the site root as-is, so reference them
-  yourself
-- the build output folder
-
-Each file is served from `/@velu-custom/<path>?v=<content-hash>`. The hash
-changes with the file, so an edit is never served from a stale cache. In
-`velu dev`, adding, editing, or removing a file reloads the preview
-automatically.
 
 ## Related topics
 
