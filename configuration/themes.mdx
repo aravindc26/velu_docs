@@ -62,11 +62,12 @@ stylesheet or a script.
 Use the exact family name as it appears on Google Fonts, for example `"Roboto
 Mono"` or `"IBM Plex Sans"`.
 
-## No custom CSS or JavaScript
+## Beyond colors and fonts
 
-Theming is limited to the `colors` and `font` fields. Velu does not support
-injecting custom CSS or custom JavaScript, so the two themes stay consistent and
-the site keeps working across releases.
+When `colors` and `font` aren't enough, add a `.css` file to your project — Velu
+includes it on every page, after its own styles, so your rules win. The same
+goes for `.js` files. See [Custom scripts](/docs/configuration/custom-scripts)
+for the stable selectors you can target and how scripts are loaded.
 
 See [Global settings](/docs/configuration/settings) for the full `velu.json`
 reference, including the logo and favicon that sit alongside these theme fields.

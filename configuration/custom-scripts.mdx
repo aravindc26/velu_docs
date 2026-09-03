@@ -1,0 +1,293 @@
+---
+title: "Custom scripts"
+description: "Add custom CSS and JavaScript for analytics, widgets, styling, and third-party integrations on your documentation site."
+keywords: ["custom css", "custom javascript", "custom scripts", "style.css", "analytics", "layout ids"]
+---
+
+Use custom CSS and JavaScript to fully customize the look and behavior of your
+documentation. Every `.css` and `.js` file inside your project — the folder
+that holds `velu.json`, at any depth — is included on **every page**. You don't
+import the files or list them in `velu.json`.
+
+```
+my-docs/
+  velu.json
+  style.css            # linked on every page
+  scripts/
+    analytics.js       # runs on every page after it loads
+  quickstart.mdx
+```
+
+This is the same convention as
+[custom scripts on Mintlify](https://www.mintlify.com/docs/customize/custom-scripts),
+so existing `style.css` or `ga.js` files carry over as they are. The
+[Mintlify comparison](#coming-from-mintlify) at the end lists what differs.
+
+## Style with inline styles
+
+Velu does not support Tailwind CSS classes in MDX — the utility classes are not
+generated for your content. For one-off tweaks, use the `style` prop; for
+anything reused, define a class in a custom CSS file instead.
+
+```html
+<img style={{ width: '350px', margin: '12px auto' }} src="/images/diagram.png" />
+```
+
+<Callout type="note">
+  Inline `style` props apply after the page renders and can cause a small layout
+  shift. Prefer classes from a custom CSS file to avoid shifts or flickering.
+</Callout>
+
+## Add custom CSS
+
+Create a `.css` file anywhere in your project. Velu links it from the `<head>`
+of every page **after** its own stylesheet and after the `colors` and `font`
+overrides from `velu.json`, so your rules win the cascade without `!important`.
+Because the link is in the server-rendered HTML there is no flash of unstyled
+content.
+
+Any class names, ID selectors, or element selectors you define become available
+across all of your MDX files. For example, define a class in `style.css`:
+
+```css
+.my-callout {
+  border-radius: 1rem;
+  background: #f0f9ff;
+  padding: 1rem;
+}
+```
+
+and use it in any page:
+
+```mdx
+<div className="my-callout">This box is styled by style.css.</div>
+```
+
+<div className="custom-scripts-preview">
+  This box is styled by this site's own `style.css` — the same auto-include
+  described on this page.
+</div>
+
+You can also restyle the layout itself. For example, the header and footer:
+
+```css
+#navbar {
+  background: #fffff2;
+  padding: 1rem;
+}
+
+#footer {
+  margin-top: 2rem;
+}
+```
+
+<Callout type="warning">
+  The internal `velu-` class names (`.velu-callout`, `.velu-card`, …) can change
+  between releases. Use the stable ID selectors and data attributes below for
+  the layout, and treat component classes as a last resort.
+</Callout>
+
+### ID selectors
+
+Each ID appears once per page. Use them as `#value` in CSS, for example
+`#navbar { background: red; }`. The names match Mintlify's ID selectors, so
+stylesheets written for Mintlify keep working.
+
+**Page layout**
+
+| Selector | Element |
+| --- | --- |
+| `#content-area` | The primary `<main>` column, excluding the sidebar and table of contents. |
+| `#content` | The article inside the content area: title, description, prose, feedback, pagination. |
+| `#footer` | The site footer. Rendered only when `footer.links` is set in `velu.json`. |
+| `#pagination` | The previous / next page links at the bottom of a page. |
+
+**Navigation**
+
+| Selector | Element |
+| --- | --- |
+| `#navbar` | The top header: brand, search, actions, and the tabs row. |
+| `#search-bar-entry` | The search button in the header. |
+| `#assistant-entry` | The Ask AI button in the header (published sites only). |
+
+**Sidebar**
+
+| Selector | Element |
+| --- | --- |
+| `#sidebar` | The left navigation panel. On small screens this is also the drawer. |
+| `#sidebar-content` | The scrollable page list inside the sidebar. |
+
+**Table of contents**
+
+| Selector | Element |
+| --- | --- |
+| `#table-of-contents` | The right-hand table of contents panel. |
+
+Use your browser's inspector to find anything else. Mintlify IDs with no Velu
+equivalent — `#banner`, `#page-title`, `#topbar-cta-button`, `#mobile-nav`,
+the `#feedback-*`, `#chat-assistant-*`, `#api-playground-*`, and code-block
+IDs — are listed in the [comparison](#coming-from-mintlify) below.
+
+### Element selectors
+
+Velu does not render components as custom elements, so Mintlify-style element
+selectors such as `accordion { }` or `card { }` have no effect. Components
+render as regular HTML with `velu-` prefixed classes:
+
+```css
+/* Mintlify: card { border: 1px solid red; } */
+.velu-card {
+  border: 1px solid red;
+}
+```
+
+These classes are internal and may change; check the inspector after upgrading
+Velu.
+
+### Data attributes
+
+Some elements expose attributes you can use as CSS selectors.
+
+**Current path** (`data-current-path`) — the `<html>` element carries the
+current route, and it is kept in sync on client-side navigation. Use it to
+scope rules to one page or a whole section:
+
+```css
+/* The root page */
+html[data-current-path="/"] #table-of-contents {
+  display: none;
+}
+
+/* A specific page */
+html[data-current-path="/quickstart"] #navbar {
+  background: #fffff2;
+}
+
+/* Every page under a section */
+html[data-current-path^="/api-reference/"] #sidebar {
+  --accent-color: #0ea5e9;
+}
+```
+
+**Theme** (`data-theme`) — `<html>` carries `data-theme="light"` or
+`data-theme="dark"`. Add dark-mode variants of your rules with it:
+
+```css
+.my-callout {
+  background: #f0f9ff;
+}
+html[data-theme="dark"] .my-callout {
+  background: #0c1a2b;
+}
+```
+
+**Active state** — the current page and section are marked with standard
+attributes rather than Mintlify's `data-active`:
+
+| Selector | Meaning |
+| --- | --- |
+| `#sidebar-content a[aria-current="page"]` | The active sidebar link. |
+| `#navbar a[aria-current="page"]` | The active top-level tab. |
+| `#table-of-contents [data-toc-active]` | The active heading in the table of contents. |
+
+## Custom JavaScript
+
+Custom JavaScript lets you add executable code globally. It is the equivalent of
+adding a `<script>` tag with your code to every page.
+
+Velu includes any `.js` file inside your project on every page. Scripts run
+**after the page becomes interactive** — once the server-rendered HTML has
+hydrated — so they can read and change the DOM safely. They run once per full
+page load and do not re-run on client-side navigation; when several files are
+present they run in path order (`a.js`, then `scripts/b.js`).
+
+To load a third-party script, inject a `<script>` element from your custom
+JavaScript file instead of adding raw `<script>` tags in MDX:
+
+```js
+const script = document.createElement('script');
+script.src = 'https://example.com/widget.js';
+script.async = true;
+document.head.appendChild(script);
+```
+
+For example, add the following `ga.js` file to enable Google Analytics across
+your entire site:
+
+```js
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+  dataLayer.push(arguments);
+}
+gtag('js', new Date());
+
+gtag('config', 'TAG_ID');
+```
+
+<div id="custom-scripts-js-status">
+  If custom JavaScript is included on this site, this sentence is replaced after
+  the page loads.
+</div>
+
+Files are plain classic scripts, not ES modules: top-level `function` and `var`
+declarations become globals, so snippets like the one above work unchanged.
+Only `.js` files are included — keep Node-side helpers as `.mjs` or `.cjs` if
+they live in the project.
+
+<Callout type="warning">
+  Custom scripts run with full access to the page. Only include code you trust,
+  and never put API keys, tokens, or other secrets in them — every visitor can
+  read them.
+</Callout>
+
+### Which files are included
+
+Velu scans the folder containing `velu.json`, at any depth, and skips:
+
+- folders starting with a dot (`.git`, `.velu`, …)
+- `node_modules/`
+- `public/` — those files are copied to the site root as-is, so reference them
+  yourself
+- the build output folder
+
+Each file is served from `/@velu-custom/<path>?v=<content-hash>`. The hash
+changes with the file, so an edit is never served from a stale cache. In
+`velu dev`, adding, editing, or removing a file reloads the preview
+automatically.
+
+### Set API playground server variables
+
+Not available. Velu has no `window.mintlify.api.playground.setServerVariables`
+equivalent; the API playground reads its base URL from `api.baseUrl` in
+`velu.json`.
+
+### Access personalized user data
+
+Not available. Velu does not expose a `window.mintlify.user` object or a
+`mintlify:user` event. Private documentation uses a password gate with no
+per-visitor profile, so there is no user data for scripts to read.
+
+## Coming from Mintlify
+
+| Mintlify feature | Velu |
+| --- | --- |
+| `.css` files in the content directory are included on every page | Same. |
+| `.js` files in the content directory run on every page | Same — after hydration, once per page load, in path order. |
+| Tailwind CSS classes in MDX | Not supported. Use the `style` prop or a class from a custom CSS file. |
+| ID selectors: `#navbar`, `#sidebar`, `#sidebar-content`, `#content-area`, `#content`, `#table-of-contents`, `#pagination`, `#footer`, `#search-bar-entry`, `#assistant-entry` | Same names. |
+| Other ID selectors (`#banner`, `#page-title`, `#topbar-cta-button`, `#mobile-nav`, `#feedback-*`, `#chat-assistant-*`, `#api-playground-input`, code-block and changelog IDs) | Not available. Use the inspector and `velu-` classes. |
+| Element selectors (`accordion`, `card`, `callout`, …) | Not available. Use `.velu-accordion`, `.velu-card`, `.velu-callout`, … (internal, may change). |
+| `html[data-current-path]` | Same. |
+| `data-active` on sidebar, tabs, and TOC items | Use `a[aria-current="page"]` for sidebar links and tabs, `[data-toc-active]` for TOC items. |
+| `data-component-name`, `data-component-part`, `[data-badge]` | Not available. |
+| `window.mintlify.api.playground.setServerVariables()` | Not available. |
+| `window.mintlify.user` and the `mintlify:user` event | Not available. |
+
+Everything that relies on standard browser APIs — analytics snippets, widget
+loaders, DOM tweaks — works without changes.
+
+## Related topics
+
+- [Themes](/docs/configuration/themes) — accent colors, fonts, and light/dark mode.
+- [Global settings](/docs/configuration/settings) — the full `velu.json` reference.
+- [Images & embeds](/docs/writing/images) — static assets in `public/`.
