@@ -4,7 +4,7 @@ description: "Configure your site's name, colors, logo, fonts, and chrome in vel
 ---
 
 `velu.json` at the root of your project defines your entire site: its identity,
-theme, navigation, and integrations. Only `name` is required — everything else
+theme, navigation, and integrations. Only `name` is required: everything else
 has a sensible default.
 
 ```json
@@ -69,7 +69,7 @@ Velu accepts `.svg`, `.ico`, `.png`, `.jpg`, `.gif`, `.webp`, and `.avif`.
 
 ### colors
 
-`colors.primary` is the accent used across the interface — links, active
+`colors.primary` is the accent used across the interface: links, active
 navigation, and buttons. Add `light` and `dark` to override the accent per theme;
 both fall back to `primary`.
 
@@ -93,7 +93,9 @@ loads it automatically and applies it as the body font.
 ```
 
 See [Themes](/docs/configuration/themes) for the full theming reference, including
-dark mode behavior.
+dark mode behavior. For anything beyond colors and fonts, any `.css` or `.js`
+file in your project is included on every page: see
+[Custom scripts](/docs/configuration/custom-scripts).
 
 ## Header and footer
 
@@ -113,9 +115,9 @@ header.
 }
 ```
 
-- `links[]` — secondary links, each with an `href` and optional `label` and
+- `links[]`: secondary links, each with an `href` and optional `label` and
   `icon` (a [Lucide](https://lucide.dev/icons) icon name).
-- `primary` — the highlighted button. Use `{ "type": "button", "label", "href" }`
+- `primary`: the highlighted button. Use `{ "type": "button", "label", "href" }`
   for a labeled button, or `{ "type": "github", "href" }` to render a GitHub
   button (label defaults to "GitHub").
 
@@ -137,9 +139,9 @@ The `footer` holds social icons and up to four columns of links.
 }
 ```
 
-- `socials` — a map of platform to URL. Recognized icons: `github`, `x` (aliases
+- `socials`: a map of platform to URL. Recognized icons: `github`, `x` (aliases
   `twitter`, `x-twitter`), `youtube`, and `linkedin`.
-- `links[]` — up to four columns, each with a `header` and a list of `items`.
+- `links[]`: up to four columns, each with a `header` and a list of `items`.
 
 ## Configuration reference
 

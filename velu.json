@@ -59,6 +59,7 @@
               "configuration/settings",
               "configuration/navigation",
               "configuration/themes",
+              "configuration/custom-scripts",
               "configuration/seo"
             ]
           },

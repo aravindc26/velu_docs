@@ -4,7 +4,7 @@ description: "Set your accent colors and font, and control light and dark mode."
 ---
 
 Velu ships with a light and a dark theme. You control the look with two fields in
-`velu.json` — `colors` and `font` — and readers switch between light and dark
+`velu.json` (`colors` and `font`) and readers switch between light and dark
 with the sun/moon toggle in the header.
 
 ## Light and dark mode
@@ -12,7 +12,7 @@ with the sun/moon toggle in the header.
 Every site supports both themes. On a reader's first visit, Velu follows their
 operating system preference.
 
-Dark mode is on by default and always available — there is no config to turn it
+Dark mode is on by default and always available. There is no config to turn it
 off or to lock the site to a single theme.
 
 <Callout type="note">
@@ -23,7 +23,7 @@ off or to lock the site to a single theme.
 
 ## Colors
 
-`colors.primary` is the accent used across the interface — links, active
+`colors.primary` is the accent used across the interface: links, active
 navigation items, and buttons. It defaults to `#dc143c`.
 
 ```json
@@ -52,7 +52,7 @@ dark mode.
 ## Font
 
 `font.family` is any [Google Font](https://fonts.google.com) family name. Velu
-loads the font automatically and applies it as the body font — you don't add a
+loads the font automatically and applies it as the body font: you don't add a
 stylesheet or a script.
 
 ```json
@@ -62,11 +62,12 @@ stylesheet or a script.
 Use the exact family name as it appears on Google Fonts, for example `"Roboto
 Mono"` or `"IBM Plex Sans"`.
 
-## No custom CSS or JavaScript
+## Beyond colors and fonts
 
-Theming is limited to the `colors` and `font` fields. Velu does not support
-injecting custom CSS or custom JavaScript, so the two themes stay consistent and
-the site keeps working across releases.
+When `colors` and `font` aren't enough, add a `.css` file to your project. Velu
+includes it on every page, after its own styles, so your rules win. The same
+goes for `.js` files. See [Custom scripts](/docs/configuration/custom-scripts)
+for the stable selectors you can target and how scripts are loaded.
 
 See [Global settings](/docs/configuration/settings) for the full `velu.json`
 reference, including the logo and favicon that sit alongside these theme fields.

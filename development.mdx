@@ -42,13 +42,13 @@ velu dev ./my-docs
 ## What reloads automatically
 
 - Editing any `.mdx` page reloads that page.
-- Editing `velu.json` — colors, font, favicon, or navigation — re-renders the
+- Editing `velu.json` (colors, font, favicon, or navigation) re-renders the
   whole site.
 - Adding or removing a page file updates the route map.
 
 ## Catch errors as you write
 
-The dev server surfaces problems inline as you edit — a page that fails to
+The dev server surfaces problems inline as you edit. A page that fails to
 compile, an unknown component, or a bad component prop shows an error in the
 browser instead of the rendered page. Fix it and save, and the page reloads.
 
@@ -63,10 +63,9 @@ browser instead of the rendered page. Fix it and save, and the page reloads.
 A couple of features only run on published sites, because they're generated at
 build time on Velu's platform:
 
-- **Full-text search** — the dev preview shows a search box, but the index is
+- **Full-text search**: the dev preview shows a search box, but the index is
   built when your site deploys. See [Search](/docs/ai/search).
 - **The Ask AI assistant** answers with a canned response locally. It connects to
   your live content once published. See [Ask AI](/docs/ai/ask-ai).
 
-Everything else — theming, navigation, components, the API playground, and the
-`llms.txt` and Markdown export endpoints — works in local preview.
+Everything else (theming, navigation, components, the API playground, and the `llms.txt` and Markdown export endpoints) works in local preview.
