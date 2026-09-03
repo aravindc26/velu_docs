@@ -18,11 +18,33 @@ my-docs/
   quickstart.mdx
 ```
 
-## Style with inline styles
+## Style with Tailwind CSS
 
-Velu does not support Tailwind CSS classes in MDX — the utility classes are not
-generated for your content. For one-off tweaks, use the `style` prop; for
-anything reused, define a class in a custom CSS file instead.
+Use Tailwind CSS utility classes on HTML elements in MDX to control layout,
+spacing, colors, and other visual properties. Common classes:
+
+- `w-full` — full width
+- `aspect-video` — 16:9 aspect ratio
+- `rounded-xl` — large rounded corners
+- `block`, `hidden` — display control
+- `dark:hidden`, `dark:block` — dark-mode visibility (tied to Velu's
+  `html[data-theme]` toggle)
+
+```html
+<img className="w-full rounded-xl" src="/images/diagram.png" alt="" />
+```
+
+```html
+<div className="hidden dark:block">Shown only in dark mode</div>
+```
+
+You can combine Tailwind utilities with classes from a custom CSS file on the
+same element.
+
+### Inline styles
+
+For one-off values that aren't covered by a utility, use the `style` prop, or
+define a class in a custom CSS file for anything you reuse.
 
 ```html
 <img style={{ width: '350px', margin: '12px auto' }} src="/images/diagram.png" />
@@ -30,7 +52,8 @@ anything reused, define a class in a custom CSS file instead.
 
 <Callout type="note">
   Inline `style` props apply after the page renders and can cause a small layout
-  shift. Prefer classes from a custom CSS file to avoid shifts or flickering.
+  shift. Prefer Tailwind utilities or classes from a custom CSS file to avoid
+  shifts or flickering.
 </Callout>
 
 ## Add custom CSS
