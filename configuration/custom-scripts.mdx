@@ -5,8 +5,7 @@ keywords: ["custom css", "custom javascript", "custom scripts", "style.css", "an
 ---
 
 Use custom CSS and JavaScript to fully customize the look and behavior of your
-documentation. Every `.css` and `.js` file inside your project — the folder
-that holds `velu.json`, at any depth — is included on **every page**. You don't
+documentation. Every `.css` and `.js` file inside your project (the folder that holds `velu.json`, at any depth) is included on **every page**. You don't
 import the files or list them in `velu.json`.
 
 ```
@@ -23,11 +22,11 @@ my-docs/
 Use Tailwind CSS utility classes on HTML elements in MDX to control layout,
 spacing, colors, and other visual properties. Common classes:
 
-- `w-full` — full width
-- `aspect-video` — 16:9 aspect ratio
-- `rounded-xl` — large rounded corners
-- `block`, `hidden` — display control
-- `dark:hidden`, `dark:block` — dark-mode visibility (tied to Velu's
+- `w-full`: full width
+- `aspect-video`: 16:9 aspect ratio
+- `rounded-xl`: large rounded corners
+- `block`, `hidden`: display control
+- `dark:hidden`, `dark:block`: dark-mode visibility (tied to Velu's
   `html[data-theme]` toggle)
 
 ```html
@@ -82,11 +81,11 @@ and use it in any page:
 ```
 
 <div className="custom-scripts-preview">
-  This box is styled by this site's own `style.css` — the same auto-include
+  This box is styled by this site's own `style.css`: the same auto-include
   described on this page.
 </div>
 
-The callouts on this page have a dashed accent border for the same reason — the
+The callouts on this page have a dashed accent border for the same reason: the
 site's `style.css` targets them with the `callout` element selector, scoped to
 this page with `html[data-current-path="/configuration/custom-scripts"]`.
 Both hooks are documented below.
@@ -107,7 +106,7 @@ You can also restyle the layout itself. For example, the header and footer:
 <Callout type="warning">
   The internal `velu-` class names (`.velu-card`, `.velu-sidebar__item`, …) can
   change between releases. Use the ID selectors, element selectors, and data
-  attributes below — they are the stable, supported hooks.
+  attributes below: they are the stable, supported hooks.
 </Callout>
 
 Velu exposes two types of CSS targeting hooks:
@@ -133,7 +132,7 @@ Each ID appears once per page. Use these as `#value` in CSS. For example,
 
   <Accordion title="Navigation">
     - `#navbar`: Top navigation bar: brand, search, actions, and the tabs row.
-    - `#topbar-cta-button`: Call-to-action button in the topbar — the `navbar.primary` button from `velu.json` (not rendered for the GitHub variant, which is an outlined link).
+    - `#topbar-cta-button`: Call-to-action button in the topbar: the `navbar.primary` button from `velu.json` (not rendered for the GitHub variant, which is an outlined link).
 
     On small screens the sidebar itself becomes the drawer. Target it with
     `#body-content[data-drawer-open="true"] #sidebar` and `#sidebar-content`.
@@ -204,8 +203,8 @@ a CSS cascade layer and your custom CSS does not, so a plain `card { }` (low
 specificity) still overrides Velu's `.velu-card` rules without `!important`.
 
 Where a component's root must stay a real HTML element for accessibility or
-behavior — a link, a button, a `<details>` disclosure, a list, a text field, a
-heading — Velu keeps that tag and marks it with `data-component="<name>"`
+behavior (a link, a button, a `<details>` disclosure, a list, a text field, a
+heading), Velu keeps that tag and marks it with `data-component="<name>"`
 instead. Those are listed as `[data-component="…"]` below; everything else is
 a plain element selector.
 
@@ -218,12 +217,12 @@ callout { border-left-width: 4px; }
 ```
 
 <Callout type="note">
-  Wrapper elements rendered by Velu's layout primitives — `sidebar-group`,
+  Wrapper elements rendered by Velu's layout primitives (`sidebar-group`,
   `nav-tabs`, `topbar-right-container`, `card-group`, `columns`,
-  `feedback-toolbar`, `contextual-feedback-container`, `chat-assistant-sheet-header`
-  — set `display` and `gap` inline. Add `!important` to override those two
-  properties; everything else on them, and all properties on the other
-  elements, override normally.
+  `feedback-toolbar`, `contextual-feedback-container`,
+  `chat-assistant-sheet-header`) set `display` and `gap` inline. Add
+  `!important` to override those two properties; everything else on them, and
+  all properties on the other elements, override normally.
 </Callout>
 
 <AccordionGroup>
@@ -376,7 +375,7 @@ Some elements expose data attributes you can use as CSS selectors.
 
 - `[data-component-name="theme-toggle"]`: The light/dark theme toggle.
 
-**Component part** (`data-component-part`) — card parts:
+**Component part** (`data-component-part`): card parts:
 
 - `[data-component-part="card-content-container"]`: Inner wrapper around a card's content.
 - `[data-component-part="card-icon"]`: Icon within a card.
@@ -385,7 +384,7 @@ Some elements expose data attributes you can use as CSS selectors.
 - `[data-component-part="card-image"]`: Image displayed at the top of a card.
 - `[data-component-part="card-cta"]`: Call-to-action label within a card.
 
-**Current path** (`data-current-path`) — the `<html>` element carries the
+**Current path** (`data-current-path`): the `<html>` element carries the
 current route, kept in sync on client-side navigation. Use it to scope rules to
 one page or a whole section:
 
@@ -406,7 +405,7 @@ html[data-current-path^="/api-reference/"] #sidebar {
 }
 ```
 
-**Theme** (`data-theme`) — `<html>` carries `data-theme="light"` or
+**Theme** (`data-theme`), `<html>` carries `data-theme="light"` or
 `data-theme="dark"`. Add dark-mode variants of your rules with it:
 
 ```css
@@ -424,8 +423,7 @@ Custom JavaScript lets you add executable code globally. It is the equivalent of
 adding a `<script>` tag with your code to every page.
 
 Velu includes any `.js` file inside your project on every page. Scripts run
-**after the page becomes interactive** — once the server-rendered HTML has
-hydrated — so they can read and change the DOM safely. They run once per full
+**after the page becomes interactive** (once the server-rendered HTML has hydrated) so they can read and change the DOM safely. They run once per full
 page load and do not re-run on client-side navigation; when several files are
 present they run in path order (`a.js`, then `scripts/b.js`).
 
@@ -459,12 +457,12 @@ gtag('config', 'TAG_ID');
 
 Files are plain classic scripts, not ES modules: top-level `function` and `var`
 declarations become globals, so snippets like the one above work unchanged.
-Only `.js` files are included — keep Node-side helpers as `.mjs` or `.cjs` if
+Only `.js` files are included: keep Node-side helpers as `.mjs` or `.cjs` if
 they live in the project.
 
 <Callout type="warning">
   Custom scripts run with full access to the page. Only include code you trust,
-  and never put API keys, tokens, or other secrets in them — every visitor can
+  and never put API keys, tokens, or other secrets in them: every visitor can
   read them.
 </Callout>
 
@@ -474,7 +472,7 @@ Velu scans the folder containing `velu.json`, at any depth, and skips:
 
 - folders starting with a dot (`.git`, `.velu`, …)
 - `node_modules/`
-- `public/` — those files are copied to the site root as-is, so reference them
+- `public/`: those files are copied to the site root as-is, so reference them
   yourself
 - the build output folder
 
@@ -485,6 +483,6 @@ automatically.
 
 ## Related topics
 
-- [Themes](/docs/configuration/themes) — accent colors, fonts, and light/dark mode.
-- [Global settings](/docs/configuration/settings) — the full `velu.json` reference.
-- [Images & embeds](/docs/writing/images) — static assets in `public/`.
+- [Themes](/docs/configuration/themes): accent colors, fonts, and light/dark mode.
+- [Global settings](/docs/configuration/settings): the full `velu.json` reference.
+- [Images & embeds](/docs/writing/images): static assets in `public/`.

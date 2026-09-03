@@ -17,6 +17,7 @@ html[data-theme="dark"] .custom-scripts-preview {
 /* Element-selector demo, scoped to the custom-scripts page with the
    html[data-current-path] hook: the callouts on that page get a dashed
    accent border. */
+/* stylelint-disable-next-line selector-type-no-unknown -- Velu custom element */
 html[data-current-path="/configuration/custom-scripts"] callout {
   border-style: dashed;
   border-color: var(--accent-color);

@@ -13,7 +13,7 @@ from its frontmatter `title`.
 
 ## Pages
 
-The smallest navigation is a `pages` array — a flat, ordered list:
+The smallest navigation is a `pages` array: a flat, ordered list:
 
 ```json
 {
@@ -60,7 +60,7 @@ its own `pages`, and can show a [Lucide](https://lucide.dev/icons) `icon`.
 ### Nested groups
 
 Nest a group inside another group's `pages` to create a sub-section. Keep the
-hierarchy shallow — one or two levels is usually enough.
+hierarchy shallow: one or two levels is usually enough.
 
 ```json
 {
@@ -79,7 +79,7 @@ hierarchy shallow — one or two levels is usually enough.
 ## Tabs
 
 Tabs split your site into top-level sections, each with its own sidebar. Use them
-to separate audiences or content types — for example, product guides and
+to separate audiences or content types: for example, product guides and
 platform documentation.
 
 ```json
@@ -133,8 +133,7 @@ Velu supports several organizing layers. From outermost to innermost:
 **products → versions → languages → tabs → groups → pages**
 
 Every layer is optional, and you start at whichever layer you need. Most sites
-use groups, or tabs containing groups. The switchable layers — products,
-versions, and languages — add a selector to the interface and prefix the URL
+use groups, or tabs containing groups. The switchable layers (products, versions, and languages) add a selector to the interface and prefix the URL
 (for example `/v2/…` or `/fr/…`); the entry marked `"default": true` stays
 unprefixed.
 

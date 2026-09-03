@@ -5,7 +5,7 @@ description: "Serve AI-readable Markdown twins, llms.txt, and discovery headers 
 
 Every Velu site publishes an AI-readable copy of its content alongside the HTML.
 AI tools and agents can fetch the raw Markdown of any page, a site index, or the
-entire site as plain text — so they index and quote your docs accurately instead
+entire site as plain text: so they index and quote your docs accurately instead
 of scraping rendered HTML. Nothing to configure; it's generated for you.
 
 ## Markdown twins
@@ -27,7 +27,7 @@ curl -H "Accept: text/markdown" https://docs.acme.com/quickstart
 
 ## Site index: llms.txt
 
-`/llms.txt` is an index of your site written for LLMs — the site name and a list
+`/llms.txt` is an index of your site written for LLMs: the site name and a list
 of every page with its title, URL, and description:
 
 ```text
@@ -39,7 +39,7 @@ relevant, then fetches the individual Markdown twins it needs.
 
 ## Full content: llms-full.txt
 
-`/llms-full.txt` is every page's Markdown concatenated into a single document —
+`/llms-full.txt` is every page's Markdown concatenated into a single document,
 the whole site in one request:
 
 ```text

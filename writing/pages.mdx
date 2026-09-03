@@ -25,7 +25,7 @@ one and send it.
 ...
 ```
 
-`title` is required. `description` is recommended — it's used as the page's meta
+`title` is required. `description` is recommended: it's used as the page's meta
 description, its social card summary, and the subtitle under the page heading.
 
 ## The page hero
@@ -59,8 +59,7 @@ See [SEO & metadata](/docs/configuration/seo) for how the SEO fields behave.
 
 ## Show a page in the navigation
 
-Writing a file doesn't put it in the sidebar. Add the page's path — relative to
-the project root, without the `.mdx` extension — to a group's `pages` array in
+Writing a file doesn't put it in the sidebar. Add the page's path (relative to the project root, without the `.mdx` extension) to a group's `pages` array in
 `velu.json`.
 
 ```json
@@ -78,7 +77,7 @@ and anchors.
 
 A page with `hidden: true` still builds and is reachable by its URL, but it
 doesn't appear in the sidebar and you don't need to list it in `pages`. Use it
-for pages you link to directly — a beta feature, a landing page, or a page
+for pages you link to directly: a beta feature, a landing page, or a page
 referenced only from another page.
 
 ```mdx
