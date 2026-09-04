@@ -30,9 +30,11 @@ description, its social card summary, and the subtitle under the page heading.
 
 ## The page hero
 
-You don't write an H1 yourself. Velu renders the page hero automatically from the
-frontmatter: the `title` becomes the top-level heading and the `description`
-renders as the subtitle beneath it. Start your content with `##` headings.
+You don't write an H1 yourself on standard pages. Velu renders the page hero
+automatically from the frontmatter: the `title` becomes the top-level heading and
+the `description` renders as the subtitle beneath it. Start your content with
+`##` headings. Custom and frame modes skip the automatic hero so the MDX can
+own the layout.
 
 ## Supported frontmatter
 
@@ -42,8 +44,10 @@ These are the frontmatter fields Velu reads:
 | --- | --- | --- |
 | `title` | string (required) | Page heading and sidebar label. |
 | `description` | string | Subtitle, meta description, and social summary. |
+| `mode` | string | Page layout. One of `default`, `wide`, `custom`, `frame`, `center`, `assistant`. |
 | `hidden` | boolean | Build the page but keep it out of the sidebar. |
 | `noindex` | boolean | Ask crawlers not to index the page. |
+| `hidePagination` | boolean | Hide previous/next links at the bottom of the page. |
 | `keywords` | string or array | SEO keyword terms. |
 | `canonical` | string | Canonical URL for the page. |
 | `robots` | string | Raw `robots` directive. |
@@ -52,10 +56,28 @@ These are the frontmatter fields Velu reads:
 See [SEO & metadata](/docs/configuration/seo) for how the SEO fields behave.
 
 <Callout type="warning">
-  `sidebarTitle`, `mode`, `tag`, and `icon` are **not** supported as page
+  `sidebarTitle`, `tag`, and `icon` are **not** supported as page
   frontmatter. The sidebar label always comes from `title`. If you need a
   shorter label in the sidebar, shorten the `title`.
 </Callout>
+
+## Page mode
+
+`mode` controls which chrome surrounds the page. If you omit it, Velu uses the
+standard layout: sidebar, table of contents, and footer.
+
+```mdx
+---
+title: "Release notes"
+description: "What shipped this month."
+mode: "center"
+---
+```
+
+See [Page modes](/docs/writing/page-modes) for the chrome table and when to use
+each layout. **Custom** and **frame** hide the automatic page hero so you
+can build the layout in MDX. **Assistant** replaces the page body with a
+full-screen chat.
 
 ## Show a page in the navigation
 

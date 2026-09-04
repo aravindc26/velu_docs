@@ -1,0 +1,113 @@
+---
+title: "Page modes"
+description: "Choose a layout per page with the mode frontmatter field."
+---
+
+`mode` in a page's frontmatter controls which chrome surrounds the body: sidebar,
+table of contents, footer, and the automatic title hero. Set it per page. If you
+omit it, or pass a value Velu doesn't recognize, the page uses `default`.
+
+```yaml
+---
+title: "Release notes"
+description: "What shipped this month."
+mode: "center"
+---
+```
+
+## Chrome by mode
+
+| Mode | Sidebar | Table of contents | Footer | Page hero | Best for |
+| --- | --- | --- | --- | --- | --- |
+| `default` | Yes | Yes | Yes | Yes | Guides and reference |
+| `wide` | Yes | No | Yes | Yes | Tables, diagrams, extra width |
+| `custom` | No | No | No | No | Landing pages |
+| `frame` | Yes | No | Yes | No | A custom canvas that still needs the sidebar |
+| `center` | No | No | Yes | Yes | Changelogs and focused reading |
+| `assistant` | No | No | No | No | A dedicated Ask AI page |
+
+## Default
+
+Standard docs layout: sidebar on the left, article in the center, table of
+contents on the right. Start the body at `##` — Velu renders the H1 from
+`title`.
+
+## Wide
+
+Keeps the sidebar and footer. Hides the table of contents so the article can
+grow, but leaves the right-hand gutter in place so the page doesn't flush to
+the viewport.
+
+Use it for wide tables, diagrams, or pages with few headings.
+
+```yaml
+---
+title: "API error codes"
+mode: "wide"
+---
+```
+
+## Custom
+
+Navbar only. No sidebar, table of contents, footer, or tabs row. Velu also skips
+the automatic title hero, so write your own heading in the MDX. The body sits in
+a centered canvas.
+
+Treat this as a landing page: cards, columns, and a headline you control.
+
+```yaml
+---
+title: "Welcome"
+mode: "custom"
+---
+```
+
+## Frame
+
+Custom mode with the sidebar. Same centered canvas and no automatic hero, but
+left navigation stays so the page remains in the docs IA.
+
+```yaml
+---
+title: "Overview"
+mode: "frame"
+---
+```
+
+## Center
+
+Removes the sidebar and table of contents, keeps the footer, and centers the
+article. The page hero still renders from frontmatter. Pair it with
+[`<Update>`](/docs/components/changelog) for a changelog.
+
+```yaml
+---
+title: "Changelog"
+description: "Product updates."
+mode: "center"
+rss: true
+---
+```
+
+## Assistant
+
+Replaces the page body with a full-page Ask AI chat. Navbar stays; sidebar,
+table of contents, footer, and the tabs row do not.
+
+The MDX body is not shown. On a deployed site, Ask AI must be enabled or the
+page shows a disabled search field instead. Local preview uses demo replies.
+
+```yaml
+---
+title: "Ask AI"
+mode: "assistant"
+---
+```
+
+See [Ask AI](/docs/ai/ask-ai) for suggestions, plans, and how the assistant is
+wired on publish.
+
+<Callout type="tip">
+  Custom and assistant hide the header tabs row so the navbar is shorter. Default,
+  wide, frame, and center keep tabs.
+</Callout>
