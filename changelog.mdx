@@ -1,0 +1,33 @@
+---
+title: "Changelog"
+description: "Product updates and announcements."
+mode: "center"
+rss: true
+---
+
+<Update label="September 2026" description="0.2.36" tags={["Added"]}>
+  ### Added
+
+  - [Page modes](/docs/writing/page-modes) — set `mode` in frontmatter to `default`,
+    `wide`, `custom`, `frame`, `center`, or `assistant`
+  - Custom CSS and JS from the project root are included on every page
+</Update>
+
+<Update label="August 2026" description="0.2.33" tags={["Added", "Fixed"]}>
+  ### Added
+
+  - Private docs: generate a login gate from config and keep requests under the
+    site base path
+
+  ### Fixed
+
+  - Prerender no longer crashes when Ask AI uses `__VELU_SAME_ORIGIN__`
+  - Login mark and wordmark stay on one row
+</Update>
+
+<Update label="August 2026" description="0.2.32" tags={["Fixed"]}>
+  ### Fixed
+
+  - Ask AI links no longer double-prefix `/docs` on subpath sites
+  - The mobile drawer and Ask AI sheet close on navigation
+</Update>

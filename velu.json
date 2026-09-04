@@ -24,7 +24,8 @@
         "header": "Product",
         "items": [
           { "label": "Dashboard", "href": "https://docs.getvelu.com" },
-          { "label": "Quickstart", "href": "/docs/quickstart" }
+          { "label": "Quickstart", "href": "/docs/quickstart" },
+          { "label": "Changelog", "href": "/docs/changelog" }
         ]
       },
       {
@@ -68,6 +69,7 @@
             "icon": "pen-line",
             "pages": [
               "writing/pages",
+              "writing/page-modes",
               "writing/writing-with-ai",
               "writing/markdown",
               "writing/code",
@@ -113,6 +115,11 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Changelog",
+        "icon": "megaphone",
+        "pages": ["changelog"]
       }
     ]
   }
