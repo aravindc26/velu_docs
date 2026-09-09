@@ -50,6 +50,7 @@
               "index",
               "quickstart",
               "installation",
+              "migrate-from-mintlify",
               "development"
             ]
           },

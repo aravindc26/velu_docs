@@ -1,0 +1,104 @@
+---
+title: "Migrate from Mintlify"
+description: "Convert a local Mintlify project into a new Velu docs directory with velu migrate mintlify. Beta."
+---
+
+Use `velu migrate mintlify` to move an existing Mintlify docs project into Velu.
+The command creates a **new directory** and leaves your Mintlify source untouched.
+
+<Callout type="warning">
+  Mintlify migration is in **beta**. Behavior and coverage can change. Always
+  run `--dry-run` first and review `VELU-MIGRATION.md` before you publish.
+</Callout>
+
+## Prerequisites
+
+- Node.js 18 or newer
+- The Velu CLI (`npm i -g @veluai/velu` or `npx @veluai/velu`)
+- A local Mintlify project with `docs.json` or legacy `mint.json`
+
+## Migrate
+
+<Steps>
+  <Step title="Preview the migration">
+    Run a dry run first. Velu analyzes the project and prints a report without writing files:
+
+    ```bash
+    velu migrate mintlify ./mintlify-docs --out ./velu-docs --dry-run
+    ```
+  </Step>
+  <Step title="Write the Velu project">
+    When the plan looks right, run the migration for real:
+
+    ```bash
+    velu migrate mintlify ./mintlify-docs --out ./velu-docs
+    ```
+
+    Without `--out`, Velu creates a sibling directory named `<source>-velu`.
+  </Step>
+  <Step title="Validate and preview">
+    ```bash
+    cd velu-docs
+    velu validate .
+    velu dev .
+    ```
+  </Step>
+</Steps>
+
+<Callout type="note">
+  `docs.json` takes precedence when both configs exist. Use
+  `--config mint.json` to select the legacy file.
+</Callout>
+
+## Options
+
+| Option | Behavior |
+| --- | --- |
+| `--dry-run` | Analyze and transform in memory; write nothing |
+| `--json` | Print only the machine-readable report |
+| `--strict` | Refuse to write if any warning or error needs review |
+| `--out <directory>` | Set the destination (must not already exist) |
+| `--config docs.json\|mint.json` | Choose the source config |
+
+Exit codes: `0` completed without compatibility errors, `1` invalid invocation
+or I/O failure, `2` compatibility errors (output is still written unless
+`--strict`), `3` strict mode blocked the write.
+
+## What gets migrated
+
+| Area | Behavior |
+| --- | --- |
+| Config | Maps supported `docs.json` / `mint.json` fields into `velu.json` |
+| Navigation | Keeps groups, tabs, products, versions, languages, and OpenAPI refs |
+| Content | Converts Markdown to MDX and maps common Mintlify components |
+| Assets | Copies images, fonts, media, CSS, and JS into the new project |
+| Custom CSS / JS | Preserves project scripts; reports risks that need review |
+| Mintlify `sequoia` | Maps to Velu's [`vepa`](/docs/configuration/themes#vepa-preset) preset |
+
+Every run writes `VELU-MIGRATION.md` and `velu-migration-report.json` in the
+output. Review those files before you publish.
+
+## After you migrate
+
+1. Install dependencies if `package.json` changed.
+2. Fix anything listed in the migration report.
+3. Preview with `velu dev`, then publish through the
+   [dashboard](/docs/deploy/publishing).
+
+Migration never executes your project scripts, installs packages, or downloads
+remote assets. Features without a Velu equivalent (auth gates, analytics
+integrations, some navigation patterns) are reported for manual follow-up.
+
+## Next steps
+
+<CardGroup>
+  <Card title="Themes" icon="palette" href="/docs/configuration/themes">
+    Configure accents, fonts, and the Vepa layout preset.
+  </Card>
+  <Card title="Local development" icon="play" href="/docs/development">
+    Preview the migrated site with live reload.
+  </Card>
+  <Card title="Publishing" icon="cloud-upload" href="/docs/deploy/publishing">
+    Push to GitHub and ship the new Velu site.
+  </Card>
+</CardGroup>

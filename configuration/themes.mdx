@@ -1,11 +1,43 @@
 ---
 title: "Themes"
-description: "Set your accent colors and font, and control light and dark mode."
+description: "Choose a visual preset, set accent colors and fonts, and control light and dark mode."
 ---
 
-Velu ships with a light and a dark theme. You control the look with two fields in
-`velu.json` (`colors` and `font`) and readers switch between light and dark
-with the sun/moon toggle in the header.
+Velu ships with a light and a dark appearance. You control the look with
+`theme`, `colors`, and `font` in `velu.json`. Readers switch between light and
+dark with the theme control in the header.
+
+## Visual preset
+
+`theme` selects the layout chrome. Omit it (or set `"velu"`) for the default
+Velu look.
+
+```json
+{ "theme": "velu" }
+```
+
+### Vepa preset
+
+Set `"theme": "vepa"` for a denser header, sidebar, and table of contents.
+
+```json
+{
+  "theme": "vepa",
+  "colors": { "primary": "#16A34A", "light": "#07C983" }
+}
+```
+
+<Image
+  src="/docs/images/themes/vepa.png"
+  alt="A Velu docs page using the Vepa theme, with the header, left sidebar, article, and table of contents"
+/>
+
+For Vepa, `colors.primary` is the light-mode accent and `colors.light` is the
+dark-mode accent. The default font is Inter unless you set `font.family`.
+Mintlify migrations map `theme: "sequoia"` to `vepa` automatically.
+
+The visual preset is separate from the reader's Light / Dark / System
+preference.
 
 ## Light and dark mode
 
