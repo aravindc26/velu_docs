@@ -36,12 +36,13 @@ published on npm as `@veluai/velu`.
 
 ## Commands
 
-The CLI has two commands: one to create a project and one to preview it.
-
 | Command | What it does |
 | --- | --- |
 | `velu init <name>` | Scaffold a new project into `./<name>` with a starter theme and example pages. |
+| `velu migrate mintlify [dir]` | Migrate a Mintlify project into a new Velu directory (**beta**). Supports `--out`, `--dry-run`, `--strict`, and `--json`. |
 | `velu dev [dir]` | Start the local preview server with live reload. Defaults to the current folder. |
+
+Coming from Mintlify? See [Migrate from Mintlify](/docs/migrate-from-mintlify) (beta).
 
 <Callout type="note">
   Building and hosting your production site is handled by Velu's platform, not
