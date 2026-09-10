@@ -34,7 +34,31 @@ Set `"theme": "vepa"` for a denser header, sidebar, and table of contents.
 
 For Vepa, `colors.primary` is the light-mode accent and `colors.light` is the
 dark-mode accent. The default font is Inter unless you set `font.family`.
-Mintlify migrations map `theme: "sequoia"` to `vepa` automatically.
+
+### Thulir preset
+
+Set `"theme": "thulir"` for a fresh, open layout with Inter typography and a
+compact previous/next footer.
+
+```json
+{
+  "theme": "thulir",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#12A481",
+    "dark": "#46D6AD"
+  }
+}
+```
+
+<Image
+  src="/docs/images/themes/thulir.png"
+  alt="A Velu docs page using the Thulir theme, with the header, left sidebar, article, and On this page table of contents"
+/>
+
+For Thulir, `colors.primary` is the light-mode accent, `colors.light` is the
+dark-mode accent, and `colors.dark` tints the header button. The default font is
+Inter unless you set `font.family`. The name means a fresh sprout in Tamil.
 
 The visual preset is separate from the reader's Light / Dark / System
 preference.
