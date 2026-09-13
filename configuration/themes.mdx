@@ -7,6 +7,36 @@ Velu ships with a light and a dark appearance. You control the look with
 `theme`, `colors`, and `font` in `velu.json`. Readers switch between light and
 dark with the theme control in the header.
 
+## Available themes
+
+Click any card to open a live preview. Each preview uses the Velu docs content
+so you can compare navigation, typography, color, and layout across themes.
+
+<CardGroup>
+  <Card title="Vepa" img="/docs/images/themes/vepa-illustration.png" imgLight="/docs/images/themes/vepa-illustration-light.png" imgAlt="Vepa theme illustration" cta={{ label: "See live preview", href: "https://vepa.veludocs.dev" }}>
+    Denser header, sidebar, and table of contents for content-heavy docs. `"vepa"`
+  </Card>
+  <Card title="Kadhir" img="/docs/images/themes/kadhir-illustration.png" imgLight="/docs/images/themes/kadhir-illustration-light.png" imgAlt="Kadhir theme illustration" cta={{ label: "See live preview", href: "https://kadhir.veludocs.dev" }}>
+    Clean, minimal design for polished, scannable docs. `"kadhir"`
+  </Card>
+</CardGroup>
+
+<CardGroup>
+  <Card title="Aalam" img="/docs/images/themes/aalam-illustration.png" imgLight="/docs/images/themes/aalam-illustration-light.png" imgAlt="Aalam theme illustration" cta={{ label: "See live preview", href: "https://aalam.veludocs.dev" }}>
+    Branding, search, and navigation in the left sidebar. `"aalam"`
+  </Card>
+  <Card title="Nila" img="/docs/images/themes/nila-illustration.png" imgLight="/docs/images/themes/nila-illustration-light.png" imgAlt="Nila theme illustration" cta={{ label: "See live preview", href: "https://nila.veludocs.dev" }}>
+    Compact header, grouped sidebar, and focused reading column. `"nila"`
+  </Card>
+</CardGroup>
+
+<Columns cols={2}>
+  <Card title="Thulir" img="/docs/images/themes/thulir-illustration.png" imgLight="/docs/images/themes/thulir-illustration-light.png" imgAlt="Thulir theme illustration" cta={{ label: "See live preview", href: "https://thulir.veludocs.dev" }}>
+    Fresh, open layout with Inter typography and a compact footer. `"thulir"`
+  </Card>
+  <div />
+</Columns>
+
 ## Visual preset
 
 `theme` selects the layout chrome. Omit it (or set `"velu"`) for the default
@@ -23,9 +53,11 @@ Set `"theme": "vepa"` for a denser header, sidebar, and table of contents.
 ```json
 {
   "theme": "vepa",
-  "colors": { "primary": "#16A34A", "light": "#07C983" }
+  "colors": { "primary": "#808E02", "light": "#B2C600", "dark": "#6A7502" }
 }
 ```
+
+Live preview: [https://vepa.veludocs.dev](https://vepa.veludocs.dev)
 
 <Image
   src="/docs/images/themes/vepa.png"
@@ -44,12 +76,14 @@ compact previous/next footer.
 {
   "theme": "thulir",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#12A481",
-    "dark": "#46D6AD"
+    "primary": "#16A34A",
+    "light": "#07C983",
+    "dark": "#15803D"
   }
 }
 ```
+
+Live preview: [https://thulir.veludocs.dev](https://thulir.veludocs.dev)
 
 <Image
   src="/docs/images/themes/thulir.png"
@@ -69,12 +103,14 @@ with tabs above the article.
 {
   "theme": "aalam",
   "colors": {
-    "primary": "#C2410C",
+    "primary": "#9A3412",
     "light": "#EA580C",
-    "dark": "#FB923C"
+    "dark": "#9A3412"
   }
 }
 ```
+
+Live preview: [https://aalam.veludocs.dev](https://aalam.veludocs.dev)
 
 <Image
   src="/docs/images/themes/aalam.png"
@@ -94,12 +130,14 @@ reading column.
 {
   "theme": "nila",
   "colors": {
-    "primary": "#4338CA",
-    "light": "#6366F1",
-    "dark": "#A5B4FC"
+    "primary": "#D69000",
+    "light": "#D69000",
+    "dark": "#D69000"
   }
 }
 ```
+
+Live preview: [https://nila.veludocs.dev](https://nila.veludocs.dev)
 
 <Image
   src="/docs/images/themes/nila.png"
@@ -109,6 +147,34 @@ reading column.
 For Nila, `colors.primary` is the light-mode accent, `colors.light` is the
 dark-mode accent, and `colors.dark` tints header buttons. The default font is
 Inter unless you set `font.family`. The name means moon in Tamil.
+
+### Kadhir preset
+
+Set `"theme": "kadhir"` for a clean, minimal reading experience with generous
+whitespace, a 248px sidebar rail, and centered article column. Good for guides
+and tutorials that readers skim before diving deeper.
+
+```json
+{
+  "theme": "kadhir",
+  "colors": {
+    "primary": "#FF7819",
+    "light": "#FF9A5C",
+    "dark": "#FF7819"
+  }
+}
+```
+
+Live preview: [https://kadhir.veludocs.dev](https://kadhir.veludocs.dev)
+
+<Image
+  src="/docs/images/themes/kadhir.png"
+  alt="A Velu docs page using the Kadhir theme, with a minimal header, left sidebar, and centered article"
+/>
+
+For Kadhir, `colors.primary` is the light-mode accent, `colors.light` is the
+dark-mode accent, and `colors.dark` tints header buttons. The default font is
+Inter unless you set `font.family`. The name means sun in Tamil.
 
 The visual preset is separate from the reader's Light / Dark / System
 preference.
