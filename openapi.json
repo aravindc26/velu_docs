@@ -193,13 +193,14 @@
         },
         "responses": {
           "200": {
-            "description": "Streaming response compatible with AI SDK v5. Use the useChat hook from @ai-sdk/react to handle the stream. The `finish` event includes `threadId` for follow-ups.",
+            "description": "AI SDK UI message stream (`text/event-stream`). Use `useChat` from `@ai-sdk/react` to consume it. The `finish` event includes `threadId` for follow-ups.",
             "content": {
               "text/event-stream": {
                 "schema": {
                   "type": "string",
-                  "description": "UI message stream. Use useChat from @ai-sdk/react to consume it."
-                }
+                  "description": "Server-sent events. Each `data:` line is a UI message chunk, ending with `data: [DONE]`."
+                },
+                "example": "data: {\"type\":\"start\",\"messageId\":\"msg_1\"}\n\ndata: {\"type\":\"start-step\"}\n\ndata: {\"type\":\"text-start\",\"id\":\"txt_1\"}\n\ndata: {\"type\":\"text-delta\",\"id\":\"txt_1\",\"delta\":\"Publish from the dashboard or GitHub.\"}\n\ndata: {\"type\":\"text-end\",\"id\":\"txt_1\"}\n\ndata: {\"type\":\"finish-step\"}\n\ndata: {\"type\":\"finish\",\"threadId\":\"42\"}\n\ndata: [DONE]\n\n"
               }
             }
           },
