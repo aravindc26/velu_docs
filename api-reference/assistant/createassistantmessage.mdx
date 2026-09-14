@@ -1,0 +1,86 @@
+The Create assistant message endpoint streams an Ask AI reply for a published docs site. There is **no API key**. The site is selected by `{domain}` — the hostname readers visit.
+
+For Velu's own docs at `https://veludocs.com/docs`, `{domain}` is `veludocs.com`. Pass `/docs` (or a page path like `/docs/quickstart`) in `currentPath`. Each reply consumes 1 credit from the site owner's plan.
+
+## Integration with `useChat`
+
+The `useChat` hook from Vercel's AI SDK is the recommended way to embed Ask AI in your product.
+
+### Install AI SDK
+
+```bash
+npm i ai @ai-sdk/react
+```
+
+### Use the hook
+
+```tsx
+import { useState } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
+
+function DocsChat({ domain }: { domain: string }) {
+  const [input, setInput] = useState("");
+
+  const { messages, sendMessage } = useChat({
+    transport: new DefaultChatTransport({
+      api: `https://api.getvelu.com/v1/assistant/${domain}/message`,
+      body: {
+        fp: "anonymous",
+        retrievalPageSize: 5,
+        currentPath: "/docs",
+      },
+    }),
+  });
+
+  return (
+    <div>
+      {messages.map((message) => (
+        <div key={message.id}>
+          {message.role === "user" ? "User: " : "Assistant: "}
+          {message.parts
+            .filter((part) => part.type === "text")
+            .map((part) => part.text)
+            .join("")}
+        </div>
+      ))}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (input.trim()) {
+            sendMessage({ text: input });
+            setInput("");
+          }
+        }}
+      >
+        <input value={input} onChange={(e) => setInput(e.target.value)} />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  );
+}
+```
+
+Required configuration:
+
+- **`transport`** — Use `DefaultChatTransport` to configure the API connection.
+- **`body.fp`** — Fingerprint identifier (`anonymous` or a unique user id).
+- **`body.retrievalPageSize`** — Number of search results to ground the reply (recommended: `5`).
+
+Optional configuration:
+
+- **`body.threadId`** — Continue a thread. The stream `finish` event includes `threadId`.
+- **`body.currentPath`** — Path the reader is viewing. Maximum 200 characters.
+- **`body.context`** — Snippets from the page. Each object has:
+  - **`type`** — `code` or `textSelection`
+  - **`value`** — The snippet
+  - **`path`** (optional) — Source file or page path
+  - **`elementId`** (optional) — UI element id
+- **`body.filter.language`** — Language code filter, for example `en`.
+
+See [useChat](https://ai-sdk.dev/docs/reference/ai-sdk-ui/use-chat) and [Transport](https://ai-sdk.dev/docs/ai-sdk-ui/transport) in the AI SDK documentation.
+
+## Rate limits
+
+- 10 requests per reader (`fp`) per minute
+- 200 requests per docs site per minute

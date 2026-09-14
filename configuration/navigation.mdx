@@ -108,6 +108,39 @@ platform documentation.
 A tab can also link straight to an external site with `href` instead of holding
 content.
 
+## OpenAPI
+
+Point a tab (or group) at an OpenAPI spec and Velu generates an endpoint page
+for every operation — parameters, request body, responses, and a **Try It**
+playground. You do not list endpoints in `pages`.
+
+```json
+{
+  "tab": "API reference",
+  "icon": "terminal",
+  "openapi": "/openapi.json",
+  "groups": [
+    { "group": "Get started", "pages": ["api-reference/introduction"] }
+  ]
+}
+```
+
+Put `openapi.json` (or `.yml`) at the project root. Velu groups operations by
+their first OpenAPI tag and slugs each page from `operationId`. Set a default
+server and playground languages at the root of `velu.json`:
+
+```json
+{
+  "api": {
+    "server": "https://api.example.com",
+    "playground": { "proxy": true },
+    "examples": { "languages": ["curl", "javascript", "python"] }
+  }
+}
+```
+
+See Velu's own [REST API](/docs/api-reference/introduction) for a live example.
+
 ## Anchors
 
 Anchors are pinned links that sit above the groups in the sidebar. They're handy

@@ -32,6 +32,7 @@
         "header": "Resources",
         "items": [
           { "label": "Components", "href": "/docs/components/overview" },
+          { "label": "API reference", "href": "/docs/api-reference/introduction" },
           { "label": "Deploy", "href": "/docs/deploy/publishing" }
         ]
       }
@@ -118,10 +119,33 @@
         ]
       },
       {
+        "tab": "API reference",
+        "icon": "terminal",
+        "openapi": "/openapi.json",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Changelog",
         "icon": "megaphone",
         "pages": ["changelog"]
       }
     ]
+  },
+  "api": {
+    "server": "https://api.getvelu.com",
+    "playground": {
+      "proxy": true
+    },
+    "examples": {
+      "languages": ["curl", "javascript", "python"]
+    }
   }
 }
+
