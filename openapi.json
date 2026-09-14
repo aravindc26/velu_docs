@@ -1,0 +1,469 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Velu REST API",
+    "description": "Programmatically trigger deployments, search published docs, and embed Ask AI.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.getvelu.com",
+      "description": "Velu production API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Deployments",
+      "description": "Trigger a site rebuild and poll deployment status."
+    },
+    {
+      "name": "Search",
+      "description": "Search indexed documentation and retrieve page content."
+    },
+    {
+      "name": "Assistant",
+      "description": "Stream Ask AI replies for a hosted docs site, and fetch conversation history."
+    }
+  ],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/update": {
+      "post": {
+        "operationId": "triggerUpdate",
+        "tags": ["Deployments"],
+        "summary": "Trigger deployment",
+        "description": "Queue a deployment of your documentation from the configured source (GitHub default branch or managed editor content). Returns a status ID you can poll with Get deployment status.\n\nAuthenticate with a Velu API key.",
+        "responses": {
+          "202": {
+            "description": "The update was queued.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UpdateTriggerResponse" },
+                "example": {
+                  "status_id": 1842,
+                  "status": "queued",
+                  "site_url": "https://acme.getvelu.com",
+                  "subdomain": "acme"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/Error" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/Error" },
+          "503": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/v1/update/{deploymentId}": {
+      "get": {
+        "operationId": "getUpdateStatus",
+        "tags": ["Deployments"],
+        "summary": "Get deployment status",
+        "description": "Get the status of a deployment from the status ID returned by Trigger deployment.\n\nAuthenticate with a Velu API key.",
+        "parameters": [
+          {
+            "name": "deploymentId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "The status ID returned by Trigger deployment."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deployment status.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DeploymentStatus" },
+                "example": {
+                  "id": 1842,
+                  "status": "successful",
+                  "trigger": "manual",
+                  "error_message": null,
+                  "commit_sha": "9c70ee1",
+                  "commit_message": "Update quickstart",
+                  "created_at": "2026-09-14T10:15:00Z",
+                  "started_at": "2026-09-14T10:15:02Z",
+                  "finished_at": "2026-09-14T10:16:11Z",
+                  "site_url": "https://acme.getvelu.com"
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/v1/search": {
+      "post": {
+        "operationId": "searchDocumentation",
+        "tags": ["Search"],
+        "summary": "Search documentation",
+        "description": "Semantic search across your published documentation. Search requests do not consume Ask AI credits.\n\nAuthenticate with a Velu API key.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SearchRequest" },
+              "example": { "query": "How do I add a custom domain?", "page_size": 10, "language": "en" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Search results.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SearchResponse" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+    "/v1/page": {
+      "get": {
+        "operationId": "getPageContent",
+        "tags": ["Search"],
+        "summary": "Get page content",
+        "description": "Retrieve the indexed text of a documentation page by its path. Use after Search documentation to fetch the full page.\n\nAuthenticate with a Velu API key.",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Page path, for example `/quickstart`.",
+            "example": "/quickstart"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The page content.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PageContent" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/v1/assistant/{domain}/message": {
+      "post": {
+        "operationId": "createAssistantMessage",
+        "tags": ["Assistant"],
+        "summary": "Create assistant message",
+        "security": [],
+        "description": "Generates a response from Ask AI for the hosted docs site. Compatible with AI SDK v5+. No API key — the site is selected by `{domain}`, the hostname readers visit.",
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Hostname of the published docs site. Use the host readers see in the address bar — a platform site such as `acme.getvelu.com`, or a custom domain such as `veludocs.com`. Do not include the path: for a site at `https://veludocs.com/docs`, `{domain}` is `veludocs.com` and the `/docs` prefix belongs in `currentPath`.",
+            "example": "veludocs.com"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AssistantMessageRequest" },
+              "example": {
+                "fp": "anonymous",
+                "messages": [
+                  {
+                    "id": "msg_1",
+                    "role": "user",
+                    "parts": [{ "type": "text", "text": "How do I publish my docs?" }]
+                  }
+                ],
+                "retrievalPageSize": 5,
+                "currentPath": "/docs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Streaming response compatible with AI SDK v5. Use the useChat hook from @ai-sdk/react to handle the stream. The `finish` event includes `threadId` for follow-ups.",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string",
+                  "description": "UI message stream. Use useChat from @ai-sdk/react to consume it."
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/Error" },
+          "402": { "$ref": "#/components/responses/Error" },
+          "404": { "$ref": "#/components/responses/Error" },
+          "429": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/v1/assistant/conversations/{conversationId}": {
+      "get": {
+        "operationId": "getAssistantConversation",
+        "tags": ["Assistant"],
+        "summary": "Get assistant conversation",
+        "description": "Return the full message transcript for an assistant conversation started with this API key.\n\nAuthenticate with a Velu API key.",
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conversation transcript.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AssistantConversationHistory" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Create a key in the dashboard under Settings → API keys. Send it as a Bearer token."
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Missing or invalid API key.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": {
+              "error_code": "authentication_required",
+              "message": "Authentication required. Send a Velu API key as a Bearer token."
+            }
+          }
+        }
+      },
+      "Error": {
+        "description": "Error response",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error_code": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      },
+      "UpdateTriggerResponse": {
+        "type": "object",
+        "properties": {
+          "status_id": { "type": "integer", "description": "Poll Get deployment status with this ID." },
+          "status": {
+            "type": "string",
+            "enum": ["queued", "building", "successful", "failed"],
+            "description": "Deployment status. Trigger deployment returns `queued`. Poll until `successful` or `failed`.",
+            "example": "queued"
+          },
+          "site_url": { "type": "string", "nullable": true },
+          "subdomain": { "type": "string", "nullable": true }
+        }
+      },
+      "DeploymentStatus": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "status": {
+            "type": "string",
+            "enum": ["queued", "building", "successful", "failed"],
+            "description": "One of `queued`, `building`, `successful`, or `failed`."
+          },
+          "trigger": { "type": "string" },
+          "error_message": { "type": "string", "nullable": true },
+          "commit_sha": { "type": "string", "nullable": true },
+          "commit_message": { "type": "string", "nullable": true },
+          "created_at": { "type": "string", "format": "date-time", "nullable": true },
+          "started_at": { "type": "string", "format": "date-time", "nullable": true },
+          "finished_at": { "type": "string", "format": "date-time", "nullable": true },
+          "site_url": { "type": "string", "nullable": true }
+        }
+      },
+      "SearchRequest": {
+        "type": "object",
+        "required": ["query"],
+        "properties": {
+          "query": { "type": "string", "description": "The search query to run against your documentation." },
+          "page_size": { "type": "integer", "default": 10, "minimum": 1, "maximum": 50 },
+          "language": { "type": "string", "description": "Language code filter, for example `en`." },
+          "score_threshold": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Minimum relevance score. Results below this threshold are omitted."
+          }
+        }
+      },
+      "SearchHit": {
+        "type": "object",
+        "properties": {
+          "content": { "type": "string" },
+          "path": { "type": "string" },
+          "title": { "type": "string", "nullable": true },
+          "url": { "type": "string", "nullable": true },
+          "heading_id": { "type": "string", "nullable": true },
+          "score": { "type": "number", "nullable": true },
+          "language": { "type": "string", "nullable": true }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "results": { "type": "array", "items": { "$ref": "#/components/schemas/SearchHit" } }
+        }
+      },
+      "PageContent": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "page_ref": { "type": "string", "nullable": true },
+          "title": { "type": "string", "nullable": true },
+          "url": { "type": "string", "nullable": true },
+          "content": { "type": "string" }
+        }
+      },
+      "AssistantMessageRequest": {
+        "type": "object",
+        "required": ["fp", "messages"],
+        "properties": {
+          "fp": {
+            "type": "string",
+            "default": "anonymous",
+            "description": "Fingerprint identifier for tracking conversation sessions. Use `anonymous` for anonymous readers or a unique user identifier."
+          },
+          "threadId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional id that keeps follow-up messages on the same thread. Returned on the stream as `event.threadId` when `event.type === \"finish\"`. Omit to start a new conversation."
+          },
+          "messages": {
+            "type": "array",
+            "description": "Array of messages in the conversation. useChat from @ai-sdk/react sends and updates this array for you.",
+            "items": {
+              "type": "object",
+              "required": ["id", "role", "parts"],
+              "properties": {
+                "id": { "type": "string", "description": "Unique identifier for the message." },
+                "role": {
+                  "type": "string",
+                  "enum": ["user", "assistant", "system"],
+                  "description": "The role of the message sender."
+                },
+                "parts": {
+                  "type": "array",
+                  "description": "Message parts. Text parts are used to generate the reply.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": { "type": "string", "enum": ["text"] },
+                      "text": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "retrievalPageSize": {
+            "type": "integer",
+            "default": 5,
+            "minimum": 1,
+            "maximum": 50,
+            "description": "Number of documentation search results to use for generating the response. Higher values provide more context but may increase response time. Recommended: 5."
+          },
+          "filter": {
+            "type": "object",
+            "description": "Optional filter criteria for retrieval.",
+            "properties": {
+              "language": { "type": "string", "description": "Language code filter, for example `en`." }
+            }
+          },
+          "context": {
+            "type": "array",
+            "description": "Optional contextual information to provide to the assistant, such as a code snippet or selected text on the page.",
+            "items": {
+              "type": "object",
+              "required": ["type", "value"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["code", "textSelection"],
+                  "description": "The type of context being provided."
+                },
+                "value": { "type": "string", "description": "The code snippet or selected text content." },
+                "path": { "type": "string", "description": "Optional path to the source file or page." },
+                "elementId": { "type": "string", "description": "Optional identifier for the UI element containing the context." }
+              }
+            }
+          },
+          "currentPath": {
+            "type": "string",
+            "description": "Path of the page the reader is viewing. When provided, the assistant uses this to give more relevant answers. Maximum length: 200 characters. For a site served at `https://veludocs.com/docs`, pass `/docs` or a page path such as `/docs/quickstart`."
+          }
+        }
+      },
+      "Citation": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "url": { "type": "string" },
+          "title": { "type": "string", "nullable": true },
+          "route_path": { "type": "string" },
+          "heading": { "type": "string", "nullable": true },
+          "heading_id": { "type": "string", "nullable": true },
+          "snippet": { "type": "string", "nullable": true },
+          "score": { "type": "number", "nullable": true }
+        }
+      },
+      "AssistantMessage": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "role": { "type": "string", "enum": ["user", "assistant"] },
+          "content": { "type": "string" },
+          "citations": { "type": "array", "items": { "$ref": "#/components/schemas/Citation" } },
+          "seq": { "type": "integer" },
+          "status": { "type": "string" },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "AssistantConversationHistory": {
+        "type": "object",
+        "properties": {
+          "conversation_id": { "type": "integer" },
+          "messages": { "type": "array", "items": { "$ref": "#/components/schemas/AssistantMessage" } }
+        }
+      }
+    }
+  }
+}
