@@ -1,0 +1,342 @@
+---
+title: "Authentication setup"
+description: "Control access to your published docs with password, workspace, OAuth, or JWT."
+---
+
+<Callout type="info">
+  Password authentication is available on all plans.
+
+  Workspace authentication requires a [Begin or Value plan](/docs/dashboard/billing).
+
+  OAuth and JWT authentication require an [Enterprise plan](/docs/dashboard/billing).
+</Callout>
+
+Authentication requires readers to sign in before they can open your documentation.
+You can protect the whole site, or leave some pages public while the rest stay private.
+
+Configure authentication in the [dashboard](https://docs.getvelu.com) under
+**Settings → Authentication**.
+
+## Choose an authentication method
+
+| Method | Best for | Group-based access |
+| --- | --- | --- |
+| Password | Shared access with no per-user tracking | No |
+| Workspace | Internal docs for members of your Velu workspace | No |
+| OAuth 2.0 | Your identity provider or SSO with per-user sessions | Yes |
+| JWT | Your own login flow and signed reader tokens | Yes |
+
+Saving visibility or an authentication method starts a deployment. Wait for that
+build to finish before you test sign-in on the published site.
+
+## Configure authentication
+
+### Password
+
+Password authentication controls access only. It does not track individual
+readers or support group-based page rules.
+
+#### Password prerequisites
+
+- Your security requirements allow sharing passwords among readers.
+
+#### Password setup
+
+<Steps>
+  <Step title="Create a password">
+    1. In your dashboard, go to **Authentication**.
+    2. Set site visibility to **Private**.
+    3. Select **Password**.
+    4. Add a password with a label (for example, a team or customer name).
+    5. Select **Save changes**.
+  </Step>
+  <Step title="Distribute access">
+    Share the password and documentation URL with authorized readers. You can
+    create more than one password for different groups.
+  </Step>
+</Steps>
+
+After the deployment finishes, visitors must enter a password to open protected
+pages.
+
+### Workspace
+
+Workspace authentication limits the site to active members of your Velu
+workspace. Readers sign in with their Velu account.
+
+#### Workspace prerequisites
+
+- Everyone who needs access is an active, email-verified member of your
+  workspace. Manage members under **Settings → Members**.
+
+#### Workspace setup
+
+<Steps>
+  <Step title="Enable workspace authentication">
+    1. In your dashboard, go to **Authentication**.
+    2. Set site visibility to **Private**.
+    3. Select **Workspace**.
+    4. Select **Save changes**.
+  </Step>
+  <Step title="Add authorized members">
+    Invite teammates from **Settings → Members**. Deactivating a member revokes
+    their docs access on the next request.
+  </Step>
+</Steps>
+
+### OAuth 2.0
+
+#### OAuth prerequisites
+
+- An OAuth or OIDC server that supports the Authorization Code flow.
+- Optional: an HTTPS user-info endpoint, or group claims in the ID or access
+  token, if you need group-based page access.
+
+#### OAuth setup
+
+<Steps>
+  <Step title="Configure OAuth in Velu">
+    1. In your dashboard, go to **Authentication**.
+    2. Set site visibility to **Private**.
+    3. Select **OAuth 2.0**.
+    4. Fill in:
+
+    - **Authorization URL**: your OAuth authorize endpoint
+    - **Token URL**: your token exchange endpoint
+    - **Client ID**: your OAuth client identifier
+    - **Client secret** (optional): required for confidential clients and for
+      group claims from token responses
+    - **Scopes** (optional): for example `openid profile email`
+    - **User info API URL** (optional): HTTPS endpoint Velu calls with
+      `Authorization: Bearer <access_token>` to load groups
+    - **Logout URL** (optional): provider logout URL used after docs logout
+    - **Additional authorization parameters** (optional): extra query params on
+      the authorize request
+    - **Group membership source**: none, user info API, ID token claim, or
+      access token claim
+
+    5. Select **Save changes**.
+  </Step>
+  <Step title="Register the callback URL">
+    Add the redirect URL shown in Authentication settings. It looks like:
+
+    ```text
+    https://YOUR-DOCS-HOST/login/oauth-callback
+    ```
+
+    For a `/docs` subpath host, use
+    `https://YOUR-DOCS-HOST/docs/login/oauth-callback`. The hostname must be the
+    public domain readers open in the browser.
+  </Step>
+  <Step title="Configure groups (optional)">
+    To restrict pages by group, either:
+
+    - Point **User info API URL** at an endpoint that returns reader data, or
+    - Set the group source to an ID token or access token claim (requires a
+      client secret; ID token claims also need the `openid` scope).
+
+    Claim settings:
+
+    - **Groups claim**: claim name (default `groups`)
+    - **Group delimiter** (optional): split a string claim; leave empty for an
+      array claim
+  </Step>
+</Steps>
+
+Provider URLs must use HTTPS. You cannot override protocol fields such as
+`state`, `redirect_uri`, or PKCE parameters.
+
+### JWT
+
+#### JWT prerequisites
+
+- A backend that can authenticate users and sign EdDSA JWTs.
+- One or more login URLs readers can open from the docs site.
+
+#### JWT setup
+
+<Steps>
+  <Step title="Configure JWT in Velu">
+    1. In your dashboard, go to **Authentication**.
+    2. Set site visibility to **Private**.
+    3. Select **JWT**.
+    4. Enter one or more login destinations (display name and URL). You can add
+       up to 10. A single destination redirects readers straight there.
+    5. Select **Save changes**.
+    6. Generate a signing key and store the private PEM on your backend. Velu
+       keeps only the public key. Rotating the key ends existing reader
+       sessions.
+  </Step>
+  <Step title="Integrate your login flow">
+    After your app authenticates the reader:
+
+    1. Build a JWT with the [reader claims](#reader-token-claims) below.
+    2. Sign it with EdDSA using the private key from Velu.
+    3. Redirect to
+       `https://YOUR-DOCS-HOST/login/jwt-callback#TOKEN`.
+
+    Put the token in the URL fragment only. Do not put it in the query string.
+    Include the `nonce` from the login request so the callback binds to that
+    browser session.
+  </Step>
+</Steps>
+
+When one login URL is configured, unauthenticated readers go there directly.
+With two or more named URLs, they choose a destination first. Velu forwards a
+relative `redirect` query parameter so you can return them to the page they
+requested.
+
+#### JWT example
+
+```python
+import time
+import jwt  # PyJWT
+
+DOCS_HOST = "docs.acme.com"
+private_key = open("velu-docs-private.pem").read()
+
+token = jwt.encode(
+    {
+        "host": DOCS_HOST,
+        "exp": int(time.time()) + 30,
+        "nonce": nonce_from_login_request,
+        "expiresAt": int(time.time()) + 3600,
+        "groups": ["admin"],
+    },
+    private_key,
+    algorithm="EdDSA",
+)
+
+# Redirect to https://docs.acme.com/login/jwt-callback#{token}
+```
+
+```ts
+import * as jose from "jose";
+
+const DOCS_HOST = "docs.acme.com";
+const signingKey = await jose.importPKCS8(process.env.VELU_DOCS_PRIVATE_KEY!, "EdDSA");
+
+const token = await new jose.SignJWT({
+  host: DOCS_HOST,
+  expiresAt: Math.floor(Date.now() / 1000) + 60 * 60,
+  groups: ["admin"],
+  nonce: nonceFromLoginRequest,
+})
+  .setProtectedHeader({ alg: "EdDSA" })
+  .setExpirationTime("30s")
+  .sign(signingKey);
+
+// Redirect to https://docs.acme.com/login/jwt-callback#${token}
+```
+
+#### Redirect unauthenticated readers
+
+1. Reader opens `https://docs.acme.com/quickstart`.
+2. Velu sends them to your login URL with `redirect=%2Fquickstart` and a
+   `nonce`.
+3. After sign-in, redirect to
+   `https://docs.acme.com/login/jwt-callback#TOKEN`.
+4. Velu sets the reader session cookie and returns them to `/quickstart`.
+
+## Make pages public
+
+On a private site, pages require authentication by default. Mark specific pages
+or navigation groups as public.
+
+### Individual pages
+
+```mdx
+---
+title: "Getting started"
+public: true
+---
+```
+
+### Groups of pages
+
+Add `"public": true` on a navigation group in `velu.json`. Descendant pages
+inherit public access unless a page sets `public: false`.
+
+```json
+{
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "public": true,
+        "pages": ["index", "quickstart"]
+      },
+      {
+        "group": "Internal",
+        "pages": ["runbooks/deploy"]
+      }
+    ]
+  }
+}
+```
+
+## Control access with groups
+
+With OAuth or JWT, restrict pages to matching reader groups:
+
+```mdx
+---
+title: "Admin guide"
+groups: ["admin", "support"]
+---
+```
+
+Group names are case-sensitive. The reader must belong to at least one listed
+group. A nonempty `groups` list overrides `public: true`.
+
+Password and workspace sessions have no groups, so they cannot open
+group-restricted pages.
+
+### How public pages and groups interact
+
+- By default, private sites require authentication.
+- Pages without `groups` are available to every authenticated reader.
+- Pages with `groups` require a matching OAuth or JWT group.
+- Pages with `public: true` and no `groups` are available to everyone.
+
+## Reader token claims
+
+OAuth user-info responses and JWT payloads use this shape:
+
+```json
+{
+  "host": "docs.acme.com",
+  "expiresAt": 1893456000,
+  "groups": ["admin", "beta"]
+}
+```
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `host` | JWT: yes | Exact docs hostname. Must match the site the reader opened. |
+| `exp` | JWT: yes | JWT expiry (Unix seconds). Keep it short (at most 60 seconds). |
+| `nonce` | JWT: yes | Value Velu passed to your login URL. Binds the token to that attempt. |
+| `expiresAt` | no | Reader session end (Unix seconds). Default one day, maximum 30 days. |
+| `groups` | no | List of group strings for page access. |
+
+For JWT, `exp` is when the signed token becomes invalid. Use `expiresAt` for how
+long the docs session should last after exchange.
+
+## Logout
+
+Docs logout clears the reader session on the documentation host only. It does
+not sign the reader out of the Velu product.
+
+## Related topics
+
+<CardGroup>
+  <Card title="Custom domains" icon="globe" href="/docs/deploy/custom-domains">
+    Serve private docs from your own domain or `/docs` subpath.
+  </Card>
+  <Card title="Publishing" icon="cloud-upload" href="/docs/deploy/publishing">
+    How deployments apply authentication changes.
+  </Card>
+  <Card title="Pages" icon="file-text" href="/docs/writing/pages">
+    Frontmatter for public pages and group access.
+  </Card>
+</CardGroup>
