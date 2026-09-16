@@ -46,6 +46,8 @@ These are the frontmatter fields Velu reads:
 | `description` | string | Subtitle, meta description, and social summary. |
 | `mode` | string | Page layout. One of `default`, `wide`, `custom`, `frame`, `center`, `assistant`. |
 | `hidden` | boolean | Build the page but keep it out of the sidebar. |
+| `public` | boolean | On a private site, allow this page without authentication. |
+| `groups` | string array | On OAuth or JWT sites, require membership in at least one listed group. |
 | `noindex` | boolean | Ask crawlers not to index the page. |
 | `hidePagination` | boolean | Hide previous/next links at the bottom of the page. |
 | `keywords` | string or array | SEO keyword terms. |
@@ -54,6 +56,8 @@ These are the frontmatter fields Velu reads:
 | `og:*` / `twitter:*` | string | Open Graph and Twitter card overrides. |
 
 See [SEO & metadata](/docs/configuration/seo) for how the SEO fields behave.
+See [Authentication setup](/docs/deploy/authentication-setup) for `public` and
+`groups` on private sites.
 
 <Callout type="warning">
   `sidebarTitle`, `tag`, and `icon` are **not** supported as page
