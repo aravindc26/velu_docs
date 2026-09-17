@@ -1,0 +1,121 @@
+---
+title: "Preview deployments"
+description: "Get a unique live URL for each pull request so reviewers can see docs changes before they merge."
+---
+
+Preview deployments require a [Begin or Value plan](/docs/dashboard/billing).
+
+Preview deployments let you see how changes to your docs look before they reach production. Each preview gets a shareable URL that updates when you push new commits.
+
+```text
+https://{subdomain}-p-{slug}.veludocs.com
+```
+
+`{subdomain}` is your production docs subdomain. `{slug}` is unique to that preview. Custom domains apply to production only.
+
+<Callout type="info">
+  Preview deployments require [docs-as-code](/docs/deploy/publishing) with the
+  Velu GitHub App installed. Editor-only (managed) sites have no Git branches,
+  so they cannot create previews.
+</Callout>
+
+Preview URLs are publicly viewable. Share a link with anyone who needs to review the change. Previews are isolated from production: they do not overwrite your live site, search index, or analytics.
+
+## Create preview deployments
+
+Create previews automatically from pull requests, or manually from your dashboard.
+
+### Automatic previews
+
+Automatic previews are created only for pull requests that target your deployment branch (usually `main`).
+
+When you open a pull request, the Velu GitHub App comments that a preview is deploying. It posts a second comment with the live URL after the build succeeds. The preview rebuilds each time you push to the branch.
+
+<Callout type="note">
+  The bot posts a new comment for each status so GitHub sends a notification.
+  The live URL is included only after the build succeeds.
+</Callout>
+
+### Fork pull requests
+
+Pull requests from a fork do not generate preview deployments. The Velu GitHub App can only build repositories where it is installed, so it cannot read a fork.
+
+A maintainer with write access can preview fork changes by pushing the contributor's branch to the main repository, then opening a pull request from that branch.
+
+### Manual previews
+
+You can create a preview for any existing branch.
+
+<Steps>
+  <Step title="Open Previews">
+    In the [dashboard](https://docs.getvelu.com), go to **Home** and click the
+    **Previews** tab.
+  </Step>
+  <Step title="Create a custom preview">
+    Click **Create custom preview**, enter the branch name, and click
+    **Create preview**.
+  </Step>
+</Steps>
+
+## GitHub comments
+
+On pull requests, Velu posts comments as the build moves through Deploying, Successful, and Failed.
+
+| Status | What the comment includes |
+| --- | --- |
+| Deploying | Branch name and a note that the live URL will arrive when the build finishes |
+| Successful | The `https://{subdomain}-p-{slug}.veludocs.com` URL |
+| Failed | A note to open the **Previews** tab in the dashboard to read logs and retry |
+
+Pushing another commit rebuilds the preview. A successful rebuild posts a new comment with the same URL.
+
+## Redeploy a preview
+
+Redeploy a preview to refresh it against the latest commit, or to retry after a failed build.
+
+<Steps>
+  <Step title="Find the preview">
+    In the dashboard, open the **Previews** tab.
+  </Step>
+  <Step title="Redeploy">
+    Click **Redeploy** on the preview you want to refresh.
+  </Step>
+</Steps>
+
+## Preview lifetime
+
+A preview stays live while its source branch exists, and it updates on every push.
+
+- **Automatic previews**: remain after the pull request is merged or closed, as long as the branch still exists. Deleting the branch removes the preview.
+- **Manual previews**: stay live until you delete them or delete the branch.
+- **Delete a preview**: on the **Previews** tab, click **Delete** to remove it immediately.
+
+Preview URLs are unique per preview. If you delete a preview and later recreate one for the same branch, Velu may issue a new URL.
+
+## Troubleshooting preview deployments
+
+If a preview build fails:
+
+- Open the **Previews** tab in the dashboard and inspect the failed row. Redeploy from there after you fix the cause.
+- Check `velu.json` at the docs root: invalid JSON, navigation paths that do not exist, or schema errors will fail the build.
+- Check MDX frontmatter and image paths in the latest commits on the branch.
+- Validate locally with `npx @veluai/velu dev` and `npx @veluai/velu lint` before you push.
+
+<Callout type="tip">
+  The GitHub comment for a failed build does not include a URL. Use the
+  dashboard to retry rather than pushing an empty commit.
+</Callout>
+
+## Related
+
+<CardGroup>
+  <Card title="Publishing" icon="cloud-upload" cta={{ label: "Go to production", href: "/docs/deploy/publishing" }}>
+    What triggers a production build, and how to read deployment history.
+  </Card>
+  <Card title="Custom domains" icon="globe" cta={{ label: "Set up a domain", href: "/docs/deploy/custom-domains" }}>
+    Custom domains apply to your live site, not to preview URLs.
+  </Card>
+  <Card title="Velu dashboard" icon="layout-dashboard" cta={{ label: "Open dashboard", href: "https://docs.getvelu.com" }}>
+    Create, redeploy, and delete previews from Home.
+  </Card>
+</CardGroup>

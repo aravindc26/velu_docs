@@ -113,6 +113,7 @@
             "icon": "cloud-upload",
             "pages": [
               "deploy/publishing",
+              "deploy/preview-deployments",
               "deploy/custom-domains",
               "deploy/authentication-setup"
             ]
