@@ -77,6 +77,7 @@ or I/O failure, `2` compatibility errors (output is still written unless
 | Mintlify `mint` | Maps to Velu's [`thulir`](/docs/configuration/themes#thulir-preset) preset |
 | Mintlify `maple` | Maps to Velu's [`aalam`](/docs/configuration/themes#aalam-preset) preset |
 | Mintlify `aspen` | Maps to Velu's [`nila`](/docs/configuration/themes#nila-preset) preset |
+| OpenAPI `x-mint` | Rewrites `x-mint` / `x-mint-enum` to `x-velu` / `x-velu-enum` for [personalization](/docs/writing/personalization) |
 
 Every run writes `VELU-MIGRATION.md` and `velu-migration-report.json` in the
 output. Review those files before you publish.
@@ -92,7 +93,9 @@ Migration never executes your project scripts, installs packages, or downloads
 remote assets. Features without a Velu equivalent (analytics integrations, some
 navigation patterns) are reported for manual follow-up. Configure private docs
 in the dashboard after you publish: see
-[Authentication setup](/docs/deploy/authentication-setup).
+[Authentication setup](/docs/deploy/authentication-setup). For public-site
+visitor identification, configure
+[shared session](/docs/writing/personalization) under **Settings → Authentication**.
 
 ## Next steps
 
@@ -105,5 +108,8 @@ in the dashboard after you publish: see
   </Card>
   <Card title="Publishing" icon="cloud-upload" href="/docs/deploy/publishing">
     Push to GitHub and ship the new Velu site.
+  </Card>
+  <Card title="Personalized content" icon="user" href="/docs/writing/personalization">
+    Shared session and `x-velu` OpenAPI filtering after you migrate.
   </Card>
 </CardGroup>
