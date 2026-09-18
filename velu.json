@@ -71,6 +71,7 @@
             "icon": "pen-line",
             "pages": [
               "writing/pages",
+              "writing/personalization",
               "writing/page-modes",
               "writing/writing-with-ai",
               "writing/markdown",
@@ -115,7 +116,8 @@
               "deploy/publishing",
               "deploy/preview-deployments",
               "deploy/custom-domains",
-              "deploy/authentication-setup"
+              "deploy/authentication-setup",
+              "writing/personalization"
             ]
           }
         ]

@@ -47,7 +47,7 @@ These are the frontmatter fields Velu reads:
 | `mode` | string | Page layout. One of `default`, `wide`, `custom`, `frame`, `center`, `assistant`. |
 | `hidden` | boolean | Build the page but keep it out of the sidebar. |
 | `public` | boolean | On a private site, allow this page without authentication. |
-| `groups` | string array | On OAuth or JWT sites, require membership in at least one listed group. |
+| `groups` | string array | Limit the page to matching reader groups. On a private OAuth or JWT site this **restricts access**. With [shared session](/docs/writing/personalization) it **hides the page from navigation** only. |
 | `noindex` | boolean | Ask crawlers not to index the page. |
 | `hidePagination` | boolean | Hide previous/next links at the bottom of the page. |
 | `keywords` | string or array | SEO keyword terms. |
@@ -57,7 +57,8 @@ These are the frontmatter fields Velu reads:
 
 See [SEO & metadata](/docs/configuration/seo) for how the SEO fields behave.
 See [Authentication setup](/docs/deploy/authentication-setup) for `public` and
-`groups` on private sites.
+`groups` on private sites. See [Personalized content](/docs/writing/personalization)
+for `groups` with shared session.
 
 <Callout type="warning">
   `sidebarTitle`, `tag`, and `icon` are **not** supported as page

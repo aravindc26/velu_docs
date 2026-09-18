@@ -1,0 +1,360 @@
+---
+title: "Personalized content"
+description: "Show content, API playground values, and navigation based on identified visitor data without locking the site."
+---
+
+<Callout type="info">
+  Shared session requires a [Begin or Value plan](/docs/dashboard/billing).
+  It is available only while the site is **Public**.
+</Callout>
+
+Customize content for identified visitors while keeping your documentation
+public. Typical uses are prefilling API keys, showing copy that matches a
+reader's plan or role, and hiding API reference items from navigation based
+on group membership.
+
+Personalization identifies visitors. It does not require them to sign in
+before they can open a page. To lock pages, use
+[authentication](/docs/deploy/authentication-setup) instead.
+
+| Method | Best for | How Velu identifies the visitor |
+| --- | --- | --- |
+| Shared session | Docs next to an app that already has a cookie session | The browser calls your Info API with the visitor's cookies. |
+| JWT or OAuth authentication | A private site that should also personalize | Sign-in returns the same user data. Groups **restrict** access. See [Authentication setup](/docs/deploy/authentication-setup). |
+
+Shared session and private authentication are mutually exclusive. Turn the
+site public to enable shared session. JWT and OAuth on a private site already
+include `content` and `apiPlaygroundInputs`.
+
+## Configure shared session
+
+Enable shared session under **Settings → Authentication** in the
+[dashboard](https://docs.getvelu.com). The site must be public.
+
+<Steps>
+  <Step title="Turn the site public">
+    Open **Authentication** and set site visibility to **Public**.
+  </Step>
+  <Step title="Enable shared session">
+    Turn on **Enable shared session**. The Info API fields appear.
+  </Step>
+  <Step title="Enter your endpoints">
+    - **Info API URL** (required): HTTPS endpoint that returns the current
+      visitor's user data.
+    - **Login URL** (optional): where unidentified visitors go when they
+      click **Log in** in the docs header.
+  </Step>
+  <Step title="Save">
+    Select **Save**. Changing only the Info API or login URL updates the
+    published site without a full CLI rebuild.
+  </Step>
+</Steps>
+
+Turning the toggle off disables shared session. Saved URLs remain if you
+enable it again. Making the site private hides this section; private
+authentication takes over.
+
+### Shared session request
+
+Velu hydrates the public page first, then the browser `GET`s your Info API
+with credentials included. Velu does not proxy that request.
+
+Return a successful JSON body for an identified visitor:
+
+```json
+{
+  "expiresAt": 1893456000,
+  "groups": ["admin"],
+  "content": {
+    "firstName": "Jane",
+    "plan": "Enterprise"
+  },
+  "apiPlaygroundInputs": {
+    "header": {
+      "Authorization": "Bearer user_abc123"
+    }
+  }
+}
+```
+
+For a visitor without a valid session, return a non-success status such as
+`401`. Velu leaves them unidentified and keeps public content available.
+
+If the Info API is on a different origin from your documentation, allow
+credentialed cross-origin requests from the **exact** docs origin. Do not use
+a wildcard origin with credentials. Return
+`Cache-Control: private, no-store` so browsers and caches do not store user
+data.
+
+`apiPlaygroundInputs` values are available in the browser so Try It can send
+them. Return short-lived, narrowly scoped credentials. Prefer a dedicated
+docs token over a privileged application session token.
+
+Provider URLs must be HTTPS, with no credentials or fragments in the URL.
+
+## API playground prefilling
+
+Return field names that match your OpenAPI spec in `apiPlaygroundInputs`.
+Velu applies only values that match the current endpoint's security scheme.
+
+```json
+{
+  "apiPlaygroundInputs": {
+    "header": { "X-API-Key": "user_api_key_123" },
+    "server": { "subdomain": "acme" }
+  }
+}
+```
+
+Supported buckets are `header`, `query`, `cookie`, and `server`. Reader edits
+in Try It persist in local storage for that browser.
+
+## Dynamic MDX content
+
+Put custom fields in `content`. They become the MDX `user` object.
+
+```json
+{
+  "content": {
+    "firstName": "Jane",
+    "company": "Acme Corp",
+    "plan": "Enterprise"
+  }
+}
+```
+
+```mdx
+Welcome back, {user.firstName}! Your {user.plan} plan includes 100 seats for
+members in your {user.company} organization.
+```
+
+For conditional rendering, use `user` in JSX:
+
+```jsx
+{
+  user.plan === "enterprise" ? (
+    <>Contact your admin to enable this feature.</>
+  ) : (
+    <>
+      See <a href="https://yoursite.com/pricing">pricing</a> for information
+      about upgrading.
+    </>
+  )
+}
+```
+
+For logged-out visitors, `user` is `{}`. Use optional chaining on nested
+fields: `{user.org?.plan}`, not `{user.org.plan}`.
+
+Custom scripts can read `window.velu.user` and listen for the `velu:user`
+event. `window.mintlify.user` and `mintlify:user` are also dispatched for
+Mintlify-compatible scripts.
+
+## Page visibility
+
+Add `groups` to page frontmatter to hide pages from navigation for visitors
+who are not in those groups.
+
+With **shared session**, `groups` control visibility only. A visitor can
+still open a filtered page by its direct URL. Use
+[authentication](/docs/deploy/authentication-setup) to restrict access to
+sensitive content.
+
+```mdx
+---
+title: "Admin settings"
+groups: ["admin"]
+---
+```
+
+On a **private** JWT or OAuth site, the same frontmatter **blocks** the page
+unless the reader is in a matching group.
+
+## OpenAPI content filtering
+
+Filter API reference content with the `x-velu` extension. You can filter
+endpoints, schema properties, `oneOf` / `anyOf` variants, and enum values.
+
+`velu migrate mintlify` rewrites Mintlify `x-mint` / `x-mint-enum` keys to
+`x-velu` / `x-velu-enum`. Unmigrated `x-mint` keys are still read.
+
+With shared session, filtered endpoints stay reachable by direct URL. On a
+private JWT or OAuth site, they are access-controlled.
+
+### Filter endpoints
+
+Add `x-velu.groups` to an operation or path.
+
+```json
+{
+  "paths": {
+    "/billing": {
+      "get": {
+        "summary": "Get billing details",
+        "x-velu": {
+          "groups": ["admin", "billing"]
+        },
+        "responses": {
+          "200": {
+            "description": "Billing details"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Path-level groups apply to every operation under that path:
+
+```json
+{
+  "paths": {
+    "x-velu": {
+      "groups": ["admin", "billing"]
+    },
+    "/billing": {
+      "get": {
+        "summary": "Get billing details"
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get user details"
+      }
+    }
+  }
+}
+```
+
+### Filter schema properties
+
+Add `x-velu.groups` to individual properties. Properties without it stay
+visible to everyone.
+
+```json
+{
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "internal_id": {
+            "type": "string",
+            "x-velu": {
+              "groups": ["admin"]
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+All users see `name`. Only the `admin` group sees `internal_id`.
+
+### Filter oneOf variants
+
+```json
+{
+  "schema": {
+    "oneOf": [
+      {
+        "title": "Enterprise config",
+        "type": "object",
+        "x-velu": {
+          "groups": ["enterprise"]
+        },
+        "properties": {
+          "sso_enabled": { "type": "boolean" }
+        }
+      },
+      {
+        "title": "Standard config",
+        "type": "object",
+        "properties": {
+          "notifications": { "type": "boolean" }
+        }
+      }
+    ]
+  }
+}
+```
+
+### Filter enum values
+
+`x-velu-enum` is a separate top-level extension on the schema object, not
+nested under `x-velu`. List each restricted value and the groups that may
+see it. Values not listed stay visible to everyone.
+
+```json
+{
+  "type": "string",
+  "enum": ["free", "pro", "enterprise"],
+  "x-velu-enum": {
+    "pro": ["pro", "enterprise"],
+    "enterprise": ["enterprise"]
+  }
+}
+```
+
+Everyone sees `free`. `pro` and `enterprise` groups see `pro`. Only
+`enterprise` sees `enterprise`.
+
+## User data format
+
+Shared session, OAuth user-info, and JWT payloads share this shape:
+
+```json
+{
+  "expiresAt": 1893456000,
+  "groups": ["admin", "beta"],
+  "content": {
+    "firstName": "Jane",
+    "plan": "Enterprise"
+  },
+  "apiPlaygroundInputs": {
+    "header": { "Authorization": "Bearer user_abc123" },
+    "server": { "subdomain": "acme" }
+  }
+}
+```
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `expiresAt` | no | When stored personalization data expires (Unix seconds). |
+| `groups` | no | Group strings for navigation and OpenAPI filtering. |
+| `content` | no | Object exposed as MDX `user` and `window.velu.user`. |
+| `apiPlaygroundInputs` | no | Try It prefills (`header`, `query`, `cookie`, `server`). |
+
+JWT authentication also requires `host`, `exp`, and `nonce`. See
+[reader token claims](/docs/deploy/authentication-setup#reader-token-claims).
+
+Personalization payloads are size-capped and are not sent to Ask AI.
+
+## Logout
+
+On a private site, **Log out** clears the reader session on the docs host.
+It does not sign the reader out of the Velu product.
+
+Shared session has no docs logout of your application cookies. Set
+`expiresAt` to limit how long personalization data stays in the browser.
+Unidentified visitors see **Log in** when you configured a login URL.
+
+## Related topics
+
+<CardGroup>
+  <Card title="Authentication setup" icon="lock" href="/docs/deploy/authentication-setup">
+    Password, workspace, OAuth, and JWT when pages should stay private.
+  </Card>
+  <Card title="Pages" icon="file-text" href="/docs/writing/pages">
+    Frontmatter for `groups` and public pages.
+  </Card>
+  <Card title="Migrate from Mintlify" icon="shuffle" href="/docs/migrate-from-mintlify">
+    `x-mint` OpenAPI keys rewrite to `x-velu`.
+  </Card>
+</CardGroup>
