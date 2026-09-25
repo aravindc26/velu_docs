@@ -41,6 +41,41 @@ Each workflow runs either:
 - **On pull-request merge**: after a pull request lands on your default branch.
 - **On a schedule**: at a recurring time you set.
 
+## Run history
+
+The run history table shows every workflow run: its status, the pull request
+that triggered it, and a link to the output pull request when one was opened.
+
+You can filter runs by status — for example, show only **Skipped** runs — using
+the filter buttons above the table.
+
+### Export run history to CSV
+
+To export the run history, click **Export CSV** in the toolbar. Velu fetches all
+runs that match the current filters and downloads a file named
+`velu-workflow-runs-YYYY-MM-DD.csv`.
+
+The file includes these columns:
+
+| Column | What it contains |
+| --- | --- |
+| Run ID | Unique identifier for the run |
+| Workflow | Workflow name |
+| Status | `completed`, `skipped`, `failed`, or `running` |
+| Trigger | The event that started the run (e.g. `on_pr_merge`) |
+| Repository | The source repository that triggered the run |
+| PR Number | Pull request number in the source repository |
+| PR Title | Pull request title in the source repository |
+| Started At | ISO 8601 timestamp when the run started |
+| Completed At | ISO 8601 timestamp when the run finished |
+| Summary | Short description of what the run did |
+| Output PR | URL of the pull request opened against your docs repo |
+
+<Callout type="note">
+  The export respects the active status filter. To export all runs across every
+  status, clear the filter first, then click **Export CSV**.
+</Callout>
+
 ## Cost
 
 Each workflow run costs 14 credits, drawn from your plan's monthly allotment or
