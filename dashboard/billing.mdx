@@ -11,11 +11,12 @@ owner can access billing.
 
 <Image src="/docs/images/dashboard/billing.png" alt="The billing page plan picker showing Free, Begin, and Value plans with prices and features" />
 
-| Plan | Price | Monthly credits | Ask AI | Workflows |
-| --- | --- | --- | --- | --- |
-| **Free** | $0 | - | No | No |
-| **Begin** | $9 / mo | 300 | Yes | No |
-| **Value** | $49 / mo | 1,500 | Yes | Yes |
+| Plan | Price | Monthly credits | Ask AI | Workflows | Private auth methods |
+| --- | --- | --- | --- | --- | --- |
+| **Free** | $0 | - | No | No | Password |
+| **Begin** | $9 / mo | 300 | Yes | No | Password, Workspace |
+| **Value** | $49 / mo | 1,500 | Yes | Yes | Password, Workspace |
+| **Enterprise** | Custom | Custom | Yes | Yes | Password, Workspace, OAuth 2.0, JWT |
 
 Every plan includes a hosted docs site, a custom domain, and Markdown and
 `llms.txt` export. **Begin** adds [Ask AI](/docs/ai/ask-ai), the chat assistant on
@@ -24,9 +25,10 @@ automations that open pull requests. **Value** also includes
 [shared session personalization](/docs/writing/personalization). Choose monthly
 or annual billing: annual gives you two months free.
 
-[Private documentation](/docs/deploy/authentication-setup) password protection is
-available on all plans. Workspace authentication needs Begin or Value. OAuth and
-JWT authentication require an Enterprise plan.
+The [authentication settings UI](/docs/deploy/authentication-setup) only shows the
+methods your plan supports — if an option is not visible, your plan does not
+include it. Password protection is available on all plans. Workspace authentication
+requires Begin or higher. OAuth 2.0 and JWT require an Enterprise plan.
 [Preview deployments](/docs/deploy/preview-deployments) require a Begin or
 Value plan. [Shared session personalization](/docs/writing/personalization)
 requires a Value plan.
