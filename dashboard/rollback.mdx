@@ -1,0 +1,109 @@
+---
+title: "Instant rollback"
+description: "Revert your live docs to an earlier successful build without touching Git."
+---
+
+<Callout type="info">
+  Instant rollback is available on the [Enterprise plan](/docs/dashboard/billing).
+  Only workspace owners and admins can trigger or reverse a rollback.
+</Callout>
+
+Instant rollback lets you switch the live version of your documentation to any
+previous successful build — immediately, without a Git revert or a new push. Use
+it when a bad deployment goes live and you need to restore a working version
+while you investigate.
+
+## How rollback works
+
+When you roll back, Velu swaps the live build to the selected earlier deployment.
+The change takes effect immediately. Git history is untouched, and new commits
+continue to build in the background — they just don't go live while a rollback
+is active.
+
+Your site enters a **rollback state** that stays visible in the dashboard. While
+in rollback state:
+
+- A banner shows on the Overview page noting that an earlier version is live.
+- New successful builds queue up but are not promoted to production automatically.
+- You can roll back further to an even older build if one is available.
+- When you're ready to restore the latest build, click **Promote latest**.
+
+## Roll back a deployment
+
+<Steps>
+  <Step title="Open the dashboard Overview">
+    Go to [docs.getvelu.com](https://docs.getvelu.com) and open your site.
+  </Step>
+  <Step title="Click Instant Rollback">
+    In the **Production Deployment** card at the top of the page, click
+    **Instant Rollback**. The button is disabled if no earlier successful build
+    is available.
+  </Step>
+  <Step title="Review the builds">
+    A dialog shows the current live build and the previous successful build you
+    will roll back to — commit message, short SHA, author, and deploy time.
+  </Step>
+  <Step title="Add a reason (optional)">
+    Enter a short note explaining why you are rolling back. This appears in
+    **Activity → Changes** so your team has context. Leave it blank to skip.
+  </Step>
+  <Step title="Confirm">
+    Click **Continue**, review the warning, then click **Roll back now**. The
+    previous build goes live immediately.
+  </Step>
+</Steps>
+
+<Callout type="warning">
+  Readers see the previous deployment as soon as you confirm. The change is
+  immediate — there is no staging step.
+</Callout>
+
+## Promote the latest build
+
+Once the issue that caused the rollback is fixed, promote the latest successful
+build to restore normal publishing.
+
+<Steps>
+  <Step title="Check the rollback banner">
+    The Overview page shows a yellow banner: "You're serving an earlier version
+    of your docs." This banner stays until you promote or new builds catch up.
+  </Step>
+  <Step title="Click Promote latest">
+    Click **Promote latest** in the banner. Velu immediately makes the most
+    recent successful build live and exits rollback state. Normal auto-promotion
+    resumes for future builds.
+  </Step>
+</Steps>
+
+## Rollback status in Activity
+
+Every rollback and promotion appears as a row in the **Activity** table on the
+Overview page:
+
+| Trigger | What it means |
+| --- | --- |
+| `rollback` | You rolled back to an earlier build. The reason you entered (if any) appears in the Changes column. |
+| `promote` | You promoted the latest successful build after a rollback. |
+
+These rows show a **Completed** status badge rather than the normal build
+statuses.
+
+## Who can roll back
+
+Only workspace owners and admins with the `can_manage_rollbacks` permission can
+use the Instant Rollback and Promote latest controls. Members without this
+permission do not see the button.
+
+## Related topics
+
+<CardGroup>
+  <Card title="Deployments" icon="clock" cta={{ label: "View build history", href: "/docs/dashboard/deployments" }}>
+    Track build status, triggers, and errors in the Activity table.
+  </Card>
+  <Card title="Publishing" icon="cloud-upload" cta={{ label: "How publishing works", href: "/docs/deploy/publishing" }}>
+    What triggers a build and how changes reach production.
+  </Card>
+  <Card title="Billing" icon="credit-card" cta={{ label: "Plans and features", href: "/docs/dashboard/billing" }}>
+    Instant rollback is an Enterprise plan feature.
+  </Card>
+</CardGroup>

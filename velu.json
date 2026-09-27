@@ -117,7 +117,8 @@
               "deploy/preview-deployments",
               "deploy/custom-domains",
               "deploy/authentication-setup",
-              "writing/personalization"
+              "writing/personalization",
+              "dashboard/rollback"
             ]
           }
         ]

@@ -9,27 +9,33 @@ owner can access billing.
 
 ## Plans
 
-<Image src="/docs/images/dashboard/billing.png" alt="The billing page plan picker showing Free, Begin, and Value plans with prices and features" />
+<Image src="/docs/images/dashboard/billing.png" alt="The billing page plan picker showing Free, Begin, Value, and Enterprise plans with prices and features" />
 
 | Plan | Price | Monthly credits | Ask AI | Workflows |
 | --- | --- | --- | --- | --- |
 | **Free** | $0 | - | No | No |
 | **Begin** | $9 / mo | 300 | Yes | No |
 | **Value** | $49 / mo | 1,500 | Yes | Yes |
+| **Enterprise** | Custom | Custom | Yes | Yes |
 
 Every plan includes a hosted docs site, a custom domain, and Markdown and
 `llms.txt` export. **Begin** adds [Ask AI](/docs/ai/ask-ai), the chat assistant on
 your published site. **Value** adds [Workflows](/docs/dashboard/workflows), AI
-automations that open pull requests. **Value** also includes
-[shared session personalization](/docs/writing/personalization). Choose monthly
-or annual billing: annual gives you two months free.
+automations that open pull requests. Choose monthly or annual billing: annual
+gives you two months free.
+
+**Enterprise** is built for growing documentation teams that need advanced controls.
+It includes everything in Value, plus [instant rollback](/docs/dashboard/rollback),
+[shared session personalization](/docs/writing/personalization), and a custom
+credit allowance. Pricing is custom — click **Contact sales** on the billing page
+or email sales to get started.
 
 [Private documentation](/docs/deploy/authentication-setup) password protection is
-available on all plans. Workspace authentication needs Begin or Value. OAuth and
+available on all plans. Workspace authentication needs Begin or higher. OAuth and
 JWT authentication require an Enterprise plan.
 [Preview deployments](/docs/deploy/preview-deployments) require a Begin or
 Value plan. [Shared session personalization](/docs/writing/personalization)
-requires a Value plan.
+and [instant rollback](/docs/dashboard/rollback) require an Enterprise plan.
 
 ## Credits
 
@@ -48,5 +54,6 @@ running.
 
 <Callout type="note">
   Included credits refresh each month with your plan. Credits you buy on top are
-  used when the included allotment runs out.
+  used when the included allotment runs out. Enterprise plans have a custom credit
+  allowance — manual top-up and auto-top-up are not available on Enterprise.
 </Callout>

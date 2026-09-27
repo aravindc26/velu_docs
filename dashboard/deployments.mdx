@@ -20,6 +20,8 @@ A new deployment starts when:
 - Your site is first set up during onboarding.
 - You add or change a [custom domain](/docs/deploy/custom-domains).
 - You call [Trigger deployment](/docs/api-reference/introduction) on the REST API.
+- You use [Instant Rollback](/docs/dashboard/rollback) to revert to an earlier build (Enterprise).
+- You click **Promote latest** to restore the most recent build after a rollback (Enterprise).
 
 ## Build status
 
@@ -31,6 +33,8 @@ Each row in the Activity table shows one of these statuses:
 | **Building** | The build is running. |
 | **Successful** | The build finished and the site is live. |
 | **Failed** | The build didn't finish. |
+| **Live** | This build is currently serving production. Shown when a rollback is active. |
+| **Completed** | A rollback or promote action finished successfully. |
 
 The dashboard polls for status while a build runs, so the Overview page and
 Activity table update on their own: you don't need to refresh. A build
@@ -47,3 +51,11 @@ doesn't go unnoticed.
   compile errors, unknown components, and bad props inline, so you can fix them
   before they reach a build.
 </Callout>
+
+## Rollback and promote
+
+On the [Enterprise plan](/docs/dashboard/billing), you can revert your live site
+to an earlier successful build using [Instant Rollback](/docs/dashboard/rollback),
+or restore the latest build with **Promote latest**. These actions appear in
+the Activity table with a **Completed** status and a `rollback` or `promote`
+trigger label.
