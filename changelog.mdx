@@ -5,6 +5,24 @@ mode: "center"
 rss: true
 ---
 
+<Update label="October 2026" description="Compare view and restore in the editor" tags={["Added", "Fixed"]}>
+  ### Added
+
+  - **Compare view** in the web editor — switch to Compare alongside Visual and
+    Source to see a block-by-block diff of your draft against the published page.
+    Restore individual changes or step through them with undo/redo.
+
+  ### Fixed
+
+  - Restoring all visible changes in Compare view now clears the **M** mark from
+    the navigation tree automatically. Previously the file remained marked as
+    modified even after the draft matched the published version.
+  - A **Restore published file** button appears when the visual diff is empty but
+    the underlying file still has invisible differences (such as hidden frontmatter
+    or whitespace). Clicking it replaces the draft with the exact published file
+    and removes the M mark.
+</Update>
+
 <Update label="September 2026" description="Auth methods by plan" tags={["Improvements"]}>
   ### Improvements
 

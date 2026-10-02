@@ -71,6 +71,39 @@ the source:
   Publishing is what triggers a build. See [Deployments](/docs/dashboard/deployments).
 </Callout>
 
+## Compare with published
+
+The **Compare** view lets you see exactly what has changed in a draft relative to
+the currently published version of the page. It sits alongside Visual and Source
+in the view selector at the top of the editor.
+
+Use Compare when you want to:
+
+- Review your changes before publishing
+- Selectively undo parts of a draft while keeping other edits
+- Check whether a file is meaningfully different from what readers see
+
+### Navigation marks
+
+Files that differ from the published version are marked **M** (modified),
+**A** (added), or **D** (deleted) in the navigation tree. When you restore a
+page back to match the published content, the M mark clears automatically —
+you don't need to publish or reload.
+
+### Restoring changes
+
+In Compare view, each changed block is highlighted. You can restore individual
+blocks one at a time, or use undo/redo (⌘Z / ⌘⇧Z) to step through restores.
+
+If all visible differences have been restored and the page matches the published
+version, the editor shows:
+
+> This page matches the published version.
+
+A **Restore published file** button appears at this point if the underlying file
+still has invisible differences (such as whitespace or hidden frontmatter). Click
+it to replace the draft with the exact published file and clear the M mark.
+
 ## Configuration panels
 
 The **Config** tab edits `velu.json` through forms. Each panel maps to a part of
