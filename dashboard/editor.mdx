@@ -19,6 +19,10 @@ The editor's left panel has three tabs:
   `velu.json`.
 - **Config**: panels that edit `velu.json` through a form instead of raw JSON.
 
+Click the collapse icon (panel-left-close) at the top of the panel to hide it
+and give your content more room. Click the panel icon that remains on the left
+edge to expand it again.
+
 ## Writing a page
 
 Each page opens in a **visual (WYSIWYG)** view where you edit formatted content
@@ -31,6 +35,43 @@ editing.
 Changes autosave as you type: you'll see **All changes saved** once your work
 is stored. **Instant preview** renders the page as you edit so you can see the
 result without leaving the editor.
+
+### Compare view
+
+When you're on a branch in docs-as-code mode, a **Compare** option appears
+next to Visual and Source. Compare shows the current page's draft side-by-side
+against the published version so you can review exactly what will change before
+you publish.
+
+<Image src="/docs/images/dashboard/editor-compare.png" alt="The Compare view: a two-column diff showing Published on the left and Branch draft on the right, with added and removed blocks highlighted and a Restore button on the focused change" />
+
+The toolbar at the top of the diff shows a count of modified, added, and removed
+blocks. Use the up and down arrows to jump between changes. A **Changes only**
+toggle hides unchanged blocks so you can focus on what's different.
+
+To revert a single change back to the published version, click the numbered
+indicator next to it and then click **Restore**. The restore applies to your
+draft and can be undone with **Cmd/Ctrl+Z** (or redone with **Cmd/Ctrl+Shift+Z**).
+Restoring a block does not publish — click **Publish** when you're ready to go live.
+
+<Callout type="note">
+  Compare is available in docs-as-code mode. If you don't see it, you may be
+  in editor-only mode or your current view is already the published version.
+</Callout>
+
+### Branch change marks
+
+The **Navigation** and **Files** tabs show a colored letter next to each file
+that differs from the published version on your current branch:
+
+| Mark | Color | Meaning |
+| ---- | ----- | ------- |
+| **A** | Green | File added on this branch |
+| **M** | Amber | File modified on this branch |
+| **D** | Red | File deleted on this branch |
+
+A small colored dot on a navigation group or folder means at least one page
+inside it has a change. Hover over a mark to see a tooltip label.
 
 ### Page settings
 
