@@ -160,14 +160,14 @@
         "tags": ["Assistant"],
         "summary": "Create assistant message",
         "security": [],
-        "description": "Generates a response from Ask AI for the hosted docs site. Compatible with AI SDK v5+. No API key — the site is selected by `{domain}`, the hostname readers visit.",
+        "description": "Generates a response from Ask AI for the hosted docs site. Compatible with AI SDK v5+. No API key : the site is selected by `{domain}`, the hostname readers visit.",
         "parameters": [
           {
             "name": "domain",
             "in": "path",
             "required": true,
             "schema": { "type": "string" },
-            "description": "Hostname of the published docs site. Use the host readers see in the address bar — a platform site such as `acme.getvelu.com`, or a custom domain such as `veludocs.com`. Do not include the path: for a site at `https://veludocs.com/docs`, `{domain}` is `veludocs.com` and the `/docs` prefix belongs in `currentPath`.",
+            "description": "Hostname of the published docs site. Use the host readers see in the address bar : a platform site such as `acme.getvelu.com`, or a custom domain such as `veludocs.com`. Do not include the path: for a site at `https://veludocs.com/docs`, `{domain}` is `veludocs.com` and the `/docs` prefix belongs in `currentPath`.",
             "example": "veludocs.com"
           }
         ],

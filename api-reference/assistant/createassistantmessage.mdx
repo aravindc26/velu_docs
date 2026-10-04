@@ -1,4 +1,4 @@
-The Create assistant message endpoint streams an Ask AI reply for a published docs site. There is **no API key**. The site is selected by `{domain}` — the hostname readers visit.
+The Create assistant message endpoint streams an Ask AI reply for a published docs site. There is **no API key**. The site is selected by `{domain}` : the hostname readers visit.
 
 For Velu's own docs at `https://veludocs.com/docs`, `{domain}` is `veludocs.com`. Pass `/docs` (or a page path like `/docs/quickstart`) in `currentPath`. Each reply consumes 1 credit from the site owner's plan.
 
@@ -63,20 +63,20 @@ function DocsChat({ domain }: { domain: string }) {
 
 Required configuration:
 
-- **`transport`** — Use `DefaultChatTransport` to configure the API connection.
-- **`body.fp`** — Fingerprint identifier (`anonymous` or a unique user id).
-- **`body.retrievalPageSize`** — Number of search results to ground the reply (recommended: `5`).
+- **`transport`** : Use `DefaultChatTransport` to configure the API connection.
+- **`body.fp`** : Fingerprint identifier (`anonymous` or a unique user id).
+- **`body.retrievalPageSize`** : Number of search results to ground the reply (recommended: `5`).
 
 Optional configuration:
 
-- **`body.threadId`** — Continue a thread. The stream `finish` event includes `threadId`.
-- **`body.currentPath`** — Path the reader is viewing. Maximum 200 characters.
-- **`body.context`** — Snippets from the page. Each object has:
-  - **`type`** — `code` or `textSelection`
-  - **`value`** — The snippet
-  - **`path`** (optional) — Source file or page path
-  - **`elementId`** (optional) — UI element id
-- **`body.filter.language`** — Language code filter, for example `en`.
+- **`body.threadId`** : Continue a thread. The stream `finish` event includes `threadId`.
+- **`body.currentPath`** : Path the reader is viewing. Maximum 200 characters.
+- **`body.context`** : Snippets from the page. Each object has:
+  - **`type`** : `code` or `textSelection`
+  - **`value`** : The snippet
+  - **`path`** (optional) : Source file or page path
+  - **`elementId`** (optional) : UI element id
+- **`body.filter.language`** : Language code filter, for example `en`.
 
 See [useChat](https://ai-sdk.dev/docs/reference/ai-sdk-ui/use-chat) and [Transport](https://ai-sdk.dev/docs/ai-sdk-ui/transport) in the AI SDK documentation.
 
