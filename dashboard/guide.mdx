@@ -1,0 +1,111 @@
+---
+title: "Guide"
+description: "Set up an in-app assistant that helps your users navigate your product, powered by your frontend code and docs."
+---
+
+Guide is an AI agent that learns your frontend application and embeds an
+interactive assistant directly inside it. Users can ask Guide how to do
+something and it walks them through the product, step by step.
+
+Guide lives under **Agents › Guide** at `/guide` in your dashboard. It's
+available to accounts with Guide enabled.
+
+<Callout type="info">
+  Guide is currently a private pilot. If you don't see **Guide** in the
+  sidebar, your account doesn't have access yet.
+</Callout>
+
+## How Guide works
+
+When you set up Guide, Velu's learning agent reads your frontend repository —
+its screens, routes, buttons, forms, and navigation paths — and builds a map of
+your product. That map powers the widget your users interact with.
+
+Once Guide is installed in your app, users can open it and ask questions like
+"How do I invite a teammate?" Guide responds with step-by-step instructions
+and marks each control on screen so the user knows exactly where to click.
+
+## Set up Guide
+
+<Steps>
+  <Step title="Connect GitHub">
+    If your account isn't connected to GitHub yet, click **Connect GitHub**
+    on the Guide page. This grants Velu read access to the repositories you
+    choose to share.
+
+    After connecting, GitHub sends you back to the Guide setup page
+    automatically.
+  </Step>
+  <Step title="Choose your frontend repository">
+    Select the repository that contains your user-facing application — the one
+    your users actually interact with, not an internal tool or marketing site.
+
+    Use the search field to filter by name. The repository list shows the
+    default branch Velu will learn from. You can page through results with
+    **Previous** and **Next** if you have many repositories.
+  </Step>
+  <Step title="Start learning">
+    Click **Start learning**. Velu's learning agent starts reading your
+    frontend code: discovering screens and routes, tracing user interactions,
+    and building a complete map of the product. This may take a while for
+    larger repositories.
+
+    You'll receive an email at your account address when learning is complete.
+    You can leave the page — Guide continues in the background.
+  </Step>
+  <Step title="Install the embed script">
+    When learning finishes, the Guide page shows an embed script. Add it to
+    your application before the closing `</body>` tag:
+
+    ```html
+    <script
+      src="https://cdn.getvelu.com/guide/widget.js"
+      data-guide-id="YOUR_GUIDE_ID"
+      defer
+    ></script>
+    ```
+
+    Click **Copy snippet** to copy your personalized script with the correct
+    `data-guide-id` value already filled in.
+  </Step>
+</Steps>
+
+## What learning does
+
+The learning stage runs in four phases, shown as a progress list on the Guide page:
+
+| Phase | What happens |
+| ----- | ------------ |
+| Discover screens & routes | Finds the pages, layouts, and entry points in your frontend code. |
+| Trace user interactions | Follows buttons, forms, dialogs, and the paths between screens. |
+| Verify the product map | Checks source references, navigation structure, and coverage gaps. |
+| Save & prepare your Guide | Saves the product map and prepares it for the widget. |
+
+The agent uses only your frontend source code and any shared UI packages it
+imports. It does not require access to your backend.
+
+## If learning fails
+
+If the learning agent can't finish, the Guide page shows an error message with
+the reason. Common issues include loss of GitHub app access to the repository.
+
+From the failure state you can:
+
+- **Retry learning** — runs the agent again from the beginning.
+- **Review repository** — go back to the repository selector to choose a
+  different one or reconnect GitHub.
+
+## Preview the Guide experience
+
+Click **Preview** at the top of the Guide page to see a sample walkthrough.
+The preview shows a simulated app with an embedded Guide widget. It steps
+through finding Settings → Team → Invite teammate so you can see what your
+users will experience.
+
+The preview does not send any network requests or load a live widget.
+
+## Change the repository
+
+After Guide is set up, click **Change repository** at the bottom of the ready
+state to pick a different frontend repository. Starting a new repository
+triggers the learning process again.

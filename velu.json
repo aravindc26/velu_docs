@@ -98,6 +98,14 @@
             ]
           },
           {
+            "group": "Agents",
+            "icon": "bot",
+            "pages": [
+              "dashboard/workflows",
+              "dashboard/guide"
+            ]
+          },
+          {
             "group": "AI & optimization",
             "icon": "sparkles",
             "pages": [
