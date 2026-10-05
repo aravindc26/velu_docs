@@ -1,0 +1,99 @@
+---
+title: "MCP settings"
+description: "Connect Claude, ChatGPT, Codex, and Claude Code to your documentation through the Admin MCP server."
+---
+
+**Settings › MCP** at `/settings/mcp` is where you get the connection details
+for Velu's Admin MCP server and follow per-client setup instructions to connect
+your AI tools.
+
+Once connected, AI agents can read your documentation content and create drafts
+for you to review. They cannot publish anything without your explicit approval.
+
+<Callout type="info">
+  For a full explanation of what the Admin MCP server does and how agent draft
+  review works, see [Model Context Protocol](/docs/ai/model-context-protocol).
+</Callout>
+
+## Server URL
+
+The page shows your Admin MCP server URL. Click **Copy URL** to copy it to your
+clipboard. You'll need this URL when setting up clients manually.
+
+## Connect a client
+
+Select your AI tool from the four tabs — **Claude**, **ChatGPT**, **Codex**,
+and **Claude Code** — to see setup steps tailored to that client.
+
+### Claude
+
+<Steps>
+  <Step title="Open Connectors in Claude">
+    Go to **Customize → Connectors → Add custom connector**.
+  </Step>
+  <Step title="Add the Velu connector">
+    Name it **Velu**, paste your Admin MCP server URL, and sign in to your Velu
+    account. If prompted, choose **Register automatically**.
+  </Step>
+  <Step title="Enable Velu in a chat">
+    Open a new chat and select **+ → Connectors**, then enable **Velu**.
+  </Step>
+</Steps>
+
+<Callout type="note">
+  On Team and Enterprise workspaces a workspace owner may need to add the
+  connector before members can use it.
+</Callout>
+
+### ChatGPT
+
+<Steps>
+  <Step title="Open Plugins">
+    In ChatGPT, open **Plugins** in the sidebar, then choose **Add → Create
+    custom MCP server**.
+  </Step>
+  <Step title="Add the server">
+    Name it **Velu**. Choose **Server URL**, paste your Admin MCP server URL,
+    and set **Authentication** to **OAuth**.
+  </Step>
+  <Step title="Create the plugin and sign in">
+    Check **I understand and want to continue**, then click **Create as a
+    plugin**. Complete the Velu sign-in and click **Allow access**.
+  </Step>
+</Steps>
+
+### Codex and Claude Code
+
+For coding agents, the easiest method is the **setup prompt**. Click **Copy
+setup prompt**, paste it into a new agent session, and follow the browser
+sign-in that appears.
+
+The prompt tells the agent to add the Velu server, preserve your other MCP
+servers, and confirm access by calling `get_site` after authentication. You
+remain in control: the prompt explicitly instructs the agent not to edit or
+publish documentation during setup.
+
+If you prefer to set things up yourself, expand **Or set up manually** to see
+the terminal commands and copy them with one click.
+
+```bash
+# Codex
+codex mcp add velu --url <your-admin-mcp-url>
+codex mcp login velu --scopes docs:read,docs:write,docs:review
+
+# Claude Code
+claude mcp add --transport http --scope user velu <your-admin-mcp-url>
+```
+
+After running the commands, complete browser sign-in when prompted. For Claude
+Code, type `/mcp` inside Claude Code, select **velu**, and authenticate.
+
+## After connecting
+
+Once your client is connected, you can ask it to read documentation pages,
+suggest improvements, or create drafts. Any draft the agent creates appears in
+the review editor, where you compare the agent's version against the original
+and approve or discard the changes before anything goes live.
+
+See [Model Context Protocol — Review agent drafts](/docs/ai/model-context-protocol#review-agent-drafts)
+for how the review editor works.
