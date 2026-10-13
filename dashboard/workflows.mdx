@@ -21,6 +21,21 @@ and they're available on the Value plan.
 A workflow runs on a trigger, inspects your docs, and (when it has a change to propose) opens a pull request. You review the pull request in GitHub and merge
 it like any other, so nothing changes without your approval.
 
+## The Workflows and Runs tabs
+
+The Workflows page has two tabs:
+
+- **Workflows** (`/workflows`) — lists every workflow you've configured. Each
+  row shows the workflow name, trigger type, connected repositories, and the
+  status of its most recent run. From here you can click **Run now** to trigger
+  a workflow immediately, or **Edit** to change its configuration.
+- **Runs** (`/workflows/runs`) — the full run history for all workflows. Use
+  the workflow dropdown to filter to a single workflow, and the status pills to
+  filter by outcome (completed, failed, running, and so on).
+
+When you click **Run now**, the dashboard switches to the Runs tab so you can
+watch the run as it happens.
+
 ## Templates
 
 Velu ships templates for common docs upkeep:
@@ -40,6 +55,11 @@ Each workflow runs either:
 
 - **On pull-request merge**: after a pull request lands on your default branch.
 - **On a schedule**: at a recurring time you set.
+
+## Failed runs
+
+When a run fails, the Runs tab shows the specific reason recorded for that run
+instead of a generic message. Hover over the error text to see the full detail.
 
 ## Cost
 
