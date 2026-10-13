@@ -1,7 +1,16 @@
 ---
 title: "Model Context Protocol"
-description: "Connect coding agents and other MCP clients directly to your published documentation."
+description: "Connect coding agents and other MCP clients directly to your published documentation, or let agents read and write drafts through the Admin MCP server."
 ---
+
+Velu exposes two MCP servers:
+
+- **Public MCP** — every published site gets a read-only search endpoint that
+  any MCP client can use without signing in.
+- **Admin MCP** — an authenticated endpoint that lets trusted AI agents read
+  your docs content and create or edit documentation drafts for your review.
+
+## Public MCP server
 
 Every published Velu site has a remote [Model Context Protocol](https://modelcontextprotocol.io)
 server. Coding agents, IDEs, and other MCP clients can search your current docs
@@ -15,7 +24,7 @@ https://docs.acme.com/mcp
 
 The same path works on a Velu subdomain or a configured custom domain.
 
-## What the server exposes
+### What the server exposes
 
 The server currently exposes one tool:
 
@@ -35,11 +44,11 @@ For example, an agent can ask the tool to search for `configure a webhook` and
 use the returned source URLs to open the relevant pages.
 
 <Callout type="note">
-  The current MCP server provides documentation search only. It does not expose
+  The public MCP server provides documentation search only. It does not expose
   endpoints from your OpenAPI specification as callable tools.
 </Callout>
 
-## Connect an MCP client
+### Connect an MCP client
 
 Clients that support remote HTTP MCP servers can use the URL directly:
 
@@ -69,7 +78,7 @@ A typical stdio-style client configuration looks like this:
 
 The exact configuration filename and shape depends on the client.
 
-## Add connection shortcuts
+### Add connection shortcuts
 
 Surface the MCP server from every docs page by adding MCP actions to the
 [`contextual.options`](/docs/ai/contextual-menu) list:
@@ -92,7 +101,7 @@ Surface the MCP server from every docs page by adding MCP actions to the
 The `mcp` option copies the `mcp-remote` command. Cursor and VS Code open their
 MCP installation links, while `devin-mcp` copies a Devin CLI command.
 
-## Availability and access
+### Availability and access
 
 The MCP endpoint is generated for published documentation and does not require
 an API key. Anyone who can reach the published site can query its documentation,
@@ -100,3 +109,86 @@ so do not publish content that should remain private.
 
 Search results come from Velu's indexed copy of the published docs. Publish
 again after changing content so agents can search the latest version.
+
+## Admin MCP server
+
+The Admin MCP server is an authenticated endpoint that lets AI coding agents
+work with your documentation drafts. Unlike the public server, it requires your
+Velu account credentials, so it is only suitable for agents you control.
+
+Use the Admin MCP server when you want an agent to:
+
+- Fetch the current content of a documentation page
+- Create a draft with proposed changes for you to review
+- Work alongside you in an AI-assisted editing workflow
+
+The Admin MCP server does **not** publish automatically. Any changes an agent
+makes appear as a draft that you review and approve before they go live.
+
+### Connect your AI tool
+
+Go to **Settings › MCP** in your dashboard. The page shows your Admin MCP
+server URL and step-by-step connection instructions for each supported client.
+
+<CardGroup>
+  <Card title="Claude" cta={{ label: "Open settings", href: "https://docs.getvelu.com/settings/mcp" }}>
+    Add Velu as a custom connector from Customize › Connectors.
+  </Card>
+  <Card title="ChatGPT" cta={{ label: "Open settings", href: "https://docs.getvelu.com/settings/mcp" }}>
+    Add Velu as a custom MCP server through ChatGPT Plugins.
+  </Card>
+  <Card title="Codex" cta={{ label: "Open settings", href: "https://docs.getvelu.com/settings/mcp" }}>
+    Copy the one-click setup prompt and paste it into Codex.
+  </Card>
+  <Card title="Claude Code" cta={{ label: "Open settings", href: "https://docs.getvelu.com/settings/mcp" }}>
+    Copy the one-click setup prompt and paste it into Claude Code.
+  </Card>
+</CardGroup>
+
+For coding agents (Codex and Claude Code), the settings page provides a
+**setup prompt** you can paste directly into the agent. The prompt tells the
+agent to add the server, preserve your existing configuration, and complete
+browser-based sign-in. Copy it from **Settings › MCP**, paste it into a new
+conversation, and follow the browser sign-in that appears.
+
+You can also set up manually. The settings page shows the exact terminal
+commands to run:
+
+```bash
+# Codex
+codex mcp add velu --url <your-admin-mcp-url>
+codex mcp login velu --scopes docs:read,docs:write,docs:review
+
+# Claude Code
+claude mcp add --transport http --scope user velu <your-admin-mcp-url>
+```
+
+Replace `<your-admin-mcp-url>` with the server URL shown on your **Settings › MCP** page.
+
+### Review agent drafts
+
+When an agent creates or edits a draft, you receive an editor link to review
+the changes. Open it to see the draft in a dedicated review editor that shows:
+
+- A **file list** of every file the agent touched, with change status (modified,
+  added, or deleted).
+- A **Compare** view showing the agent's draft against the starting version,
+  side-by-side.
+- A **Visual** view for reading the rendered page.
+- A **Source** view for editing the raw Markdown directly.
+
+You can edit the draft yourself before saving. If the agent makes further
+changes while you have the review editor open, a banner alerts you so you can
+load the latest version without losing your own edits.
+
+When you're satisfied with the draft:
+
+1. Click **Save for review** to create a checkpoint. This marks the draft as
+   ready for publication without going live yet.
+2. Click **Publish reviewed version** to push the draft to your live site.
+
+<Callout type="note">
+  The agent cannot publish on its own. Only you can click **Publish reviewed
+  version**. This keeps your documentation under your control even when an
+  agent is making edits.
+</Callout>

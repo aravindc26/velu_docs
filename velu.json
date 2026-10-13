@@ -98,12 +98,21 @@
             ]
           },
           {
+            "group": "Agents",
+            "icon": "bot",
+            "pages": [
+              "dashboard/workflows",
+              "dashboard/guide"
+            ]
+          },
+          {
             "group": "AI & optimization",
             "icon": "sparkles",
             "pages": [
               "ai/markdown-export",
               "ai/skill-md",
               "ai/model-context-protocol",
+              "dashboard/mcp-settings",
               "ai/ask-ai",
               "ai/contextual-menu",
               "ai/search"
