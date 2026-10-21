@@ -1,0 +1,158 @@
+---
+title: "Velu in Claude"
+description: "Connect Velu to Claude, edit your docs in a conversation, and review and publish the changes in a panel inside the chat."
+---
+
+The Velu connector lets Claude work on your documentation site for you. Ask for
+a change in plain words, such as "add a section on API key rotation" or "rename
+**Create key** to **New API key** everywhere", and Claude reads your pages, edits
+them in a private draft, and shows you every change in a review panel inside the
+conversation. Nothing reaches your live site until you publish it.
+
+## Before you start
+
+- A Velu account with access to the docs editor, and a published Velu site.
+- A Claude plan that supports connectors.
+- To publish from Claude, your account must be allowed to publish the site.
+
+## Connect Velu
+
+<Steps>
+  <Step title="Add the connector">
+    In Claude, open **Settings › Connectors**. Find **Velu** in the directory
+    and select **Connect**.
+
+    If Velu isn't listed for you yet, select **Add custom connector** and use
+    this URL:
+
+    ```text
+    https://api.getvelu.com/mcp/admin
+    ```
+  </Step>
+  <Step title="Sign in to Velu">
+    Claude opens a Velu sign-in page. Sign in with the account you use for the
+    [dashboard](https://docs.getvelu.com).
+  </Step>
+  <Step title="Approve the permissions">
+    Velu shows what Claude is asking for. Approve to finish connecting. You can
+    see each permission in [What Claude can do](#what-claude-can-do).
+  </Step>
+</Steps>
+
+Claude works on the one documentation site that belongs to your Velu account.
+
+## Ask for a change
+
+Describe the change in a conversation. A few examples:
+
+<CardGroup cols={2}>
+  <Card title="Add content" icon="file-plus">
+    "Add a short section to the API keys page on rotating a key every 90 days."
+  </Card>
+  <Card title="Tighten a page" icon="scissors">
+    "Shorten the quickstart steps without losing any of them."
+  </Card>
+  <Card title="Follow a product change" icon="replace">
+    "We renamed **Create key** to **New API key**. Update every page that
+    mentions it."
+  </Card>
+  <Card title="Reorganise" icon="list-tree">
+    "Move the troubleshooting page under Get started and fix the navigation."
+  </Card>
+</CardGroup>
+
+Claude reads Velu's writing and configuration guide before it edits, so new
+pages use your site's components and frontmatter the way the rest of your docs
+do.
+
+## Review and publish the changes
+
+Every edit goes into a **draft**: a private copy of your site's content. Your
+live site and the web editor's published content don't change while Claude
+works.
+
+<Steps>
+  <Step title="Open the review">
+    When Claude finishes, a Velu card appears in the conversation with the
+    number of changed files. Select **Review changes** to open the full panel.
+  </Step>
+  <Step title="Check each change">
+    The panel lists the changed files. Select one to see the live page and the
+    draft side by side, with additions and removals marked. Images are shown
+    before and after.
+  </Step>
+  <Step title="Edit if you need to">
+    Select a block in the draft, then **Edit**, change the text and save. Each
+    edit saves a new revision of the draft. You can also select **Open in Velu**
+    to continue in the web editor.
+  </Step>
+  <Step title="Publish">
+    Select **Publish reviewed version**, then confirm. Velu publishes exactly the
+    revision you reviewed and rebuilds your site, which takes a few minutes. If
+    the draft changed after you opened it, Velu asks you to load the latest
+    version and review again.
+  </Step>
+</Steps>
+
+<Callout type="note">
+  Publishing happens only from the **Publish** button in the panel, after you
+  confirm. Claude can edit and save drafts, but it doesn't publish them.
+</Callout>
+
+### Sites connected to GitHub
+
+If your docs live in a GitHub repository, saving the draft opens a pull request
+in that repository instead of publishing. The panel shows **Open pull request**
+in place of **Publish**. Review and merge the pull request on GitHub, and your
+site rebuilds as it does for any other merge.
+
+## What Claude can do
+
+When you connect, you approve three permissions:
+
+| Permission | What it allows |
+| --- | --- |
+| Read your documentation | Read pages, settings and navigation, search drafts, compare a draft with the live site. |
+| Edit documentation drafts | Create and edit drafts: write, edit, move and delete files, and change settings and navigation in a draft. |
+| Save drafts and open pull requests | Save a draft for review. On a GitHub-connected site this opens or updates a pull request. Publishing from the review panel also needs this permission. |
+
+Tools that only read are marked read-only. Tools that overwrite, move or delete
+draft content, and publishing, are marked as making changes, so Claude can ask
+you before it uses them.
+
+## Disconnect
+
+In Claude, open **Settings › Connectors**, select **Velu**, and choose
+**Disconnect**. Claude can no longer reach your documentation. Drafts it made
+stay in Velu until you publish or discard them, and your published site isn't
+affected.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Claude says a permission is required">
+    You approved fewer permissions when you connected. Disconnect Velu in
+    Claude, connect again, and approve all three permissions.
+  </Accordion>
+  <Accordion title="The panel says the draft changed while I was editing">
+    Claude saved a newer revision while you had the panel open. Select **Load
+    latest** and make your edit again.
+  </Accordion>
+  <Accordion title="The panel says there's no open draft">
+    Claude hasn't started a draft in this conversation yet, or the draft was
+    published or discarded. Ask Claude for the change again.
+  </Accordion>
+  <Accordion title="Publish isn't shown">
+    Your site is connected to GitHub, so changes are published by merging the
+    pull request. Select **Open pull request** in the panel.
+  </Accordion>
+</AccordionGroup>
+
+## Your data
+
+Claude sees the pages it reads to make your change. The full before-and-after
+content in the review panel goes to the panel only, not to Claude. See the
+[Velu privacy policy](https://getvelu.com/privacy) for how Velu handles your
+data.
+
+Questions or problems: email [support@getvelu.com](mailto:support@getvelu.com).
