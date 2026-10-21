@@ -11,7 +11,7 @@ and they're available on the Value plan.
 <Image src="/docs/images/dashboard/workflows.png" alt="The Workflows page, showing the Value-plan upgrade prompt for docs automations" />
 
 <Callout type="info">
-  Workflows need the **Value** plan and a connected GitHub repository. In
+  Workflows need the **Value** plan (or Enterprise) and a connected GitHub repository. In
   editor-only mode there's no repo to open pull requests against. See
   [Billing](/docs/dashboard/billing).
 </Callout>
@@ -49,12 +49,48 @@ Velu ships templates for common docs upkeep:
 - **Broken-link detection**: find links that no longer resolve.
 - **SEO audit**: check pages for missing titles, descriptions, and metadata.
 
+## Autopilot
+
+Autopilot is a workflow template for Enterprise workspaces. It keeps your pages,
+screenshots, and videos accurate as your product changes. For each change it
+reviews, Autopilot revises the pages the change affects, writes pages for new
+features, and re-records the screenshots and videos of the screens the change
+touched. It then opens a pull request on your docs repository for you to review.
+
+Use Autopilot when your product UI changes often and you want visuals to stay
+current without recording them by hand. Autopilot has a fixed job, so there is no
+prompt to write. Autopilot appears in the template list only when it is available
+for your workspace.
+
+To set it up, choose **Autopilot** on the template picker and configure:
+
+- **Trigger**: run when a pull request is merged, or on a schedule. A scheduled
+  run reviews every commit since the previous run. You can switch between the two
+  triggers later by editing the workflow.
+- **Trigger repository**: the code repository to watch.
+- **Context repositories**: other repositories Autopilot can read. If your first
+  docs build used repositories, they are added for you, apart from the trigger
+  repository. You can change the list.
+- **Screenshots**: update screenshots of the screens a change touches, and add
+  them for new features. On by default.
+- **Videos**: re-record videos of the steps a change touches, and record new ones
+  for new features. On by default.
+
 ## Triggers
 
 Each workflow runs either:
 
 - **On pull-request merge**: after a pull request lands on your default branch.
 - **On a schedule**: at a recurring time you set.
+
+## Before your docs repository exists
+
+If you have connected GitHub but your first build is still writing your docs, the
+Workflows page shows **Your docs are still being built** with a **See progress**
+button. Workflows open pull requests on your docs repository, which the first
+build creates when it publishes, so you can set them up once your site is live.
+If the first build did not finish, the page says so and the button reads **Go to
+the build**.
 
 ## Failed runs
 
@@ -63,5 +99,9 @@ instead of a generic message. Hover over the error text to see the full detail.
 
 ## Cost
 
-Each workflow run costs 14 credits, drawn from your plan's monthly allotment or
-purchased balance. See [Billing](/docs/dashboard/billing) for credits and top-ups.
+Each completed run is charged its actual cost in credits, drawn from your plan's
+monthly allotment or purchased balance. A run needs at least 140 credits in your
+balance to start, and a single run never costs more than 1,400 credits. The Runs
+tab has a **Credits** column that shows what each completed run used. Skipped and
+failed runs aren't charged and show a dash. See
+[Billing](/docs/dashboard/billing) for credits and top-ups.

@@ -187,6 +187,46 @@ When you're satisfied with the draft:
    ready for publication without going live yet.
 2. Click **Publish reviewed version** to push the draft to your live site.
 
+### Review changes inside Claude or ChatGPT
+
+In Claude and ChatGPT, you can review a draft without leaving the chat. After an
+agent edits a draft, it opens the **Velu review panel** in the conversation. You
+can also ask the agent to "show me the changes" at any time. If you don't name a
+draft, the panel opens your newest open draft.
+
+The panel first appears as a card that lists how many changes are ready, the
+draft name, its revision number, and up to five changed files. Click **Review
+changes** to open the full panel:
+
+- **Changes** lists every changed file with a letter for its status: **A**
+  (added), **M** (modified), or **D** (deleted). Select a file to see it.
+- A side-by-side view compares the **Live site** version with the draft. Images
+  appear next to each other so you can compare them.
+- **Open in Velu** opens the draft in the dashboard review editor.
+
+To edit a block in place, select it and click **Edit**, or double-click it. Change
+the block's Markdown source, then click **Save** (or press Cmd/Ctrl+Enter). Press
+Esc to cancel. You can edit any block, changed or not. Click **Restore** on a
+changed block to put back the live site's version of it. Config files such as
+`velu.json` can be compared but not edited block by block.
+
+Each save creates a new revision of the draft and publishes nothing. If the
+agent saves a newer revision while you edit, the panel shows a banner. Click
+**Load latest** and redo your edit.
+
+When you're ready, click **Publish reviewed version** and confirm. The panel
+publishes the exact revision you reviewed, and your site rebuilds in a few
+minutes while the live site stays up. If the build doesn't start, use **Rebuild**
+in the dashboard.
+
+If your docs live in GitHub, the panel shows **Open pull request** instead of a
+publish button. Merge the pull request to publish.
+
+<Callout type="note">
+  The panel needs a client that supports MCP Apps. If your client can't show it,
+  use the link the agent gives you to review the draft in the Velu dashboard.
+</Callout>
+
 <Callout type="note">
   The agent cannot publish on its own. Only you can click **Publish reviewed
   version**. This keeps your documentation under your control even when an

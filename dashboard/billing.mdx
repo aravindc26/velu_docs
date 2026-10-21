@@ -14,8 +14,8 @@ owner can access billing.
 | Plan | Price | Monthly credits | Ask AI | Workflows | Private auth methods |
 | --- | --- | --- | --- | --- | --- |
 | **Free** | $0 | - | No | No | Password |
-| **Begin** | $9 / mo | 300 | Yes | No | Password, Workspace |
-| **Value** | $49 / mo | 1,500 | Yes | Yes | Password, Workspace |
+| **Begin** | $9 / mo | 3,000 | Yes | No | Password, Workspace |
+| **Value** | $49 / mo | 15,000 | Yes | Yes | Password, Workspace |
 | **Enterprise** | Custom | Custom | Yes | Yes | Password, Workspace, OAuth 2.0, JWT |
 
 Every plan includes a hosted docs site, a custom domain, and Markdown and
@@ -35,18 +35,43 @@ requires a Value plan.
 
 ## Credits
 
-Credits are the unit Velu charges AI usage against. One credit is worth $0.01.
-Your plan includes a monthly allotment, and usage draws it down:
+Credits are the unit Velu charges AI usage against. One credit is worth $0.001,
+so $1 buys 1,000 credits. Your plan includes a monthly allotment, and usage
+draws it down. Velu charges the actual cost of the AI work with no markup:
 
 | Action | Cost |
 | --- | --- |
-| Ask AI reply | 1 credit |
-| Workflow run | 14 credits |
+| Ask AI reply | The cost of the reply, at least 1 credit. A reply that fails is free. |
+| Workflow run | The cost of the run. Only completed runs are charged. |
 
-Begin includes 300 credits a month and Value includes 1,500. When you need more,
-buy credits from the Billing page. You can also turn on **auto-top-up** to buy
-credits automatically when your balance runs low, so Ask AI and Workflows keep
-running.
+Begin includes 3,000 credits a month and Value includes 15,000. New workspaces
+start with a 14-day Value trial that includes 15,000 credits, Ask AI, and
+Workflows. A banner shows how much of the trial is left. When the trial ends,
+your workspace moves to Free unless you choose a paid plan. Credits you bought
+are kept.
+
+### Workflow run costs
+
+A workflow run needs a balance of at least 140 credits to start. When a run
+completes, its credits used appear in the **Credits** column on the
+[Runs tab](/docs/dashboard/workflows#the-workflows-and-runs-tabs). Skipped and
+failed runs show a dash because they cost nothing. A single run is never charged
+more than 1,400 credits.
+
+### Buy credits
+
+Choose **Buy credits** on the Billing page to top up your balance:
+
+- The smallest top-up is 5,000 credits ($5). The dialog shows the total before
+  you continue to checkout.
+- You can buy up to 1,000,000 credits ($1,000) at a time. For a larger purchase,
+  the dialog offers a link to contact sales for volume pricing.
+- Credits you buy never expire.
+
+You can also turn on **auto-top-up** to buy credits automatically when your
+balance runs low, so Ask AI and Workflows keep running. Set the balance that
+triggers a top-up and the amount to buy. Each automatic top-up follows the same
+5,000 to 1,000,000 credit range.
 
 <Callout type="note">
   Included credits refresh each month with your plan. Credits you buy on top are
