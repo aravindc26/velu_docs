@@ -222,8 +222,20 @@ publishes the exact revision you reviewed, and your site rebuilds in a few
 minutes while the live site stays up. If the build doesn't start, use **Rebuild**
 in the dashboard.
 
-If your docs live in GitHub, the panel shows **Open pull request** instead of a
-publish button. Merge the pull request to publish.
+If your docs live in GitHub, the panel has no publish button. Instead:
+
+1. Click **Open pull request** to save the reviewed revision to a pull request.
+2. If you edit the draft afterward, or the agent saves a newer revision, click
+   **Update pull request** to add the latest revision to the same pull request.
+3. Click **View pull request** to open it on GitHub, then merge it to publish.
+
+Nothing goes live until the pull request is merged. If the draft changed after
+you reviewed it, the panel asks you to load the latest version and review again
+before it saves.
+
+When you open the panel, it loads the latest state of the draft, so the changes
+you see are current even if the draft was saved or edited after the card first
+appeared.
 
 <Callout type="note">
   The panel needs a client that supports MCP Apps. If your client can't show it,
