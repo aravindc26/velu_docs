@@ -5,6 +5,56 @@ mode: "center"
 rss: true
 ---
 
+<Update label="October 2026" description="Review panel, usage-based credits, and Autopilot" tags={["New features", "Improvements"]}>
+  ### New features
+
+  - **Velu review panel** — when an AI agent edits a draft through the Admin MCP
+    server, Claude and ChatGPT can show the changes in the chat. Compare each
+    file against the live site, edit any block in place, and publish the reviewed
+    version without leaving the conversation. See
+    [Review changes inside Claude or ChatGPT](/docs/ai/model-context-protocol#review-changes-inside-claude-or-chatgpt).
+  - **Autopilot** — an Enterprise workflow that updates the pages, screenshots,
+    and videos a merged pull request affects, and can also run on a schedule.
+    See [Autopilot](/docs/dashboard/workflows#autopilot).
+
+  ### Improvements
+
+  - **Usage-based credits** — a credit is now worth $0.001, and Ask AI replies and
+    workflow runs are charged their actual cost. Begin includes 3,000 credits a
+    month and Value includes 15,000. Top-ups start at $5 for 5,000 credits.
+    See [Billing & credits](/docs/dashboard/billing#credits).
+  - **Credits per run** — the Runs tab has a **Credits** column that shows what
+    each completed workflow run used.
+  - **First build status on Workflows** — while your first build is still writing
+    your docs, the Workflows page tells you instead of asking you to connect a
+    repository.
+</Update>
+
+<Update label="October 2026" description="Guide, Workflows tabs, and run error detail" tags={["New features", "Improvements"]}>
+  ### New features
+
+  - **Guide** — a new AI agent that learns your frontend repository and embeds
+    an interactive assistant directly in your product. Connect GitHub, choose
+    your frontend repo, and Velu's learning agent builds a map of your screens,
+    routes, and user interactions. When learning finishes, you get an embed
+    script to add to your app. Users can then open Guide and get step-by-step
+    guidance with on-screen markers showing exactly where to click.
+    See [Guide](/docs/dashboard/guide).
+  - **Workflows and Runs tabs** — the Workflows page is now split into two tabs.
+    **Workflows** (`/workflows`) lists every configured workflow with its trigger
+    type, connected repositories, and most recent run status; each row has
+    **Run now** and **Edit** inline. **Runs** (`/workflows/runs`) is the full
+    run history with workflow and status filters. Triggering a run from the
+    Workflows tab takes you directly to the Runs tab to watch it happen.
+    See [Workflows](/docs/dashboard/workflows).
+
+  ### Improvements
+
+  - **Failed run detail** — when a workflow run fails, the Runs tab now shows
+    the specific reason recorded for that run instead of a generic error message.
+    Hover over the text to read the full detail.
+</Update>
+
 <Update label="October 2026" description="Visual compare and branch change marks" tags={["New features"]}>
   ### New features
 
