@@ -51,6 +51,33 @@ Markdown table cells can't contain multi-line content.
 | Team | 10 |
 ```
 
+### Embedded iframes
+
+An `<iframe>` embed, such as a YouTube video, a Loom recording, or a form, is
+kept when you open a page in the visual view. It appears as a dashed
+placeholder block labeled **Embedded iframe**, followed by the embed's host
+name, for example `Embedded iframe · youtube.com`. The block says **Edit in
+code mode**, because the embed itself isn't editable in the visual view.
+
+The placeholder keeps the original tag exactly as you wrote it, and it is saved
+back unchanged. You can select the block, drag it to a new position, or delete
+it. To change the embed's URL, size, or other attributes, switch to the
+**Source** view and edit the tag.
+
+```mdx
+<iframe
+  src="https://www.youtube.com/embed/VIDEO_ID"
+  title="Product tour"
+  allowfullscreen
+></iframe>
+```
+
+<Callout type="note">
+  The placeholder applies to an `<iframe>` that starts on its own line. An
+  iframe shown inside a fenced code block stays code. For more on embeds, see
+  [Videos and embeds](#videos-and-embeds).
+</Callout>
+
 ### Compare view
 
 When you're on a branch in docs-as-code mode, a **Compare** option appears
