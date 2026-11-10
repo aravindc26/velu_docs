@@ -78,6 +78,28 @@ it. To change the embed's URL, size, or other attributes, switch to the
   [Videos and embeds](#videos-and-embeds).
 </Callout>
 
+### Images
+
+Images appear in the visual view as they will on your site. An image written
+with a root path, such as `/images/dashboard.png`, is looked up in your
+project's `public/` folder first, because the site serves `public/` at its root.
+So `/images/dashboard.png` shows the file at `public/images/dashboard.png`. If
+no file is there, the editor falls back to a file at the project root, such as
+`images/dashboard.png`. Remote images (`https://...`) load from their URL.
+
+When you pick an image from your project's files to insert it, the editor
+writes the path the live site serves it from. Picking
+`public/images/dashboard.png` inserts `/images/dashboard.png`, with the
+`public/` prefix removed.
+
+```md
+![Velu dashboard overview](/images/dashboard.png)
+```
+
+If an image shows as broken in the editor, check that the file exists in
+`public/` (or at the project root) and that the path and spelling match. See
+[Images](/docs/writing/images) for how to reference assets.
+
 ### Compare view
 
 When you're on a branch in docs-as-code mode, a **Compare** option appears
