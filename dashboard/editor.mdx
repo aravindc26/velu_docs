@@ -36,6 +36,21 @@ Changes autosave as you type: you'll see **All changes saved** once your work
 is stored. **Instant preview** renders the page as you edit so you can see the
 result without leaving the editor.
 
+### Tables
+
+Markdown tables appear as real tables in the visual view. You can edit cell
+text, including bold, code, and links, and your changes save back as a Markdown
+table. Column alignment (`:--`, `:-:`, `--:`) is kept, and a `|` typed inside a
+cell is saved as `\|`. A line break inside a cell is saved as `<br />`, because
+Markdown table cells can't contain multi-line content.
+
+```md
+| Plan | Seats |
+| :-- | --: |
+| Free | 1 |
+| Team | 10 |
+```
+
 ### Compare view
 
 When you're on a branch in docs-as-code mode, a **Compare** option appears
