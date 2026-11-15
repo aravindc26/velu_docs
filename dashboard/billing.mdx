@@ -9,14 +9,21 @@ owner can access billing.
 
 ## Plans
 
-<Image src="/docs/images/dashboard/billing.png" alt="The billing page plan picker showing Free, Begin, and Value plans with prices and features" />
+<Image src="/docs/images/dashboard/billing.png" alt="The billing page plan picker showing Free, Value, and Enterprise plans with prices and features" />
 
 | Plan | Price | Monthly credits | Ask AI | Workflows | Private auth methods |
 | --- | --- | --- | --- | --- | --- |
 | **Free** | $0 | - | No | No | Password |
-| **Begin** | $9 / mo | 3,000 | Yes | No | Password, Workspace |
+| **Begin** (existing subscribers only) | $9 / mo | 3,000 | Yes | No | Password, Workspace |
 | **Value** | $49 / mo | 15,000 | Yes | Yes | Password, Workspace |
 | **Enterprise** | Custom | Custom | Yes | Yes | Password, Workspace, OAuth 2.0, JWT |
+
+<Callout type="note">
+  Begin is no longer available to new subscribers. The billing page and the
+  end-of-trial prompt only list Begin if your workspace is already on it. If it
+  is, you keep Begin, and you can still see and manage it on the billing page.
+  Otherwise, choose Free or Value.
+</Callout>
 
 Every plan includes a hosted docs site, a custom domain, and Markdown and
 `llms.txt` export. **Begin** adds [Ask AI](/docs/ai/ask-ai), the chat assistant on
@@ -47,8 +54,8 @@ draws it down. Velu charges the actual cost of the AI work with no markup:
 Begin includes 3,000 credits a month and Value includes 15,000. New workspaces
 start with a 14-day Value trial that includes 1,500 credits, Ask AI, and
 Workflows. A banner shows how much of the trial is left. When the trial ends,
-your workspace moves to Free unless you choose a paid plan. Credits you bought
-are kept.
+your workspace moves to Free unless you choose a paid plan. The end-of-trial
+prompt offers Value or Free. Credits you bought are kept.
 
 ### Workflow run costs
 
